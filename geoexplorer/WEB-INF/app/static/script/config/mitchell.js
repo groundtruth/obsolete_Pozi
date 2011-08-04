@@ -94,8 +94,8 @@ var gtMapDataSources = {
 var gtLayers = [
 	{
 		source:"local",
-		name:gtWorkspaceName+":VMPLAN_OVERLAY_CODELIST",
-		title:"Planning Overlays (Vicmap)",
+		name:gtWorkspaceName+":VMPLAN_ZONE_CODELIST",
+		title:"Planning Zones (Vicmap)",
 		visibility:false,
 		opacity:0.5,
 		format:"image/png8",
@@ -103,8 +103,8 @@ var gtLayers = [
 		transparent:true
 	},{
 		source:"local",
-		name:gtWorkspaceName+":VMPLAN_ZONE_CODELIST",
-		title:"Planning Zones (Vicmap)",
+		name:gtWorkspaceName+":VMPLAN_OVERLAY_CODELIST",
+		title:"Planning Overlays (Vicmap)",
 		visibility:false,
 		opacity:0.5,
 		format:"image/png8",
@@ -117,6 +117,14 @@ var gtLayers = [
 		visibility:true,
 		opacity:0.25,
 		format:"image/png8",
+		styles:"",
+		transparent:true
+	},{
+		source:"local",
+		name:gtWorkspaceName+":MSC_LIBRARY",
+		title:"Libraries",
+		visibility:false,
+		format:"image/png",
 		styles:"",
 		transparent:true
 	},{

@@ -94,8 +94,8 @@ var gtMapDataSources = {
 var gtLayers = [
 	{
 		source:"local",
-		name:gtWorkspaceName+":VMPLAN_OVERLAY_CODELIST",
-		title:"Planning Overlays (Vicmap)",
+		name:gtWorkspaceName+":VMPLAN_ZONE_CODELIST",
+		title:"Planning Zones (Vicmap)",
 		visibility:false,
 		opacity:0.5,
 		format:"image/png8",
@@ -103,8 +103,8 @@ var gtLayers = [
 		transparent:true
 	},{
 		source:"local",
-		name:gtWorkspaceName+":VMPLAN_ZONE_CODELIST",
-		title:"Planning Zones (Vicmap)",
+		name:gtWorkspaceName+":VMPLAN_OVERLAY_CODELIST",
+		title:"Planning Overlays (Vicmap)",
 		visibility:false,
 		opacity:0.5,
 		format:"image/png8",
@@ -121,16 +121,6 @@ var gtLayers = [
 		transparent:true
 	},{
 		source:"local",
-		name:gtWorkspaceName+":MSC_LIBRARY",
-		title:"Library",
-		visibility:false,
-		format:"image/png",
-		singleTile: true,
-		gutter: 10000,
-		styles:"",
-		transparent:true
-	},{
-		source:"local",
 		name:gtWorkspaceName+":MSC_GARBAGE_COLLECTION",
 		title:"Waste Collection",
 		visibility:false,
@@ -139,7 +129,38 @@ var gtLayers = [
 		styles:"",
 		transparent:true
 	},{
-
+		source:"local",
+		name:gtWorkspaceName+":MSC_LEISURE_CENTRE",
+		title:"Leisure Centres",
+		visibility:false,
+		format:"image/png",
+		styles:"",
+		transparent:true
+	},{
+		source:"local",
+		name:gtWorkspaceName+":MSC_SPORTS_RESERVE",
+		title:"Sports Reserves",
+		visibility:false,
+		format:"image/png",
+		styles:"",
+		transparent:true
+	},{
+		source:"local",
+		name:gtWorkspaceName+":MSC_LIBRARY",
+		title:"Libraries",
+		visibility:false,
+		format:"image/png",
+		styles:"",
+		transparent:true
+	},{
+		source:"local",
+		name:gtWorkspaceName+":MSC_KINDERGARTEN",
+		title:"Kindergartens",
+		visibility:false,
+		format:"image/png",
+		styles:"",
+		transparent:true
+	},{
 //		source:"localVicmap",
 		source:"local",
 		name:"VicmapClassicMitchell",
@@ -161,7 +182,7 @@ var gtLayers = [
 			"None", {visibility: false}
 		]
 	}];
-
+	
 
 // WFS layer: style , definition , namespaces
 var gtStyleMap = new OpenLayers.StyleMap();
