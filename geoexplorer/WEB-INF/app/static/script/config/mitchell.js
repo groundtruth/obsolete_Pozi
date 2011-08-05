@@ -121,6 +121,31 @@ var gtLayers = [
 		transparent:true
 	},{
 		source:"local",
+		name:gtWorkspaceName+":MSC_GARBAGE_COLLECTION",
+		title:"Waste Collection",
+		visibility:false,
+		opacity:0.6,
+		format:"image/png8",
+		styles:"",
+		transparent:true
+	},{
+		source:"local",
+		name:gtWorkspaceName+":MSC_LEISURE_CENTRE",
+		title:"Leisure Centres",
+		visibility:false,
+		format:"image/png",
+		styles:"",
+		transparent:true
+	},{
+		source:"local",
+		name:gtWorkspaceName+":MSC_SPORTS_RESERVE",
+		title:"Sports Reserves",
+		visibility:false,
+		format:"image/png",
+		styles:"",
+		transparent:true
+	},{
+		source:"local",
 		name:gtWorkspaceName+":MSC_LIBRARY",
 		title:"Libraries",
 		visibility:false,
@@ -129,11 +154,10 @@ var gtLayers = [
 		transparent:true
 	},{
 		source:"local",
-		name:gtWorkspaceName+":MSC_GARBAGE_COLLECTION",
-		title:"Waste Collection",
+		name:gtWorkspaceName+":MSC_KINDERGARTEN",
+		title:"Kindergartens",
 		visibility:false,
-		opacity:0.6,
-		format:"image/png8",
+		format:"image/png",
 		styles:"",
 		transparent:true
 	},{
