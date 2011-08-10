@@ -2,3 +2,5 @@ The end points added / updated to transform a GeoExplorer into a Pozi installati
 - geoexplorer: Javascript and HTML customisations
 - pozi: generic resources
 - ws: web services
+
+Groundtruth 2011
