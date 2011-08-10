@@ -143,6 +143,11 @@ gxp.plugins.WMSGetFeatureInfo.prototype.addActions = function() {
 			// On layer add or select/deselect, we re-evaluate the number of queries that we will wait the result on
 			// It's the number of layers that support WMS get feature info that are currently visible
 			var queryableLayers = this.target.mapPanel.layers.queryBy(function (x) {
+				var u = x.getLayer().url;
+				if (u)
+				{
+					x.getLayer().url=u.replace(/http:\/\/\d+.\d+.\d+.\d+:\d+/,gtServicesHost);
+				}
 				return x.get("queryable") && x.get("layer").visibility && (x.get("group") != "background") ;
 			});
 			var layerMax=queryableLayers.length;
@@ -158,7 +163,7 @@ gxp.plugins.WMSGetFeatureInfo.prototype.addActions = function() {
 						if (app.mapPanel.layers.data.items[l].data.styles.length > 0)
 						{
 							var urlLegend=app.mapPanel.layers.data.items[l].data.styles[0].legend.href;
-							app.mapPanel.layers.data.items[l].data.styles[0].legend.href = urlLegend.replace(/:8080/,"");
+							app.mapPanel.layers.data.items[l].data.styles[0].legend.href = urlLegend.replace(/http:\/\/\d+.\d+.\d+.\d+:\d+/,gtServicesHost);
 						}	
 					}
 				}
@@ -177,7 +182,7 @@ gxp.plugins.WMSGetFeatureInfo.prototype.addActions = function() {
 			info.controls = [];
 			var layerCounter = 0;
 			queryableLayers.each(function (x) {
-				x.getLayer().url=x.getLayer().url.replace(/:8080/,"");
+//				x.getLayer().url=x.getLayer().url.replace(/:8080/,"");
 				var control = new OpenLayers.Control.WMSGetFeatureInfo({
 					url: x.getLayer().url,
 					queryVisible: true,
