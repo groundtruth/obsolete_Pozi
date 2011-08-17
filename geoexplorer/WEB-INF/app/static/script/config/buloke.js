@@ -98,7 +98,7 @@ var gtLayers = [
 		name :"AERIAL_MALLEE_2009JAN14_AIR_VIS_50CM_MGA54",
 		title:"Aerial Photo (CIP 2009)",
 		visibility:false,
-		opacity:0.75,
+		opacity:0.9,
 		selected:false,
 		format:"image/png",
 		styles:"",
@@ -109,7 +109,16 @@ var gtLayers = [
 		name:gtWorkspaceName+":VMPLAN_ZONE_CODELIST",
 		title:"Planning Zone (Vicmap)",
 		visibility:false,
-		opacity:0.75,
+		opacity:0.5,
+		format:"image/png8",
+		styles:"",
+		transparent:true
+	},{
+		source:"local",
+		name:gtWorkspaceName+":VMPLAN_OVERLAY_CODELIST",
+		title:"Planning Overlay (Vicmap)",
+		visibility:false,
+		opacity:0.5,
 		format:"image/png8",
 		styles:"",
 		transparent:true
@@ -118,7 +127,7 @@ var gtLayers = [
 		name:gtWorkspaceName+":VICMAP_PROPERTY_ADDRESS",
 		title:"Property Address (Vicmap)",
 		visibility:true,
-		opacity:1,
+		opacity:0.5,
 		format:"image/png8",
 		styles:"",
 		transparent:true
@@ -149,7 +158,7 @@ var gtLayers = [
 		format:"image/png8",
 		styles:"",
 		transparent:true
-	},{
+//	},{
 //		source:"local",
 //		name:gtWorkspaceName+":LYNX_DOG_REGISTRATION",
 //		title:"Dog Registration (Lynx)",
@@ -167,7 +176,7 @@ var gtLayers = [
 //		format:"image/png8",
 //		styles:"",
 //		transparent:true
-//	},{
+	},{
 		source:"local",
 		name:gtWorkspaceName+":ASSETS_MOLONEY_ROADS",
 		title:"Roads (Moloney)",
@@ -181,7 +190,7 @@ var gtLayers = [
 		name:gtWorkspaceName+":ASSETS_PROPOSED_ROAD_HIERARCHY",
 		title:"Proposed Road Hierarchy (Assets)",
 		visibility:false,
-		opacity:1,
+		opacity:0.5,
 		format:"image/png8",
 		styles:"",
 		transparent:true
@@ -190,7 +199,7 @@ var gtLayers = [
 		name:gtWorkspaceName+":DOT_SCHOOLBUS_ROUTES_2011",
 		title:"School Bus Routes (DOT 2011)",
 		visibility:false,
-		opacity:1,
+		opacity:0.5,
 		format:"image/png8",
 		styles:"",
 		transparent:true
