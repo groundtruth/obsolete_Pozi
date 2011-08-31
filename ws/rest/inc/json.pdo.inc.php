@@ -12,19 +12,19 @@ function rs2json($rs)
 		trigger_error("Caught Exception: bad recordset passed to rs2json function.", E_USER_ERROR);
 		return false;
 	}
-    
+
 	$output = '';
 	$rowOutput = '';
 
     $rowCounter = 0;
-	
+
 
 
         while ($row  = $rs->fetch(PDO::FETCH_ASSOC))
 		{
 			if (strlen($rowOutput) > 0) $rowOutput .= ',';
             $rowOutput .= '{"row":{';
-			
+
 			$cols = count($row);
 			$colCounter = 1;
 			foreach ($row as $key => $val)
@@ -35,7 +35,7 @@ function rs2json($rs)
 				}else{
 					$rowOutput .= '"' . trim($val) . '"';
 				}
-				
+
 				if ($colCounter != $cols)
 				{
 					$rowOutput .= ',';
@@ -49,19 +49,83 @@ function rs2json($rs)
         if ($rowCounter == 0) $output = '"row"';
         else $output = '[' . $rowOutput . ']';
 
-	
+
 	$output .= '}';
 
     //Total rows
     $output = '{"total_rows":"' . $rowCounter . '","rows":'.$output;
 
 	//For jsonp
-	if (isset($_REQUEST['callback'])) { 
+	if (isset($_REQUEST['callback'])) {
 		$output = $_REQUEST['callback'] . '(' . $output . ')';
 	}
-	
+
 	return $output;
 }
+
+/****
+*
+* Functions that formats the resulting JSON in a way that is expected by Ext forms
+*
+*/
+function fs2json($rs)
+{
+	if (!$rs) {
+		trigger_error("Caught Exception: bad recordset passed to rs2json function.", E_USER_ERROR);
+		return false;
+	}
+
+	$output = '';
+	$rowOutput = '';
+
+    $rowCounter = 0;
+
+
+
+        while ($row  = $rs->fetch(PDO::FETCH_ASSOC))
+		{
+			if (strlen($rowOutput) > 0) $rowOutput .= ',';
+            $rowOutput .= '{';
+
+			$cols = count($row);
+			$colCounter = 1;
+			foreach ($row as $key => $val)
+			{
+				$rowOutput .= '"' . $key . '":';
+				if ($key == "json" || $key == "geojson"){
+					$rowOutput .= trim($val);
+				}else{
+					$rowOutput .= '"' . trim($val) . '"';
+				}
+
+				if ($colCounter != $cols)
+				{
+					$rowOutput .= ',';
+				}
+				$colCounter++;
+			}
+			$rowOutput .= '}';
+			$rowCounter++;
+		}
+
+        if ($rowCounter == 0) $output = '[]';
+        else $output = $rowOutput;
+
+
+	$output .= '}';
+
+    //Total rows
+    $output = '{"success":"true","data":'.$output;
+
+	//For jsonp
+	if (isset($_REQUEST['callback'])) {
+		$output = $_REQUEST['callback'] . '(' . $output . ')';
+	}
+
+	return $output;
+}
+
+
 
 /**
  * Creates JSON ( http://www.json.org/ ) from multiple ADODB record sets
@@ -77,32 +141,32 @@ function rs2json($rs)
 function multi_rs2json($queries)
 {
 	$multiOutput = '';
-	
+
 	foreach ($queries as $query) {
 		$rs = $query['recordSet'];
-		
+
 		if (!$rs) {
     		trigger_error("Caught Exception: bad query passed to multi_rs2json function.", E_USER_ERROR);
 			return false;
 		}
-		
+
 		if ($rs->rowCount()>0){
 			$layerOutput = '';
 			$rowOutput = '';
 			$rowCounter = 0;
 
 			while ($row = $rs->fetch(PDO::FETCH_ASSOC)) {
-      			
+
       			$rowOutput .= (strlen($rowOutput) ? ',' : '') . '{"row":{';
-          
+
 				$cols = count($row);
 				$colCounter = 1;
-				
+
 				foreach ($row as $key=>$val) {
-					
+
 					$rowOutput .= '"'.$key.'":';
 					$rowOutput .= '"'.trim($val).'"';
-        
+
 					if ($colCounter != $cols)
 						$rowOutput .= ',';
 
@@ -110,18 +174,18 @@ function multi_rs2json($queries)
 				}
 				$rowOutput .= '}}';
 				$rowCounter++;
-			
+
 			}
-        
+
 			$layerOutput = '['.$rowOutput.']';
 
 			$multiOutput .= (strlen($multiOutput)>0 ? ',' : '') . '{"geotable":"'.$query['geotable'].'","total_rows":"'.$rowCounter.'","rows":'.$layerOutput.'}';
 		}
-    
+
 	}
-	
+
 	$totalOutput = '{"results":['.$multiOutput.']}';
-	
+
 	/*** For jsonp ***/
 	if (isset($_REQUEST['callback'])) {
 		$totalOutput = $_REQUEST['callback'].'('.$totalOutput.')';
