@@ -579,7 +579,14 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 												val=record.data.content[k];
 												if (val.search(/^http/)>-1)
 												{
-													val="<a href='"+val+"' target='_blank'>link</a>";
+													if (val.search(/\.jpg/)>-1)
+													{
+														val="<a href='"+val+"' target='_blank'><img src='"+val+"' height='20' width='20' /></a>";
+													}
+													else
+													{
+														val="<a href='"+val+"' target='_blank'>link</a>";
+													}
 												}
 												else
 												{
