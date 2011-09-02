@@ -146,7 +146,11 @@ gxp.plugins.WMSGetFeatureInfo.prototype.addActions = function() {
 				var u = x.getLayer().url;
 				if (u)
 				{
-					x.getLayer().url=u.replace(/http:\/\/\d+.\d+.\d+.\d+:\d+/,gtServicesHost);
+					// Removing the by-default assumption that the local layers will have 8080, except for basemaps
+					if (x.get("group") != "background")
+					{
+						x.getLayer().url=u.replace(/http:\/\/\d+.\d+.\d+.\d+:\d+/,gtServicesHost);
+					}
 				}
 				return x.get("queryable") && x.get("layer").visibility && (x.get("group") != "background") ;
 			});

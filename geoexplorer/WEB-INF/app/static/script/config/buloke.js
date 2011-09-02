@@ -12,7 +12,8 @@ var gtDatabaseConfig = "bulokegis";
 var gtServicesHost = "http://localhost";
 //var gtOWSEndPoint = 		gtServicesHost + "/geoserver/"+gtWorkspaceName+"/ows";
 var gtOWSEndPoint = 		gtServicesHost + "/geoserver/ows";
-//var gtOWSEndPointVicmap = 	gtServicesHost + "/geoserver/ows";
+var gtVicmapHost = "http://www.pozi.com";
+var gtOWSEndPointVicmap = 	gtVicmapHost + "/geoserver/ows";
 var gtWFSEndPoint = 		gtServicesHost + "/geoserver/wfs";
 var gtSearchPropertyEndPoint =  gtServicesHost + "/ws/rest/v3/ws_property_id_by_propnum.php";
 var gtSearchComboEndPoint = 	gtServicesHost + "/ws/rest/v3/ws_all_features_by_string.php";
@@ -83,12 +84,12 @@ var gtMapDataSources = {
 		url: "http://images.land.vic.gov.au/ecwp/ecw_wms.dll",
 		title: "DSE Imagery Server"
 	}
-//	,
-//	localVicmap: {
-//		url: gtOWSEndPointVicmap,
-//		title: "Vicmap source",
-//		ptype: "gxp_wmscsource"
-//	}
+	,
+	pozivicmap: {
+		url: gtOWSEndPointVicmap,
+		title: "Vicmap source",
+		ptype: "gxp_wmscsource"
+	}
 };
       
 // Initial layers      
@@ -212,8 +213,8 @@ var gtLayers = [
 //		fixed:true,
 //		selected:true
 	},{
-//		source:"localVicmap",
-		source:"local",
+		source:"pozivicmap",
+//		source:"local",
 		name:"VicmapClassicBuloke",
 		title:"Vicmap Classic",
 		visibility:true,
