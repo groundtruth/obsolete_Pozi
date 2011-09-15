@@ -308,7 +308,7 @@ App.CaptureFormPopupPanel = Ext.extend(Ext.Panel, {
 			items: [{
 				xtype: 'fieldset',
 				scroll: false,
-				title: 'Enter new hazard information',
+				title: 'Enter new hazard',
 				items: [{
 					xtype: 'selectfield',
 					label: 'Property',
@@ -552,7 +552,7 @@ App.CaptureUpdateFormPopupPanel = Ext.extend(Ext.Panel, {
 					displayField : 'label',
 					store : hazardStatusDataStore,
 					// By construction, this field will always be populated - so we technically don't have to mark it as required
-					 required: true,
+					 required: false,
 					 value: clickedFeature.data.haz_status
 		                },
 				{  
