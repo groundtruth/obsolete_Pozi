@@ -18,15 +18,7 @@ $err_email = "hs.enot@gmail.com";
 
 # Retrieve URL arguments
 try {
-	$latitude = $_REQUEST['lat'];
-	$longitude = $_REQUEST['lon'];
-	$prop_num = $_REQUEST['prop_num'];
-	$comments = $_REQUEST['comments'];
-	# Hazard type default to 1
-	$haz_type = $_REQUEST['haz_type'];
-	if ($haz_type==''){$haz_type = 1;}
-	$haz_status = $_REQUEST['haz_status'];
-	if ($haz_status==''){$haz_status = 1;}
+	$haz_id = $_REQUEST['haz_id'];
 }
 catch (Exception $e) {
     trigger_error("Caught Exception: " . $e->getMessage(), E_USER_ERROR);
@@ -34,7 +26,8 @@ catch (Exception $e) {
 
 # Performs the query and returns XML or JSON
 try {
-	$sql = "INSERT INTO msc_capture (prop_num,comments,haz_type,the_geom,longitude,latitude,haz_status) VALUES ('".$prop_num."','".$comments."',".$haz_type.",(select ST_Transform(ST_Centroid(p.the_geom),4326) from dse_vmprop_property p where p.prop_propnum='".$prop_num."'),".$longitude.",".$latitude.",".$haz_status.") RETURNING id";
+	$sql = "DELETE FROM msc_capture WHERE id=".$haz_id;
+//	echo $sql;
 
 	$sql = sanitizeSQL($sql);
 	$pgconn = pgConnection();
