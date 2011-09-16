@@ -8,7 +8,7 @@ var gtFeatureNS = "http://www.pozi.com.au/buloke";
 var gtDatabaseConfig = "bulokegis";
 
 //  Services
-////var gtServicesHost = "http://10.54.144.31";
+////var gtServicesHost = "http://10.54.128.15";
 var gtServicesHost = "http://localhost";
 //var gtOWSEndPoint = 		gtServicesHost + "/geoserver/"+gtWorkspaceName+"/ows";
 var gtOWSEndPoint = 		gtServicesHost + "/geoserver/ows";
@@ -71,12 +71,12 @@ var gtMapDataSources = {
 	osm: {
 		ptype: "gxp_osmsource"
 	},
-	google: {
-		ptype: "gxp_googlesource"
-	},
-	bing: {
-		ptype: "gxp_bingsource"
-	},
+//	google: {
+//		ptype: "gxp_googlesource"
+//	},
+//	bing: {
+//		ptype: "gxp_bingsource"
+//	},
 	ol: {
 		ptype: "gxp_olsource"
 	},
@@ -101,10 +101,10 @@ var gtLayers = [
 		visibility:false,
 		opacity:0.9,
 		selected:false,
-		format:"image/png",
-		styles:"",
+		format:"image/JPEG",
+//		styles:"",
 		transparent:true,
-		cached: false
+//		cached: false
 	},{
 		source:"local",
 		name:gtWorkspaceName+":VMPLAN_ZONE_CODELIST",
