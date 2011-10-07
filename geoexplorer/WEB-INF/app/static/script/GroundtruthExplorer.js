@@ -626,6 +626,45 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 											item_array.push({html:"<div style='font-size:8pt;'><font color='#666666'>"+trim(lab)+"</font></div>"});
 											item_array.push({html:"<div style='font-size:10pt;'>"+trim(val)+"</div>"});
 										}
+										
+										// Adding a Google Street View link for selected datasets
+										if (1)
+										{
+											// Going throught the properties - we need a lat, a long and a heading (azimuth)
+											// v0 - based on the centroid of the object considered, arbitrary heading
+											//// var projsrc = new OpenLayers.Projection("EPSG:4326");
+											//// var projdest = new OpenLayers.Projection("EPSG:900913");
+											//// var feature_centroid = glayerLocSel.features[0].geometry.getCentroid().transform(projdest,projsrc);
+											//// var gsvl = "http://maps.googleapis.com/maps/api/streetview?size=400x400&location="+feature_centroid.y+","+feature_centroid.x+"&fov=90&heading=235&pitch=10&sensor=false";
+											// v1 - based on lat / lon and heading passed as attributes
+
+											var gsv_lat, gsv_lon, gsv_head=0;
+
+											for(var k in record.data.content)
+											{
+												if (k=="gsv_lat")
+												{
+													gsv_lat=record.data.content[k];
+												}
+												if (k=="gsv_lon")
+												{
+													gsv_lon=record.data.content[k];
+												}
+												if (k=="gsv_head")
+												{
+													gsv_head=record.data.content[k];
+												}												
+											}
+
+											if (gsv_lat && gsv_lon)
+											{
+											
+												var gsvl = "http://maps.googleapis.com/maps/api/streetview?size=640x640&location="+gsv_lat+","+gsv_lon+"&fov=90&heading="+gsv_head+"&pitch=10&sensor=false";
+											
+												item_array.push({html:"<div style='font-size:8pt;'><font color='#666666'>Street View</font></div>"});
+												item_array.push({html:"<div style='font-size:10pt;'><a href='"+gsvl+"' target='_blank'>link</a></div>"});											
+											}
+										}										
 																			
 										var win = new Ext.Panel({
 											id:'tblayout-win'
