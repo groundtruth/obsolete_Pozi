@@ -403,7 +403,31 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 //			} 
 	
 //			app.mapPanel.layers.map.addLayers([glayerLocSel,tmsoverlay]);
+
+///			Proj4js.defs["EPSG:3111"] = "+proj=lcc +lat_1=-36 +lat_2=-38 +lat_0=-37 +lon_0=145 +x_0=2500000 +y_0=2500000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs";
+///			OpenLayers.Vicmap.Util = OpenLayers.Vicmap.Util || {};
+///			OpenLayers.Vicmap.Util.PROJECTION = new OpenLayers.Projection("EPSG:3111");
+
+///			OpenLayers.Layer.WMS.prototype.getFullRequestString = function(newParams, altUrl) { 
+///				this.params.SRS = "EPSG:3111";
+///				return OpenLayers.Layer.Grid.prototype.getFullRequestString.apply( this, arguments); 
+///			};
+
+///			var vicmapwms = new OpenLayers.Layer.WMS("VicMap", "http://116.240.195.134/vicmapapi/map/wms", {
+///				layers: "CARTOGRAPHICAL",
+///				format: "image/png",
+///				firstTile: true,
+///			}, {
+///				projection: "EPSG:3111",
+///				tileSize: new OpenLayers.Size(512, 512),
+///				tileOrigin: new OpenLayers.LonLat(-34932800, 57119200),
+///				isBaseLayer: true,
+///				buffer: 0,
+///				maxExtent: new OpenLayers.Bounds(1786000.0, 1997264.499195665, 3953471.00160867, 3081000.0),
+///				attribution: "Vicmap API &copy; 2011 State Government of Victoria"
+///			});
 			
+///			app.mapPanel.map.addLayers([glayerLocSel,vicmapwms]);
 			app.mapPanel.map.addLayers([glayerLocSel]);
 	
 			// If a property number has been passed
