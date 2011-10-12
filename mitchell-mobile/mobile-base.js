@@ -76,7 +76,7 @@ var init = function () {
         geolocationOptions: {
             enableHighAccuracy: false,
             maximumAge: 0,
-            timeout: 7000
+            timeout: 20000
         },
         failure:function(e){alert("There was an error obtaining the geo-location: "+e);}
     });
@@ -157,6 +157,15 @@ var init = function () {
         strokeOpacity: 0.6
     };
     geolocate.events.register("locationupdated", this, function(e) {
+	// Logging the event values
+	var pt = new OpenLayers.LonLat(e.point.x,e.point.y);	
+	var pt_wgs84 = pt.transform(sm,gg);
+	
+	var logMsg = "X="+e.point.x+" ("+pt_wgs84.lon+")";
+	logMsg = logMsg + "\n" + "Y="+e.point.y+" ("+pt_wgs84.lat+")";	
+	logMsg = logMsg + "\n" + "Accuracy="+e.position.coords.accuracy;
+	alert(logMsg);
+	
         vector.removeAllFeatures();
         vector.addFeatures([
             new OpenLayers.Feature.Vector(
@@ -182,6 +191,15 @@ var init = function () {
             )
         ]);
         map.zoomToExtent(vector.getDataExtent());
+    });
+
+   geolocate.events.register("locationfailed", this, function(e) {
+        switch (e.error.code) {
+            case 0: alert(OpenLayers.i18n("There was an error while retrieving your location: ") + e.error.message); break;
+            case 1: alert(OpenLayers.i18n("The user didn't accept to provide the location: ")); break;
+            case 2: alert(OpenLayers.i18n("The browser was unable to determine your location: ") + e.error.message); break;
+            case 3: alert(OpenLayers.i18n("The browser timed out before retrieving the location.")); break;
+        }
     });
 
     getFeatures = function() {
