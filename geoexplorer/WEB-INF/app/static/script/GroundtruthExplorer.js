@@ -568,6 +568,7 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 										var lab;
 										var val;
 										var item_array=new Array();
+										var has_gsv = false;
 										
 										for(var k in record.data.content)
 										{
@@ -622,13 +623,22 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 												}
 											}
 											
-											// Formatting the cells for attribute display in a tidy table
-											item_array.push({html:"<div style='font-size:8pt;'><font color='#666666'>"+trim(lab)+"</font></div>"});
-											item_array.push({html:"<div style='font-size:10pt;'>"+trim(val)+"</div>"});
+											if (k.search(/^gsv/)>-1)
+											{
+												// Not showing the cells
+												// technical properties for Google Street View
+												has_gsv = true;
+											}
+											else
+											{
+												// Formatting the cells for attribute display in a tidy table
+												item_array.push({html:"<div style='font-size:8pt;'><font color='#666666'>"+trim(lab)+"</font></div>"});
+												item_array.push({html:"<div style='font-size:10pt;'>"+trim(val)+"</div>"});
+											}
 										}
 										
 										// Adding a Google Street View link for selected datasets
-										if (1)
+										if (has_gsv)
 										{
 											// Going throught the properties - we need a lat, a long and a heading (azimuth)
 											// v0 - based on the centroid of the object considered, arbitrary heading
@@ -658,11 +668,12 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 
 											if (gsv_lat && gsv_lon)
 											{
+												var size_thumb = 130;
+												var gsvthumb = "http://maps.googleapis.com/maps/api/streetview?location="+gsv_lat+","+gsv_lon+"&fov=90&heading="+gsv_head+"&pitch=-10&sensor=false&size="+size_thumb+"x"+size_thumb;
+												var gsvlink = "http://maps.google.com.au/maps?layer=c&cbll="+gsv_lat+","+gsv_lon+"&cbp=12,"+gsv_head+",,0,0";
 											
-												var gsvl = "http://maps.googleapis.com/maps/api/streetview?size=640x640&location="+gsv_lat+","+gsv_lon+"&fov=90&heading="+gsv_head+"&pitch=10&sensor=false";
-											
-												item_array.push({html:"<div style='font-size:8pt;'><font color='#666666'>Street View</font></div>"});
-												item_array.push({html:"<div style='font-size:10pt;'><a href='"+gsvl+"' target='_blank'>link</a></div>"});											
+												item_array.push({html:"<div style='font-size:8pt;'><font color='#666666'>Google Street View</font></div>",height:size_thumb});
+												item_array.push({html:"<div style='font-size:10pt;'><a href='"+gsvlink+"' target='_blank'><img src='"+gsvthumb+"'/></a></div>",height:size_thumb});											
 											}
 										}										
 																			
@@ -855,12 +866,20 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 			html: '<img style="height: 100px" src="'+gtPoziLogoSrc+'"/>'
 	                }
         		})
+        		,
+        		{
+				columnWidth: 0.5,
+				html:"",
+	                	height: 100,
+//				bodyStyle: " background-color: white ; ",
+				border:false
+        		}
 			,
 			new Ext.Panel({
 			region: "center",
 			//anchor:50%,
-                    	columnWidth:1,
-                    	width: 550,
+                    	//columnWidth:1,
+                    	width: 500,
 			padding: "34px",
 			border: false,
 			bodyStyle: " background-color: white ; ",
@@ -870,10 +889,11 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 				queryParam: 'query',
 				store: ds,
 				displayField:'label',
+				selectOnFocus: true,
 				minChars: 3,
 				typeAhead: false,
 				loadingText: gtLoadingText,
-				width: 500,
+				width: 450,
 				style: "border: 2px solid #BBBBBB; width: 490px; height: 24px; font-size: 11pt;",
 				pageSize:0,
 				emptyText:gtEmptyTextSearch,
@@ -883,7 +903,15 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 				listeners: {'select': search_record_select_handler,
 					    scope:this}
 				})
-			]}),	
+			]}),
+			{
+				columnWidth: 0.5,
+				html:"",
+	                	height: 100,
+//				bodyStyle: " background-color: white ; ",
+				border:false
+			}
+			,
 				
 			new Ext.Panel({
 				region: "east",

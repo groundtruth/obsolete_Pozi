@@ -20,7 +20,7 @@ var gtSearchComboEndPoint = 	gtServicesHost + "/ws/rest/v3/ws_all_features_by_st
 
 // External resources
 var gtPoziLogoSrc = gtServicesHost+"/"+"theme/app/img/pozi-logo.png";
-var gtPoziLogoWidth = 265; 
+var gtPoziLogoWidth = 165; 
 var gtLogoClientSrc = gtServicesHost+"/"+"theme/app/img/buloke_banner.png";
 var gtLogoClientWidth=179;
 

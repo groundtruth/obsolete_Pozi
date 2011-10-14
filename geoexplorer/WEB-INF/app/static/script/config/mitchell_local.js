@@ -18,7 +18,7 @@ var gtSearchComboEndPoint = 	gtServicesHost + "/ws/rest/v3/ws_all_features_by_st
 
 // External resources
 var gtPoziLogoSrc = gtServicesHost+"/"+"theme/app/img/pozi-logo.png";
-var gtPoziLogoWidth = 265; 
+var gtPoziLogoWidth = 165; 
 var gtLogoClientSrc = gtServicesHost+"/"+"theme/app/img/mitchell_banner.jpg";
 var gtLogoClientWidth=265;
 
@@ -107,6 +107,15 @@ var gtLayers = [
 		title:"Planning Overlays (Vicmap)",
 		visibility:false,
 		opacity:0.5,
+		format:"image/png8",
+		styles:"",
+		transparent:true
+	},{
+		source:"local",
+		name:gtWorkspaceName+":VICMAP_BUILDINGREG_BUSHFIRE_PRONE_AREA",
+		title:"Busfire-Prone Areas (Vicmap)",
+		visibility:false,
+		opacity:0.25,
 		format:"image/png8",
 		styles:"",
 		transparent:true
