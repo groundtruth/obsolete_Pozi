@@ -50,6 +50,7 @@ var gtEmptyTextSelectFeature = 'Selected features ...';
 var gtClearButton='clear';
 var gtPropNum;
 var gtLegendHeight = 400;
+var gtPrintTitle = "Mitchell Shire Council";
 
 // Datasources
 var gtMapDataSources = {

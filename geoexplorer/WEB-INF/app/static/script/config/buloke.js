@@ -52,6 +52,7 @@ var gtEmptyTextSelectFeature = 'Selected features ...';
 var gtClearButton='clear';
 var gtPropNum;
 var gtLegendHeight = 200;
+var gtPrintTitle = "Buloke Shire Council";
 
 // Datasources
 var gtMapDataSources = {
