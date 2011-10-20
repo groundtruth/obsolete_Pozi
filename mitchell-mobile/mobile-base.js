@@ -6,7 +6,7 @@ var apiKey = "AqTGBsziZHIJYYxgivLBf0hVdrAk9mWO5cQcb8Yux8sW5M8c8opEC2lZqKR1ZZXf";
 var map,fhLayer,getFeatures,clickedFeature,selectControl;
 var gg = new OpenLayers.Projection("EPSG:4326");
 var sm = new OpenLayers.Projection("EPSG:900913");
-var limit_feature = 10;
+var limit_feature = 20;
 
 var init = function () {
 
@@ -164,7 +164,7 @@ var init = function () {
 	var logMsg = "X="+e.point.x+" ("+pt_wgs84.lon+")";
 	logMsg = logMsg + "\n" + "Y="+e.point.y+" ("+pt_wgs84.lat+")";	
 	logMsg = logMsg + "\n" + "Accuracy="+e.position.coords.accuracy;
-	alert(logMsg);
+//	alert(logMsg);
 	
         vector.removeAllFeatures();
         vector.addFeatures([
