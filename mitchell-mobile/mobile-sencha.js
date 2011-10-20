@@ -278,7 +278,7 @@ App.CaptureFormPopupPanel = Ext.extend(Ext.Panel, {
 				}
 			},
 			// Max number of records returned
-			pageSize: 5,	
+			pageSize: 10,	
 			model : 'PropertyAddress',
 			autoLoad : false,
 			autoDestroy : true,

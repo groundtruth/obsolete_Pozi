@@ -25,7 +25,7 @@ try {
 	$latitude = $_REQUEST['latitude'];
 	$longitude = $_REQUEST['longitude'];
 	$limit = $_REQUEST['limit'];
-	if ($limit=='') {$limit='5'};
+	if ($limit=='') {$limit='10'};
 	$format = 'json';
 }
 catch (Exception $e) {
