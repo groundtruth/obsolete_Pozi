@@ -109,6 +109,7 @@ var init = function () {
                     {layers: 'VicmapClassicMitchell'}
 // singletile could reduce traffic but bigger files, except if ratio is really large
 //                    ,{ singleTile: true, ratio: 1.2 } 
+,{attribution:"+"}
                     ),
             new OpenLayers.Layer.OSM("OpenStreetMap", null, {
                 transitionEffect: 'resize'
