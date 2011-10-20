@@ -390,6 +390,17 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 	 
 	 	// When DOM is ready
 		this.on("ready", function() {
+		
+			for(var l in app.mapPanel.map.layers)
+			{
+				// Additional WMS parameters - allows printing of the imagery at Buloke (username and password to be reinstated when deploying onsite)			
+				if (app.mapPanel.map.layers[l].name=="Aerial Photo (CIP 2009)")
+				{
+					app.mapPanel.map.layers[l].params["USERNAME"]="";
+					app.mapPanel.map.layers[l].params["PASSWORD"]="";
+				}
+			}
+		
 			// Adding the WFS layer to the map
 ////changed 17/06/2011	app.mapPanel.layers.map.addLayers([glayerLocSel]);
 
