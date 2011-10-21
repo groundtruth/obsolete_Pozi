@@ -74,11 +74,19 @@ var init = function () {
     var geolocate = new OpenLayers.Control.Geolocate({
         id: 'locate-control',
         geolocationOptions: {
-            enableHighAccuracy: false,
+            enableHighAccuracy: true,
             maximumAge: 0,
             timeout: 20000
         },
-        failure:function(e){alert("There was an error obtaining the geo-location: "+e);}
+        failure:function(e){
+		//alert("There was an error obtaining the geo-location: "+e);
+	        switch (e.error.code) {
+       	     case 0: alert(OpenLayers.i18n("There was an error while retrieving your location: ") + e.error.message); break;
+	            case 1: alert(OpenLayers.i18n("The user didn't accept to provide the location: ")); break;
+	            case 2: alert(OpenLayers.i18n("The browser was unable to determine your location: ") + e.error.message); break;
+	            case 3: alert(OpenLayers.i18n("The browser timed out before retrieving the location.")); break;
+ 	       }
+	}
     });
     
     // create map
@@ -109,7 +117,7 @@ var init = function () {
                     {layers: 'VicmapClassicMitchell'}
 // singletile could reduce traffic but bigger files, except if ratio is really large
 //                    ,{ singleTile: true, ratio: 1.2 } 
-,{attribution:"+"}
+//,{attribution:"+"}
                     ),
             new OpenLayers.Layer.OSM("OpenStreetMap", null, {
                 transitionEffect: 'resize'
@@ -160,10 +168,10 @@ var init = function () {
     geolocate.events.register("locationupdated", this, function(e) {
 	// Logging the event values
 	var pt = new OpenLayers.LonLat(e.point.x,e.point.y);	
-	var pt_wgs84 = pt.transform(sm,gg);
+	var pt_google = pt.transform(gg,sm);
 	
-	var logMsg = "X="+e.point.x+" ("+pt_wgs84.lon+")";
-	logMsg = logMsg + "\n" + "Y="+e.point.y+" ("+pt_wgs84.lat+")";	
+	var logMsg = "X="+e.point.x+" ("+pt_google.lon+")";
+	logMsg = logMsg + "\n" + "Y="+e.point.y+" ("+pt_google.lat+")";	
 	logMsg = logMsg + "\n" + "Accuracy="+e.position.coords.accuracy;
 //	alert(logMsg);
 	
@@ -191,7 +199,9 @@ var init = function () {
                 style
             )
         ]);
-        map.zoomToExtent(vector.getDataExtent());
+	// Zoom to the disc derived from GPS position and accuracy, with a max zoom level of 17
+        var z = map.getZoomForExtent(vector.getDataExtent());
+        map.setCenter(pt_google,Math.min(z,18));
     });
 
    geolocate.events.register("locationfailed", this, function(e) {
