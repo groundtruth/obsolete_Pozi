@@ -82,7 +82,7 @@ App.SearchFormPopupPanel = Ext.extend(Ext.Panel, {
         var y = ymin/2+ymax/2;
         //alert("Moving to x:"+x+" y:"+y);
         var lonlat = new OpenLayers.LonLat(xmin/2+xmax/2, ymin/2+ymax/2);
-        map.setCenter(lonlat.transform(gg, sm), 15);
+        map.setCenter(lonlat.transform(gg, sm), 18);
         this.hide("pop");
     },
     
