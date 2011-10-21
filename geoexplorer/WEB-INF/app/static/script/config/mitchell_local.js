@@ -143,6 +143,7 @@ var gtLayers = [
 		name:gtWorkspaceName+":MSC_LEISURE_CENTRE",
 		title:"Leisure Centres",
 		visibility:false,
+		opacity:0.75,
 		format:"image/png",
 		styles:"",
 		transparent:true
@@ -151,6 +152,7 @@ var gtLayers = [
 		name:gtWorkspaceName+":MSC_SPORTS_RESERVE",
 		title:"Sports Reserves",
 		visibility:false,
+		opacity:0.75,
 		format:"image/png",
 		styles:"",
 		transparent:true
@@ -159,6 +161,7 @@ var gtLayers = [
 		name:gtWorkspaceName+":MSC_LIBRARY",
 		title:"Libraries",
 		visibility:false,
+		opacity:0.75,
 		format:"image/png",
 		styles:"",
 		transparent:true
@@ -167,6 +170,7 @@ var gtLayers = [
 		name:gtWorkspaceName+":MSC_KINDERGARTEN",
 		title:"Kindergartens",
 		visibility:false,
+		opacity:0.75,
 		format:"image/png",
 		styles:"",
 		transparent:true
