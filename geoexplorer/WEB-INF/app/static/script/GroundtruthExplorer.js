@@ -651,14 +651,6 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 										// Adding a Google Street View link for selected datasets
 										if (has_gsv)
 										{
-											// Going throught the properties - we need a lat, a long and a heading (azimuth)
-											// v0 - based on the centroid of the object considered, arbitrary heading
-											//// var projsrc = new OpenLayers.Projection("EPSG:4326");
-											//// var projdest = new OpenLayers.Projection("EPSG:900913");
-											//// var feature_centroid = glayerLocSel.features[0].geometry.getCentroid().transform(projdest,projsrc);
-											//// var gsvl = "http://maps.googleapis.com/maps/api/streetview?size=400x400&location="+feature_centroid.y+","+feature_centroid.x+"&fov=90&heading=235&pitch=10&sensor=false";
-											// v1 - based on lat / lon and heading passed as attributes
-
 											var gsv_lat, gsv_lon, gsv_head=0;
 
 											for(var k in record.data.content)
@@ -679,12 +671,12 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 
 											if (gsv_lat && gsv_lon)
 											{
-												var size_thumb = 130;
+												// Adjusted to the size of the column
+												var size_thumb = 245;
 												var gsvthumb = "http://maps.googleapis.com/maps/api/streetview?location="+gsv_lat+","+gsv_lon+"&fov=90&heading="+gsv_head+"&pitch=-10&sensor=false&size="+size_thumb+"x"+size_thumb;
 												var gsvlink = "http://maps.google.com.au/maps?layer=c&cbll="+gsv_lat+","+gsv_lon+"&cbp=12,"+gsv_head+",,0,0";
 											
-												item_array.push({html:"<div style='font-size:8pt;'><font color='#666666'>Google Street View</font></div>",height:size_thumb});
-												item_array.push({html:"<div style='font-size:10pt;'><a href='"+gsvlink+"' target='_blank'><img src='"+gsvthumb+"'/></a></div>",height:size_thumb});											
+												item_array.push({html:"<div style='font-size:10pt;'><a href='"+gsvlink+"' target='_blank'><img src='"+gsvthumb+"'/></a></div>",height:size_thumb,colspan:2});											
 											}
 										}										
 																			
