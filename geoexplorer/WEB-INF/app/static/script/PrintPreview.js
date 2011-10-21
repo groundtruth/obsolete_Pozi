@@ -114,7 +114,7 @@ GeoExt.ux.PrintPreview = Ext.extend(Ext.Container, {
 			selectOnFocus: true,
 //			autoSelect: true,
 			allowBlank: false,
-			value:'hi-res',
+			value:'hi-res'
 //			setValue: function (v) {
 //				v = parseInt(v) + " dpi";
 //				Ext.form.ComboBox.prototype.setValue.apply(this, arguments);
@@ -173,7 +173,7 @@ GeoExt.ux.PrintPreview = Ext.extend(Ext.Container, {
 				layout: "hbox",
 				cls: "x-form-item",
 				items: [titleCfg, legendCheckbox]
-			} : titleCfg,
+			} : titleCfg
 //			{
 //				xtype: "textarea",
 //				name: this.commentField,
