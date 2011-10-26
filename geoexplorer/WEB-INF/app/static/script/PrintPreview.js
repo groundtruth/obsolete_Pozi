@@ -120,7 +120,9 @@ GeoExt.ux.PrintPreview = Ext.extend(Ext.Container, {
 //				Ext.form.ComboBox.prototype.setValue.apply(this, arguments);
 //			}
 		}, "&nbsp;");
-		items.push("->", {
+		items.push(
+//			"->", 
+		{
 			text: this.printText,
 			iconCls: "icon-print",
 			handler: function () {
