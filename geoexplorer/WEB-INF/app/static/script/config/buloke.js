@@ -8,7 +8,7 @@ var gtFeatureNS = "http://www.pozi.com.au/buloke";
 var gtDatabaseConfig = "bulokegis";
 
 //  Services
-////var gtServicesHost = "http://10.54.128.15";
+////var gtServicesHost = "http://pozi";
 var gtServicesHost = "http://localhost";
 //var gtOWSEndPoint = 		gtServicesHost + "/geoserver/"+gtWorkspaceName+"/ows";
 var gtOWSEndPoint = 		gtServicesHost + "/geoserver/ows";
@@ -103,9 +103,7 @@ var gtLayers = [
 		opacity:0.9,
 		selected:false,
 		format:"image/JPEG",
-//		styles:"",
-		transparent:true,
-//		cached: false
+		transparent:true
 	},{
 		source:"local",
 		name:gtWorkspaceName+":VMPLAN_ZONE_CODELIST",
