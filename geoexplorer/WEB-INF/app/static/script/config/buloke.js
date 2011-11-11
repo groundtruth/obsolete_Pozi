@@ -133,6 +133,33 @@ var gtLayers = [
 		transparent:true
 	},{
 		source:"local",
+		name:gtWorkspaceName+":LYNX_PROPERTY_OWNER",
+		title:"Property Owner (Lynx)",
+		visibility:false,
+		opacity:0.5,
+		format:"image/png8",
+		styles:"",
+		transparent:true
+	},{
+		source:"local",
+		name:gtWorkspaceName+":LYNX_DOG_REGISTRATION",
+		title:"Dog Registration (Lynx)",
+		visibility:false,
+		opacity:1,
+		format:"image/png8",
+		styles:"",
+		transparent:true
+	},{
+		source:"local",
+		name:gtWorkspaceName+":LYNX_CAT_REGISTRATION",
+		title:"Cat Registration (Lynx)",
+		visibility:false,
+		opacity:1,
+		format:"image/png8",
+		styles:"",
+		transparent:true
+	},{
+		source:"local",
 		name:gtWorkspaceName+":LYNX_WASTE_COLLECTION",
 		title:"Waste Collection (Lynx)",
 		visibility:false,
@@ -158,24 +185,6 @@ var gtLayers = [
 		format:"image/png8",
 		styles:"",
 		transparent:true
-//	},{
-//		source:"local",
-//		name:gtWorkspaceName+":LYNX_DOG_REGISTRATION",
-//		title:"Dog Registration (Lynx)",
-//		visibility:false,
-//		opacity:1,
-//		format:"image/png8",
-//		styles:"",
-//		transparent:true
-//	},{
-//		source:"local",
-//		name:gtWorkspaceName+":LYNX_CAT_REGISTRATION",
-//		title:"Cat Registration (Lynx)",
-//		visibility:false,
-//		opacity:1,
-//		format:"image/png8",
-//		styles:"",
-//		transparent:true
 	},{
 		source:"local",
 		name:gtWorkspaceName+":ASSETS_MOLONEY_ROADS",
