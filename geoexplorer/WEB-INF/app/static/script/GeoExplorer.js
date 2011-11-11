@@ -547,7 +547,8 @@ GeoExplorer.Composer = Ext.extend(GeoExplorer, {
 					};
 				}
 			},
-			items: [{
+			items: [
+			{
 				fieldLabel: this.userFieldText,
 				name: "username",
 				allowBlank: false
@@ -556,6 +557,11 @@ GeoExplorer.Composer = Ext.extend(GeoExplorer, {
 				name: "password",
 				inputType: "password",
 				allowBlank: false
+			},{
+				xtype:"label",
+				cls: "x-form-item",
+				text: "Note: your map will be refreshed.",
+				name: "lblLogin"
 			}],
 			buttons: [{
 				text: this.loginText,
@@ -589,7 +595,6 @@ GeoExplorer.Composer = Ext.extend(GeoExplorer, {
 					this.loginButton.hide();
 					win.close();
 					// Issue with users having to refresh the page to access their priviledged functionalities
-					alert("Your login was successful. This page will now automatically refresh, so that you can access extra functionalities based on your login.");
 					window.location.reload();
 				},
 				failure: function (form, action) {
@@ -609,7 +614,8 @@ GeoExplorer.Composer = Ext.extend(GeoExplorer, {
 			title: this.loginText,
 			layout: "fit",
 			width: 235,
-			height: 130,
+			// Changed to make the login refresh message visible
+			height: 145,
 			plain: true,
 			border: false,
 			modal: true,
