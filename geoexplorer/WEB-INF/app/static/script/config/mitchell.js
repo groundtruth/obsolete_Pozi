@@ -8,7 +8,8 @@ var gtFeatureNS = "http://www.pozi.com.au/mitchell";
 var gtDatabaseConfig = "mitchellgis";
 
 //  Services
-var gtServicesHost = "http://www.pozi.com";
+////var gtServicesHost = "http://www.pozi.com";
+var gtServicesHost = "http://localhost";
 ////var gtOWSEndPoint = 		gtServicesHost + "/geoserver/"+gtWorkspaceName+"/ows";
 var gtOWSEndPoint = 		gtServicesHost + "/geoserver/ows";
 //var gtOWSEndPointVicmap = 	gtServicesHost + "/geoserver/ows";
@@ -151,6 +152,15 @@ var gtLayers = [
 		source:"local",
 		name:gtWorkspaceName+":MSC_SPORTS_RESERVE",
 		title:"Sports Reserves",
+		visibility:false,
+		opacity:0.75,
+		format:"image/png",
+		styles:"",
+		transparent:true
+	},{
+		source:"local",
+		name:gtWorkspaceName+":MSC_CUSTOMER_SERVICE_CENTRE",
+		title:"Customer Service Centres",
 		visibility:false,
 		opacity:0.75,
 		format:"image/png",
@@ -333,17 +343,17 @@ var gtTools = [{
 
 	var gtCreateTools = function () {
 		var tools = GeoExplorer.Composer.superclass.createTools.apply(this, arguments);
-//		if (this.authorizedRoles.length === 0) {
-//			this.loginButton = new Ext.Button({
-//				iconCls: 'login',
-//				text: this.loginText,
-//				handler: this.showLoginDialog,
-//				scope: this
-//			});
-//			tools.push(['->', this.loginButton]);
-//		} else {
-//
-//		}
+///		if (this.authorizedRoles.length === 0) {
+///			this.loginButton = new Ext.Button({
+///				iconCls: 'login',
+///				text: this.loginText,
+///				handler: this.showLoginDialog,
+///				scope: this
+///			});
+///			tools.push(['->', this.loginButton]);
+///		} else {
+///
+///		}
 		var aboutButton = new Ext.Button({
 			text: "Pozi",
 			iconCls: "icon-geoexplorer",
