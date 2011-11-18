@@ -8003,6 +8003,7 @@ gxp.plugins.Print = Ext.extend(gxp.plugins.Tool, {
                     modal: true,
                     border: false,
                     resizable: false,
+                    // initially 360
                     width: 800,
                     items: [new GeoExt.ux.PrintPreview({
                         autoHeight: true,
