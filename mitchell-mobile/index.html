@@ -11,9 +11,6 @@
         <script src="/touch/sencha-touch.js"></script>
         <script src="mobile-sencha.js"></script>
         <script src="mobile-base.js"></script>
-        <script type="text/javascript">
-			Ext.BLANK_IMAGE_URL = "img/blank.gif";
-		</script>
         <style>
             .searchList {
                 min-height: 150px;
@@ -58,7 +55,7 @@
 
         </style>
         <script>
-
+		Ext.BLANK_IMAGE_URL = "img/blank.gif";
         var app = new Ext.Application({
             name: "ol",
             launch: function() {
@@ -188,7 +185,7 @@
         });
         </script>
     </head>
-    <body>
+	<body>
         <h1 id="title">OpenLayers with Sencha Touch</h1>
 
         <div id="tags">
