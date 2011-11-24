@@ -20,13 +20,13 @@ var gtSearchComboEndPoint = 	gtServicesHost + "/ws/rest/v3/ws_all_features_by_st
 // External resources
 var gtPoziLogoSrc = gtServicesHost+"/"+"theme/app/img/pozi-logo.png";
 var gtPoziLogoWidth = 165; 
-var gtLogoClientSrc = gtServicesHost+"/"+"theme/app/img/moyneShireCouncil-100px.png";
-var gtLogoClientWidth=100;
+var gtLogoClientSrc = gtServicesHost+"/"+"theme/app/img/blank.gif";
+var gtLogoClientWidth=1;
 
 // Map resources
-// Center determined by: select ST_AsText(ST_Transform(ST_SetSRID(ST_Centroid(the_geom),4283),900913)) from dse_vmadmin_lga where lga_name='MITCHELL'
-var gtMapCenter = [15861917, -4596740];
-var gtMapZoom = 9;
+// Map center over Mortlake: select ST_AsText(ST_Transform(ST_SetSRID(ST_Centroid(the_geom),4283),900913)) from dse_vmfeat_locality_point where place_name='MORTLAKE'
+var gtMapCenter = [15896865, -4590599];
+var gtMapZoom = 15;
 var gtZoomMax=18;
 var gtQuickZoomDatastore = [
 	['142.630',	'-38.155',	'142.949',	'-37.961', 'Mortlake'	],
