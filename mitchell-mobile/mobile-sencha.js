@@ -345,6 +345,11 @@ App.CaptureFormPopupPanel = Ext.extend(Ext.Panel, {
 					xtype:'hiddenfield',
 					name:'lon',
 					value: map.getCenter().transform(sm,gg).lon
+				},
+				{  
+					xtype:'hiddenfield',
+					name:'config',
+					value: 'mitchellgis'
 				}  
 		                ]
 			}],
@@ -438,7 +443,7 @@ App.CaptureFormPopupPanel = Ext.extend(Ext.Panel, {
 					// Populate the combo on show
 					var latlon = map.getCenter();
 					latlon.transform(sm, gg);
-					propertyAddressStore.load({params:{longitude:latlon.lon,latitude:latlon.lat}});
+					propertyAddressStore.load({params:{longitude:latlon.lon,latitude:latlon.lat,config:'mitchellgis'}});
 
 				}				
 			}
@@ -559,7 +564,12 @@ App.CaptureUpdateFormPopupPanel = Ext.extend(Ext.Panel, {
 					xtype:'hiddenfield',
 					name:'haz_id',
 					value: clickedFeature.data.id
-				}
+				},
+				{  
+					xtype:'hiddenfield',
+					name:'config',
+					value: 'mitchellgis'				}
+
 		                ]
 			}],
             

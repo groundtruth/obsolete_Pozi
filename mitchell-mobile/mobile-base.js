@@ -230,7 +230,8 @@ var init = function () {
 	  params: {
 	  		lat:ll_wgs84.lat,
 	  		lon:ll_wgs84.lon,
-	  		limit:limit_feature
+	  		limit:limit_feature,
+			config:'mitchellgis'
 	  	},
 	  success: function(resp) {
 		// resp is the XmlHttpRequest object
