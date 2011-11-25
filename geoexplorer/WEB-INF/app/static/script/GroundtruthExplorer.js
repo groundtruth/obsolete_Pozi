@@ -62,7 +62,8 @@ var gCombostore = new Ext.data.ArrayStore({
        'label',
        'content',
        'index',
-       'projCode'
+       'projCode',
+       'layer'
     ],
     listeners: {
             load: function(ds,records,o) {
@@ -226,6 +227,8 @@ gxp.plugins.WMSGetFeatureInfo.prototype.addActions = function() {
 									id_ct++;
 									// Type - from the layer name in the layer selector
 									var typ=x.data.title;
+									// Layer name (without namespace), to enable additional accordion panels
+									var lay=x.data.layer.params.LAYERS.split(":")[1];
 									// Attempt to format it nicely (removing the parenthesis content)
 									var simpleTitle=x.data.title.match(/(.*) ?\(.*\)/);
 									if (simpleTitle)
@@ -244,7 +247,7 @@ gxp.plugins.WMSGetFeatureInfo.prototype.addActions = function() {
 										if (l=="projection"){var projCode=cont[l];break;}
 									}
 									// Building a row and pushing it to an array																		
-									row_array = new Array(id_ct,typ,lab,cont,idx,projCode); 
+									row_array = new Array(id_ct,typ,lab,cont,idx,projCode,lay); 
 									gComboDataArray.push(row_array);
 								}
 							}
@@ -571,11 +574,116 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 							tpl: '<tpl for="."><div class="info-item" style="height: 16px;">{type}: {label}</div></tpl>',
 							itemSelector: 'div.info-item',
 							listeners: {'select': function (combo,record){
-							
-										var e1=Ext.getCmp('gtAccordion').items.items[0].body.id;
-										var e2=Ext.get(e1).dom;
-										e2.innerHTML="";
+										var e0=Ext.getCmp('gtAccordion');
+										//var e1=e0.items.items[0].body.id;
+										//var e2=Ext.get(e1).dom;
+										//e2.innerHTML="";
 										
+										e0.removeAll();
+										// Accordion part for normal attributes
+										e0.add({id:'attributeAcc',title: gtDetailsTitle,html: '<p></p>',autoScroll: true});
+										// Other accordion parts - the logic could be extracted once and for all at the application load (for the logged user) from a web service returning JSON from a database configuration table
+										// This configuration service may not return anything (case we are outside the network), hence fallback on the default configuration
+										
+										// Here we will set the configuration manually:
+										var tabConfig = { 
+											"VICMAP_PROPERTY_ADDRESS":[
+												{title:"Geo-data details",id:"ExtraGeoData",idName:"prop_propnum"},
+												{title:"Lynx building permit",id:"LynxBuildingPermits",idName:"prop_propnum"}
+											],
+											"VMPROP_PARCEL":[
+												{title:"Extra part parcel",id:"Test",idName:"prop_parcelspi"}
+											]
+										};
+										
+										var configArray = tabConfig[record.data.layer];
+										if (configArray)
+										{
+											e0.add(configArray);										
+										}
+										
+										// Refreshing the DOM with the newly added parts
+										e0.doLayout();										
+	
+										// Setting a reference on this part of the DOM for injection of the attributes										
+										var e1=e0.items.items[0].body.id;
+										var e2=Ext.get(e1).dom;
+										
+										// Population of the additional accordion panels - this will be asynchrone
+										// We are sending a live database request - to be handled by the web service with unput parameters:
+										// username (used as a base for a basic security layer)
+										// name of info group requested
+										
+										// The web service is tasked with:
+										// 1) reading the configuration table
+										// 2) querying the remote datasource
+										// 3) returning the JSON data back to the callback
+										
+										if (configArray)
+										{
+											var currentLoggedRole='NONE';
+											if (app.authorizedRoles[0])
+											{
+												currentLoggedRole=app.authorizedRoles[0];
+											}
+											// This could be further refined by sending only the query corresponding to the open accordion part
+											for (var i=0; i< configArray.length; i++)
+											{
+												var g=0;
+												// We should be using TRY to catch 404s
+												Ext.Ajax.request({
+												   url: '/ws/rest/v3/ws_get_live_data.php',
+												   success: function(a){
+												   		// A JSON is returned, we just want to insert the content in the corresponding accordion
+												   		var item_array=new Array();
+												   		var res_data = Ext.util.JSON.decode(a.responseText).rows[0].row;
+												   		
+												   		if (res_data)
+												   		{
+															for (j in res_data)
+															{
+																if (j!="target")
+																{
+																	// Formatting the cells for attribute display in a tidy table
+																	item_array.push({html:"<div style='font-size:8pt;'><font color='#666666'>"+j+"</font></div>"});
+																	item_array.push({html:"<div style='font-size:10pt;'>"+res_data[j]+"</div>"});	
+																}
+															}
+															
+															var targ = Ext.get(res_data["target"]).dom;
+															// And rendering that to the relevant part of the screen
+															var win = new Ext.Panel({
+																id:'tblayout-win'+g
+																//,width:227
+																,layout:'table'
+																,layoutConfig:{columns:2}
+																,border:false
+																//,closable:false
+																,defaults:{height:20}
+																,renderTo: targ
+																,items: item_array
+															});
+															win.doLayout();
+															g++;
+														}
+												   	},
+												   failure: function(){
+												   	},
+												   params: {
+												   	// Logged in role
+												   	role: currentLoggedRole,
+												   	// Passing the value of the property defined as containing the common ID
+												   	id: record.data.content[configArray[i].idName],
+												   	// Passing the tab name
+												   	infoGroup: configArray[i].id,
+												   	// Passing the database to query
+												   	config:gtDatabaseConfig
+												   }
+												});
+											}
+										}
+										
+										// Population of the direct attributes accordion panel
 										var lab;
 										var val;
 										var item_array=new Array();
@@ -690,8 +798,8 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 											,defaults:{height:20}
 											,renderTo: e2
 											,items: item_array
-										});	
-										
+										});
+																				
 									},
 								    scope:this}
 						    
@@ -720,15 +828,17 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 			layout:'accordion',
 			region: "center",
 			border: false,
-			multi: true,
+			collapsible: false,
+//			multi: true,
 	     
 			defaults: {
 				// applied to each contained panel
-				bodyStyle: " background-color: transparent "
+				bodyStyle: " background-color: transparent ",
+				collapsed: true
 			},
 			layoutConfig: {
 				// layout-specific configs go here
-				//titleCollapse: false,
+				titleCollapse: false,
 				animate: false,
 				activeOnTop: false
 			},
@@ -738,7 +848,6 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 				autoScroll: true
 			}]
 		});
-
         
 		var eastPanel = new Ext.Panel({
 			border: false,
