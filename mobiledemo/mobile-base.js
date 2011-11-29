@@ -141,8 +141,8 @@ var init = function () {
  //           sprintersLayer,
  		fhLayer
         ],
-        center: new OpenLayers.LonLat(15861917, -4596740),
-        zoom: 9
+        center: new OpenLayers.LonLat(15896865, -4590599),
+        zoom: 15
     });
     
 	map.events.register('moveend', this, function() {
