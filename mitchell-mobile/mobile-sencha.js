@@ -67,7 +67,8 @@ App.SearchFormPopupPanel = Ext.extend(Ext.Panel, {
         var q = searchfield.getValue();
         this.store.load({
             params: {
-                query: q
+                query: q,
+                config: 'mitchellgis'
             }
         });
     },
