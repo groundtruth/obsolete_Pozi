@@ -4,6 +4,8 @@ var gfromWFS="N";
 var gtyp;
 var glab;
 var gFormat;
+var gLayoutsArr = new Array();
+var gCurrentLoggedRole='NONE';
 
 // TMS Nearmaps
 //var mapBounds = new OpenLayers.Bounds( 140.661827141, -37.2265422532, 144.266533381, -33.6703768551).transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
@@ -25,6 +27,11 @@ function overlay_getTileURL(bounds) {
 		return "http://www.maptiler.org/img/none.png";
 	}
 }
+
+// Timeout of AJAX requests in ms
+Ext.Ajax.timeout = 2000;
+
+
 
 
 
@@ -508,7 +515,39 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 						}]
 				});
 				winDisclaim.show();
-			}		        	
+			}
+			
+			// Currently logged role
+			if (app.authorizedRoles[0])
+			{
+				gCurrentLoggedRole=app.authorizedRoles[0];
+			}
+			
+			// Extraction of the information panel layouts for the current authorized role
+			Ext.Ajax.request({
+			   url: '/ws/rest/v3/ws_get_layouts.php',
+			   success: function(a){
+					// A JSON is returned, we just want to insert the content in the corresponding accordion
+					var item_array = new Array();
+					var res_data = Ext.util.JSON.decode(a.responseText);
+
+					// Setting up a global variable array to define the info panel layouts
+					for (key=0;key<res_data.rows.length;key++)
+					{
+						gLayoutsArr[res_data.rows[key].row.key_arr]=res_data.rows[key].row.val_arr;
+					}
+				},
+			   failure: function(){
+					// We should process gracefully when this service is not available (i.e. outside the firewall)
+				},
+			   params: {
+				// Logged in role
+				role: gCurrentLoggedRole,
+				// Passing the database to query
+				config:gtDatabaseConfig
+			   }
+			});			
+			
 		        
 		});
 
@@ -582,21 +621,9 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 										e0.removeAll();
 										// Accordion part for normal attributes
 										e0.add({id:'attributeAcc',title: gtDetailsTitle,html: '<p></p>',autoScroll: true});
-										// Other accordion parts - the logic could be extracted once and for all at the application load (for the logged user) from a web service returning JSON from a database configuration table
-										// This configuration service may not return anything (case we are outside the network), hence fallback on the default configuration
-										
-										// Here we will set the configuration manually:
-										var tabConfig = { 
-											"VICMAP_PROPERTY_ADDRESS":[
-												{title:"Geo-data details",id:"ExtraGeoData",idName:"prop_propnum"},
-												{title:"Lynx building permit",id:"LynxBuildingPermits",idName:"prop_propnum"}
-											],
-											"VMPROP_PARCEL":[
-												{title:"Extra part parcel",id:"Test",idName:"prop_parcelspi"}
-											]
-										};
-										
-										var configArray = tabConfig[record.data.layer];
+
+										// Layout configuration the global variable array loaded at application start										
+										var configArray = gLayoutsArr[record.data.layer];
 										if (configArray)
 										{
 											e0.add(configArray);										
@@ -609,28 +636,13 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 										var e1=e0.items.items[0].body.id;
 										var e2=Ext.get(e1).dom;
 										
-										// Population of the additional accordion panels - this will be asynchrone
-										// We are sending a live database request - to be handled by the web service with unput parameters:
-										// username (used as a base for a basic security layer)
-										// name of info group requested
-										
-										// The web service is tasked with:
-										// 1) reading the configuration table
-										// 2) querying the remote datasource
-										// 3) returning the JSON data back to the callback
-										
+										// Sending live queries based on the layout
 										if (configArray)
 										{
-											var currentLoggedRole='NONE';
-											if (app.authorizedRoles[0])
-											{
-												currentLoggedRole=app.authorizedRoles[0];
-											}
 											// This could be further refined by sending only the query corresponding to the open accordion part
 											for (var i=0; i< configArray.length; i++)
 											{
 												var g=0;
-												// We should be using TRY to catch 404s
 												Ext.Ajax.request({
 												   url: '/ws/rest/v3/ws_get_live_data.php',
 												   success: function(a){
@@ -649,8 +661,8 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 																	item_array.push({html:"<div style='font-size:10pt;'>"+res_data[j]+"</div>"});	
 																}
 															}
-															
-															var targ = Ext.get(res_data["target"]).dom;
+															// Identification of the div to render the attributes to
+															var targ = Ext.get(Ext.getCmp(res_data["target"]).body.id).dom;
 															// And rendering that to the relevant part of the screen
 															var win = new Ext.Panel({
 																id:'tblayout-win'+g
@@ -671,7 +683,7 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 												   	},
 												   params: {
 												   	// Logged in role
-												   	role: currentLoggedRole,
+												   	role: gCurrentLoggedRole,
 												   	// Passing the value of the property defined as containing the common ID
 												   	id: record.data.content[configArray[i].idName],
 												   	// Passing the tab name
@@ -829,6 +841,7 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 			region: "center",
 			border: false,
 			collapsible: false,
+			
 //			multi: true,
 	     
 			defaults: {
@@ -838,9 +851,12 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 			},
 			layoutConfig: {
 				// layout-specific configs go here
-				titleCollapse: false,
 				animate: false,
-				activeOnTop: false
+				titleCollapse: true,
+				activeOnTop: false,
+				fill:true,
+				hideCollapseTool: true,
+				multi: true
 			},
 			items: [{
 				title: gtDetailsTitle,
