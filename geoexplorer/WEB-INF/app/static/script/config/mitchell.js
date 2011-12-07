@@ -115,7 +115,7 @@ var gtLayers = [
 	},{
 		source:"local",
 		name:gtWorkspaceName+":VICMAP_BUILDINGREG_BUSHFIRE_PRONE_AREA",
-		title:"Busfire-Prone Areas (Vicmap)",
+		title:"Bushfire-Prone Areas (Vicmap)",
 		visibility:false,
 		opacity:0.25,
 		format:"image/png8",
