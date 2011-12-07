@@ -32,7 +32,7 @@ catch (Exception $e) {
 
 # Performs the query and returns XML or JSON
 try {
-	$sql = "UPDATE msc_capture SET comments='".$comments."',haz_type=".$haz_type.",haz_status=".$haz_status." WHERE id=".$haz_id;
+	$sql = "UPDATE msc_capture SET comments='".$comments."',haz_type=".$haz_type.",haz_status=".$haz_status.",tsu=now() WHERE id=".$haz_id;
 //	echo $sql;
 
 	$sql = sanitizeSQL($sql);
