@@ -125,12 +125,22 @@ var gtLayers = [
 	},{
 		source:"local",
 		name:gtWorkspaceName+":VICMAP_PROPERTY_ADDRESS",
-		title:"Property Address (Vicmap)",
+		title:"Property (Vicmap)",
 		visibility:true,
 		opacity:0.5,
 		format:"image/png8",
 		styles:"",
 		transparent:true
+	},{
+		source:"local",
+		name:gtWorkspaceName+":VMPROP_PARCEL",
+		title:"Parcel (Vicmap)",
+		visibility:false,
+		opacity:0.5,
+		format:"image/png8",
+		styles:"Parcel_Overlay",
+		transparent:true,
+		tiled:false
 	},{
 		source:"local",
 		name:gtWorkspaceName+":LYNX_PROPERTY_OWNER",
