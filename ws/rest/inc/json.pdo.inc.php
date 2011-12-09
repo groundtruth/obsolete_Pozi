@@ -57,7 +57,7 @@ function rs2json($rs)
 
 	//For jsonp
 	if (isset($_REQUEST['callback'])) {
-		$output = $_REQUEST['callback'] . '(' . $output . ')';
+		$output = $_REQUEST['callback'] . '(' . $output . ');';
 	}
 
 	return $output;
@@ -252,7 +252,7 @@ function rs2json2($rs)
 
 	//For jsonp
 	if (isset($_REQUEST['callback'])) {
-		$output = $_REQUEST['callback'] . '(' . $output . ')';
+		$output = $_REQUEST['callback'] . '(' . $output . ');';
 	}
 
 	return $output;

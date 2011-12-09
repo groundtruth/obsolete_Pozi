@@ -33,7 +33,7 @@ catch (Exception $e) {
 # Performs the query and returns XML or JSON
 try {
 	$sql = sanitizeSQL("select * from gt_service_routing where role='".$rol."' and info_group='".$infogroup."'");
-///	echo $sql;
+///	echo "SQL1: ".$sql;
 	$pgconn = pgConnection();
 
     /*** fetch into an PDOStatement object ***/
@@ -80,10 +80,18 @@ try {
 	{
 	    $odbcconn = new PDO($connection_str, $username_conn, $password_conn, array(PDO::ATTR_PERSISTENT => true));
 		$ODBCrecordSet = $odbcconn->prepare($query_to_exec.$idp."'");
-///		echo "Q2: ".$query_to_exec.$idp."'";
+///		echo "SQL2: ".$query_to_exec.$idp."'";
 		$ODBCrecordSet->execute();
+
 		require_once("../inc/json.pdo.inc.php");
-		header("Content-Type: application/json");
+		if (isset($_REQUEST['callback']))
+		{
+			header("Content-Type: text/javascript");
+		}
+		else
+		{
+			header("Content-Type: application/json");
+		}
 		echo rs2json($ODBCrecordSet);
 	}
 	else

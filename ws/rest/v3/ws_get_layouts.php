@@ -37,7 +37,14 @@ try {
     $recordSet->execute();
 
 	require_once("../inc/json.pdo.inc.php");
-	header("Content-Type: application/json");
+	if (isset($_REQUEST['callback']))
+	{
+		header("Content-Type: text/javascript");
+	}
+	else
+	{
+		header("Content-Type: application/json");
+	}
 	echo rs2json2($recordSet);
 
 }
