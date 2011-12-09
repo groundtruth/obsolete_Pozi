@@ -1,4 +1,4 @@
-// Javascript configuration file for Mitchell
+// Javascript configuration file for Moyne
 
 // Workspace containing the layers and corresponding namespace
 var gtWorkspaceName= "MOYNE"; 
@@ -16,6 +16,9 @@ var gtOWSEndPoint = 		gtServicesHost + "/geoserver/ows";
 var gtWFSEndPoint = 		gtServicesHost + "/geoserver/wfs";
 var gtSearchPropertyEndPoint =  gtServicesHost + "/ws/rest/v3/ws_property_id_by_propnum.php";
 var gtSearchComboEndPoint = 	gtServicesHost + "/ws/rest/v3/ws_all_features_by_string.php";
+
+var gtGetLayoutEndPoint='http://localhost/ws/rest/v3/ws_get_layouts.php';
+var gtGetLiveDataEndPoint='http://localhost/ws/rest/v3/ws_get_live_data.php';
 
 // External resources
 var gtPoziLogoSrc = gtServicesHost+"/"+"theme/app/img/pozi-logo.png";

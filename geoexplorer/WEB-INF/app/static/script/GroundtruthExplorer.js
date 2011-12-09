@@ -524,30 +524,59 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 			}
 			
 			// Extraction of the information panel layouts for the current authorized role
-			Ext.Ajax.request({
-			   url: '/ws/rest/v3/ws_get_layouts.php',
-			   success: function(a){
-					// A JSON is returned, we just want to insert the content in the corresponding accordion
-					var item_array = new Array();
-					var res_data = Ext.util.JSON.decode(a.responseText);
+//			Ext.Ajax.request({
+//			   url: gtGetLayoutEndPoint,
+//			   success: function(a){
+//					// A JSON is returned, we just want to insert the content in the corresponding accordion
+//					var item_array = new Array();
+//					var res_data = Ext.util.JSON.decode(a.responseText);
+//
+//					// Setting up a global variable array to define the info panel layouts
+//					for (key=0;key<res_data.rows.length;key++)
+//					{
+//						gLayoutsArr[res_data.rows[key].row.key_arr]=res_data.rows[key].row.val_arr;
+//					}
+//				},
+//			   failure: function(){
+//					// We should process gracefully when this service is not available (i.e. outside the firewall)
+//				},
+//			   params: {
+//				// Logged in role
+//				role: gCurrentLoggedRole,
+//				// Passing the database to query
+//				config:gtDatabaseConfig
+//			   }
+//			});			
 
-					// Setting up a global variable array to define the info panel layouts
-					for (key=0;key<res_data.rows.length;key++)
+			// We should degrade nicely if the service is not found
+			var ds = new Ext.data.Store({
+				autoLoad:true,
+				proxy: new Ext.data.ScriptTagProxy({
+					url: gtGetLayoutEndPoint
+				}),
+				reader: new Ext.data.JsonReader({	
+					root: 'rows',
+					totalProperty: 'total_rows',
+					id: 'key_arr'	
+					}, 
+					[	{name: 'key_arr', mapping: 'row.key_arr'}
+			        ]),
+				baseParams: {
+					role: gCurrentLoggedRole,
+					config:gtDatabaseConfig
+				},
+				listeners:
+				{
+					load: function(store, recs)
 					{
-						gLayoutsArr[res_data.rows[key].row.key_arr]=res_data.rows[key].row.val_arr;
+						// Setting up a global variable array to define the info panel layouts
+						for (key=0;key<recs.length;key++)
+						{
+							gLayoutsArr[recs[key].json.row.key_arr]=recs[key].json.row.val_arr;
+						}
 					}
-				},
-			   failure: function(){
-					// We should process gracefully when this service is not available (i.e. outside the firewall)
-				},
-			   params: {
-				// Logged in role
-				role: gCurrentLoggedRole,
-				// Passing the database to query
-				config:gtDatabaseConfig
-			   }
-			});			
-			
+				}
+			});
 		        
 		});
 
@@ -614,6 +643,7 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 							itemSelector: 'div.info-item',
 							listeners: {'select': function (combo,record){
 										var e0=Ext.getCmp('gtAccordion');
+
 										//var e1=e0.items.items[0].body.id;
 										//var e2=Ext.get(e1).dom;
 										//e2.innerHTML="";
@@ -631,6 +661,7 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 										
 										// Refreshing the DOM with the newly added parts
 										e0.doLayout();										
+										e0.items.itemAt(0).expand();
 	
 										// Setting a reference on this part of the DOM for injection of the attributes										
 										var e1=e0.items.items[0].body.id;
@@ -643,55 +674,122 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 											for (var i=0; i< configArray.length; i++)
 											{
 												var g=0;
-												Ext.Ajax.request({
-												   url: '/ws/rest/v3/ws_get_live_data.php',
-												   success: function(a){
-												   		// A JSON is returned, we just want to insert the content in the corresponding accordion
-												   		var item_array=new Array();
-												   		var res_data = Ext.util.JSON.decode(a.responseText).rows[0].row;
+//												Ext.Ajax.request({
+//												   url: gtGetLiveDataEndPoint,
+//												   success: function(a){
+//												   		// A JSON is returned, we just want to insert the content in the corresponding accordion
+//												   		var item_array=new Array();
+//												   		var res_data = Ext.util.JSON.decode(a.responseText).rows[0].row;
+//												   		
+//												   		if (res_data)
+//												   		{
+//															for (j in res_data)
+//															{
+//																if (j!="target")
+//																{
+//																	// Formatting the cells for attribute display in a tidy table
+//																	item_array.push({html:"<div style='font-size:8pt;'><font color='#666666'>"+j+"</font></div>"});
+//																	item_array.push({html:"<div style='font-size:10pt;'>"+res_data[j]+"</div>"});	
+//																}
+//															}
+//															// Identification of the div to render the attributes to
+//															var targ = Ext.get(Ext.getCmp(res_data["target"]).body.id).dom;
+//															// And rendering that to the relevant part of the screen
+//															var win = new Ext.Panel({
+//																id:'tblayout-win'+g
+//																//,width:227
+//																,layout:'table'
+//																,layoutConfig:{columns:2}
+//																,border:false
+//																//,closable:false
+//																,defaults:{height:20}
+//																,renderTo: targ
+//																,items: item_array
+//															});
+//															win.doLayout();
+//															g++;
+//														}
+//												   	},
+//												   failure: function(){
+//												   	},
+//												   params: {
+//												   	// Logged in role
+//												   	role: gCurrentLoggedRole,
+//												   	// Passing the value of the property defined as containing the common ID
+//												   	id: record.data.content[configArray[i].idName],
+//												   	// Passing the tab name
+//												   	infoGroup: configArray[i].id,
+//												   	// Passing the database to query
+//												   	config:gtDatabaseConfig
+//												   }
+//												});
+
+ 
+												// Live query using the script tag
+												var ds = new Ext.data.Store({
+													autoLoad:true,
+													proxy: new Ext.data.ScriptTagProxy({
+														url: gtGetLiveDataEndPoint
+													}),
+													reader: new Ext.data.JsonReader({	
+														root: 'rows',
+														totalProperty: 'total_rows',
+														id: 'id'	
+														}, 
+														[	{name: 'id', mapping: 'row.id'}
+												        ]),
+													baseParams: {
+													   	// Logged in role
+													   	role: gCurrentLoggedRole,
+													   	// Passing the value of the property defined as containing the common ID
+													   	id: record.data.content[configArray[i].idName],
+													   	// Passing the tab name
+													   	infoGroup: configArray[i].id,
+													   	// Passing the database to query
+													   	config:gtDatabaseConfig
+													},
+													listeners:
+													{
+														load: function(store, recs)
+														{
+													   		// A JSONP is returned, we just want to insert the content in the corresponding accordion
+													   		var res_data = recs[0].json.row;
+															var item_array=new Array();
 												   		
-												   		if (res_data)
-												   		{
-															for (j in res_data)
-															{
-																if (j!="target")
+													   		if (res_data)
+													   		{
+																for (j in res_data)
 																{
-																	// Formatting the cells for attribute display in a tidy table
-																	item_array.push({html:"<div style='font-size:8pt;'><font color='#666666'>"+j+"</font></div>"});
-																	item_array.push({html:"<div style='font-size:10pt;'>"+res_data[j]+"</div>"});	
+																	if (j!="target")
+																	{
+																		// Formatting the cells for attribute display in a tidy table
+																		item_array.push({html:"<div style='font-size:8pt;'><font color='#666666'>"+j+"</font></div>"});
+																		item_array.push({html:"<div style='font-size:10pt;'>"+res_data[j]+"</div>"});	
+																	}
 																}
+																// Identification of the div to render the attributes to
+																var targ = Ext.get(Ext.getCmp(res_data["target"]).body.id).dom;
+																// And rendering that to the relevant part of the screen
+																var win = new Ext.Panel({
+																	id:'tblayout-win'+g
+																	//,width:227
+																	,layout:'table'
+																	,layoutConfig:{columns:2}
+																	,border:false
+																	//,closable:false
+																	,defaults:{height:20}
+																	,renderTo: targ
+																	,items: item_array
+																});
+																win.doLayout();
+																g++;
 															}
-															// Identification of the div to render the attributes to
-															var targ = Ext.get(Ext.getCmp(res_data["target"]).body.id).dom;
-															// And rendering that to the relevant part of the screen
-															var win = new Ext.Panel({
-																id:'tblayout-win'+g
-																//,width:227
-																,layout:'table'
-																,layoutConfig:{columns:2}
-																,border:false
-																//,closable:false
-																,defaults:{height:20}
-																,renderTo: targ
-																,items: item_array
-															});
-															win.doLayout();
-															g++;
 														}
-												   	},
-												   failure: function(){
-												   	},
-												   params: {
-												   	// Logged in role
-												   	role: gCurrentLoggedRole,
-												   	// Passing the value of the property defined as containing the common ID
-												   	id: record.data.content[configArray[i].idName],
-												   	// Passing the tab name
-												   	infoGroup: configArray[i].id,
-												   	// Passing the database to query
-												   	config:gtDatabaseConfig
-												   }
+													}
 												});
+
+
+
 											}
 										}
 										
@@ -1127,10 +1225,10 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
         var method, url;
         if (this.id) {
             method = "PUT";
-            url = "maps/" + this.id;
+            url = "geoexplorer/maps/" + this.id;
         } else {
             method = "POST";
-            url = "maps"
+            url = "geoexplorer/maps"
         }
         OpenLayers.Request.issue({
             method: method,

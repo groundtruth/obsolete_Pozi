@@ -8,14 +8,17 @@ var gtFeatureNS = "http://www.pozi.com.au/mitchell";
 var gtDatabaseConfig = "mitchellgis";
 
 //  Services
-////var gtServicesHost = "http://www.pozi.com";
-var gtServicesHost = "http://localhost";
+var gtServicesHost = "http://www.pozi.com";
+///var gtServicesHost = "http://localhost";
 ////var gtOWSEndPoint = 		gtServicesHost + "/geoserver/"+gtWorkspaceName+"/ows";
 var gtOWSEndPoint = 		gtServicesHost + "/geoserver/ows";
 //var gtOWSEndPointVicmap = 	gtServicesHost + "/geoserver/ows";
 var gtWFSEndPoint = 		gtServicesHost + "/geoserver/wfs";
 var gtSearchPropertyEndPoint =  gtServicesHost + "/ws/rest/v3/ws_property_id_by_propnum.php";
 var gtSearchComboEndPoint = 	gtServicesHost + "/ws/rest/v3/ws_all_features_by_string.php";
+
+var gtGetLayoutEndPoint='http://localhost/ws/rest/v3/ws_get_layouts.php';
+var gtGetLiveDataEndPoint='http://localhost/ws/rest/v3/ws_get_live_data.php';
 
 // External resources
 var gtPoziLogoSrc = gtServicesHost+"/"+"theme/app/img/pozi-logo.png";
