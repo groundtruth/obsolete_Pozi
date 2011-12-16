@@ -602,7 +602,8 @@ App.CaptureUpdateFormPopupPanel = Ext.extend(Ext.Panel, {
 								  loadMask: true,
 								  url: '/ws/rest/v3/ws_delete_property_fire_hazard.php',
 								  params: {
-										haz_id: clickedFeature.data.id
+										haz_id: clickedFeature.data.id,
+										config: 'mitchellgis'
 									},
 								  success: on_capture_success,
 								  failure: on_capture_failure
