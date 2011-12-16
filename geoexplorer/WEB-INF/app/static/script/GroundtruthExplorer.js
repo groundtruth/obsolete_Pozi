@@ -864,10 +864,7 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 			layout:'accordion',
 			region: "center",
 			border: false,
-			collapsible: false,
-			
-//			multi: true,
-	     
+			collapsible: false,	     
 			defaults: {
 				// applied to each contained panel
 				bodyStyle: " background-color: transparent ",
@@ -878,9 +875,8 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 				animate: false,
 				titleCollapse: true,
 				activeOnTop: false,
-				fill:true,
-				hideCollapseTool: true,
-				multi: true
+				hideCollapseTool: false,
+				fill: false 
 			},
 			items: [{
 				title: gtDetailsTitle,
