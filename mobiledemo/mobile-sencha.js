@@ -395,6 +395,7 @@ App.CaptureFormPopupPanel = Ext.extend(Ext.Panel, {
 					handler: function() {
 						Ext.getCmp('form_capture').submit({
 							url: '/ws/rest/v3/ws_create_property_fire_hazard.php',
+							method: 'POST',
 							submitEmptyText: false,
 							waitMsg: 'Saving ...',
 							success: on_capture_success,
@@ -619,6 +620,7 @@ App.CaptureUpdateFormPopupPanel = Ext.extend(Ext.Panel, {
 					handler: function() {
 						Ext.getCmp('form_capture_update').submit({
 							url: '/ws/rest/v3/ws_update_property_fire_hazard.php',
+							method: 'POST',
 							submitEmptyText: false,
 							waitMsg: 'Saving ...',
 							success: on_capture_success,
