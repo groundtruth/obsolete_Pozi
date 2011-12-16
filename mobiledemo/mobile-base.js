@@ -105,7 +105,7 @@ var init = function () {
         ],
         layers: [
             new OpenLayers.Layer.WMS("Vicmap Classic",
-	                        "http://49.156.19.227:8080/geoserver/wms",
+	                        "http://www.pozi.com/geoserver/wms",
                     {layers: 'VicmapClassicMoyne'}
 // singletile could reduce traffic but bigger files, except if ratio is really large
 //                    ,{ singleTile: true, ratio: 1.2 } 
