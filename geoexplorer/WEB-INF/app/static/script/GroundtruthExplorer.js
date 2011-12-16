@@ -524,30 +524,6 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 			}
 			
 			// Extraction of the information panel layouts for the current authorized role
-//			Ext.Ajax.request({
-//			   url: gtGetLayoutEndPoint,
-//			   success: function(a){
-//					// A JSON is returned, we just want to insert the content in the corresponding accordion
-//					var item_array = new Array();
-//					var res_data = Ext.util.JSON.decode(a.responseText);
-//
-//					// Setting up a global variable array to define the info panel layouts
-//					for (key=0;key<res_data.rows.length;key++)
-//					{
-//						gLayoutsArr[res_data.rows[key].row.key_arr]=res_data.rows[key].row.val_arr;
-//					}
-//				},
-//			   failure: function(){
-//					// We should process gracefully when this service is not available (i.e. outside the firewall)
-//				},
-//			   params: {
-//				// Logged in role
-//				role: gCurrentLoggedRole,
-//				// Passing the database to query
-//				config:gtDatabaseConfig
-//			   }
-//			});			
-
 			// We should degrade nicely if the service is not found
 			var ds = new Ext.data.Store({
 				autoLoad:true,
@@ -674,56 +650,6 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 											for (var i=0; i< configArray.length; i++)
 											{
 												var g=0;
-//												Ext.Ajax.request({
-//												   url: gtGetLiveDataEndPoint,
-//												   success: function(a){
-//												   		// A JSON is returned, we just want to insert the content in the corresponding accordion
-//												   		var item_array=new Array();
-//												   		var res_data = Ext.util.JSON.decode(a.responseText).rows[0].row;
-//												   		
-//												   		if (res_data)
-//												   		{
-//															for (j in res_data)
-//															{
-//																if (j!="target")
-//																{
-//																	// Formatting the cells for attribute display in a tidy table
-//																	item_array.push({html:"<div style='font-size:8pt;'><font color='#666666'>"+j+"</font></div>"});
-//																	item_array.push({html:"<div style='font-size:10pt;'>"+res_data[j]+"</div>"});	
-//																}
-//															}
-//															// Identification of the div to render the attributes to
-//															var targ = Ext.get(Ext.getCmp(res_data["target"]).body.id).dom;
-//															// And rendering that to the relevant part of the screen
-//															var win = new Ext.Panel({
-//																id:'tblayout-win'+g
-//																//,width:227
-//																,layout:'table'
-//																,layoutConfig:{columns:2}
-//																,border:false
-//																//,closable:false
-//																,defaults:{height:20}
-//																,renderTo: targ
-//																,items: item_array
-//															});
-//															win.doLayout();
-//															g++;
-//														}
-//												   	},
-//												   failure: function(){
-//												   	},
-//												   params: {
-//												   	// Logged in role
-//												   	role: gCurrentLoggedRole,
-//												   	// Passing the value of the property defined as containing the common ID
-//												   	id: record.data.content[configArray[i].idName],
-//												   	// Passing the tab name
-//												   	infoGroup: configArray[i].id,
-//												   	// Passing the database to query
-//												   	config:gtDatabaseConfig
-//												   }
-//												});
-
  
 												// Live query using the script tag
 												var ds = new Ext.data.Store({
