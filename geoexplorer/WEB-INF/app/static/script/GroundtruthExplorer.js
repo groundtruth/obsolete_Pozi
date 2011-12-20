@@ -131,6 +131,8 @@ gxp.plugins.WMSGetFeatureInfo.prototype.addActions = function() {
 			tooltip: this.infoActionTip,
 			iconCls: "gxp-icon-getfeatureinfo",
 			toggleGroup: this.toggleGroup,
+			// The info button does not need to be clickable
+			disabled: true,
 			enableToggle: true,
 			allowDepress: true,
 			toggleHandler: function (button, pressed) {
