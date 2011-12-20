@@ -378,7 +378,7 @@ var gtTools = [{
 //						width: 'auto'
 //					});
 					var poziInfo = new Ext.Panel({
-						title: "Pozi",
+						title: "Pozi Explorer",
 						html: "<iframe style='border: none; height: 100%; width: 100%' src='about-pozi.html' frameborder='0' border='0'><a target='_blank' href='about-pozi.html'>" + "</a> </iframe>"
 					});
 					var tabs = new Ext.TabPanel({
