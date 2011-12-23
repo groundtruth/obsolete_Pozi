@@ -999,22 +999,28 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 		})
 	});
 	
-	
         this.portalItems = [
         {
             	region: "north",
             	layout: "column",
             	height: 100,
+            	footerCfg: {
+            		// Required to have the footer display
+		        html: '<p style="font-size:8px;"><br></p>',
+		},
+		footerStyle:'background-color:'+gtBannerLineColor+';;border:0px;',
+		// Removes the grey border around the footer (and around the whole container body)
+		bodyStyle:'border:0px;',
             	items:
                     	[
                     	new Ext.BoxComponent({
                     	region: "west",
-                    	width: gtPoziLogoWidth,
-	                height: 100,
-	                autoEl: {
-			tag: 'div',
-			html: '<img style="height: 100px" src="'+gtPoziLogoSrc+'"/>'
-	                }
+				width: gtLogoClientWidth,
+				bodyStyle: " background-color: transparent ",
+				autoEl: {
+					tag: 'div',
+					html: '<img style="height: 90px" src="'+gtLogoClientSrc+'" align="right"/>'
+	                	}
         		})
         		,
         		{
@@ -1070,7 +1076,7 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 				bodyStyle: " background-color: transparent ",
 				autoEl: {
 					tag: 'div',
-					html: '<img style="height: 100px" src="'+gtLogoClientSrc+'" align="right"/>'
+					html: '<p style="text-align:right;padding: 15px;font-size:12px;"><a href="'+gtLinkToCouncilWebsite+'" target="_blank">'+ gtBannerRightCornerLine1 +'</a><br> '+ gtBannerRightCornerLine2 +' <br><br>Map powered by <a href="javascript:poziLinkClickHandler()">Pozi</a></p>'
 	                	}
 				
 			})
@@ -1129,8 +1135,6 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 	// Adding these tools to the base tools 
 	///var mybaseTools = GroundtruthExplorer.superclass.createTools.apply(this, arguments);
 	var mybaseTools = gtCreateTools.apply(this, arguments);
-	// Or just use an empty list to just our tools
-	//var mybaseTools = [];
 	mybaseTools.push(addTool1,addTool2);
 	return mybaseTools;
     },

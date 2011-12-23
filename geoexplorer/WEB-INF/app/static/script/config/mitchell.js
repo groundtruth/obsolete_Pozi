@@ -21,10 +21,10 @@ var gtGetLayoutEndPoint='http://localhost/ws/rest/v3/ws_get_layouts.php';
 var gtGetLiveDataEndPoint='http://localhost/ws/rest/v3/ws_get_live_data.php';
 
 // External resources
-var gtPoziLogoSrc = gtServicesHost+"/"+"theme/app/img/pozi-logo.png";
-var gtPoziLogoWidth = 165; 
+//var gtPoziLogoSrc = gtServicesHost+"/"+"theme/app/img/pozi-logo.png";
+//var gtPoziLogoWidth = 165; 
 var gtLogoClientSrc = gtServicesHost+"/"+"theme/app/img/mitchell_banner.jpg";
-var gtLogoClientWidth=265;
+var gtLogoClientWidth=238;
 
 // Map resources
 // Center determined by: select ST_AsText(ST_Transform(ST_SetSRID(ST_Centroid(the_geom),4283),900913)) from dse_vmadmin_lga where lga_name='MITCHELL'
@@ -357,49 +357,7 @@ var gtTools = [{
 ///		} else {
 ///
 ///		}
-		var aboutButton = new Ext.Button({
-			text: "Pozi",
-			iconCls: "icon-geoexplorer",
-			handler: 
-				function () {
-					var appInfo = new Ext.Panel({
-						title: this.appInfoText,
-						html: "<iframe style='border: none; height: 100%; width: 100%' src='about.html' frameborder='0' border='0'><a target='_blank' href='about.html'>" + this.aboutText + "</a> </iframe>"
-					});
-//					var about = Ext.applyIf(this.about, {
-//						title: '',
-//						"abstract": '',
-//						contact: ''
-//					});
-//					var mapInfo = new Ext.Panel({
-//						title: this.mapInfoText,
-//						html: '<div class="gx-info-panel">' + '<h2>' + this.titleText + '</h2><p>' + about.title + '</p><h2>' + this.descriptionText + '</h2><p>' + about['abstract'] + '</p> <h2>' + this.contactText + '</h2><p>' + about.contact + '</p></div>',
-//						height: 'auto',
-//						width: 'auto'
-//					});
-					var poziInfo = new Ext.Panel({
-						title: "Pozi Explorer",
-						html: "<iframe style='border: none; height: 100%; width: 100%' src='about-pozi.html' frameborder='0' border='0'><a target='_blank' href='about-pozi.html'>" + "</a> </iframe>"
-					});
-					var tabs = new Ext.TabPanel({
-						activeTab: 0,
-						items: [
-						poziInfo,appInfo]
-					});
-					var win = new Ext.Window({
-						title: this.aboutThisMapText,
-						modal: true,
-						layout: "fit",
-						width: 300,
-						height: 300,
-						items: [
-						tabs]
-					});
-					win.show();
-				},			
-			scope: this
-		});
-		tools.unshift("-");
+		tools.unshift("");
 //		tools.unshift(new Ext.Button({
 //			tooltip: this.exportMapText,
 //			needsAuthorization: true,
@@ -420,11 +378,41 @@ var gtTools = [{
 //			scope: this,
 //			iconCls: "icon-save"
 //		}));
-		tools.unshift("-");
-		tools.unshift(aboutButton);
+		tools.unshift("");
 		return tools;
 	};
+	
+	
+var poziLinkClickHandler = function () {
+	var appInfo = new Ext.Panel({
+		title: "GeoExplorer",
+		html: "<iframe style='border: none; height: 100%; width: 100%' src='about.html' frameborder='0' border='0'><a target='_blank' href='about.html'>" + this.aboutText + "</a> </iframe>"
+	});
+	var poziInfo = new Ext.Panel({
+		title: "Pozi Explorer",
+		html: "<iframe style='border: none; height: 100%; width: 100%' src='about-pozi.html' frameborder='0' border='0'><a target='_blank' href='about-pozi.html'>" + "</a> </iframe>"
+	});
+	var tabs = new Ext.TabPanel({
+		activeTab: 0,
+		items: [
+		poziInfo,appInfo]
+	});
+	var win = new Ext.Window({
+		title: "About this map",
+		modal: true,
+		layout: "fit",
+		width: 300,
+		height: 300,
+		items: [
+			tabs]
+		});
+	win.show();
+};	
 	
 var gtInitialDisclaimerFlag=true;
 var gtDisclaimer="disclaimer.html";
 var gtRedirectIfDeclined="http://www.mitchellshire.vic.gov.au/";
+var gtLinkToCouncilWebsite="http://www.mitchellshire.vic.gov.au/";
+var gtBannerLineColor="#DE932A";
+var gtBannerRightCornerLine1="Mitchell Shire Council";
+var gtBannerRightCornerLine2="Victoria, Australia";
