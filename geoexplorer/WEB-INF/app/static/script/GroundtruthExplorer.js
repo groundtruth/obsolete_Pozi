@@ -994,11 +994,12 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
  			{name: "idval"	, mapping:"row.idval"},
  			{name: "ld"	, mapping:"row.ld"}
  		],
-		proxy: new Ext.data.HttpProxy({
+//		proxy: new Ext.data.HttpProxy({
+		proxy: new Ext.data.ScriptTagProxy({
 			url: gtSearchComboEndPoint
 		})
 	});
-	
+
         this.portalItems = [
         {
             	region: "north",
@@ -1017,10 +1018,7 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
                     	region: "west",
 				width: gtLogoClientWidth,
 				bodyStyle: " background-color: transparent ",
-				autoEl: {
-					tag: 'div',
-					html: '<img style="height: 90px" src="'+gtLogoClientSrc+'" align="right"/>'
-	                	}
+				html: '<img style="height: 90px" src="'+gtLogoClientSrc+'" align="right"/>'
         		})
         		,
         		{
@@ -1032,34 +1030,33 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
         		}
 			,
 			new Ext.Panel({
-			region: "center",
-			//anchor:50%,
-                    	//columnWidth:1,
-                    	width: 500,
-			padding: "34px",
-			border: false,
-			bodyStyle: " background-color: white ; ",
-		 	items: [
-			new Ext.form.ComboBox({
-				id: 'gtSearchCombobox',
-				queryParam: 'query',
-				store: ds,
-				displayField:'label',
-				selectOnFocus: true,
-				minChars: 3,
-				typeAhead: false,
-				loadingText: gtLoadingText,
-				width: 450,
-				style: "border: 2px solid #BBBBBB; width: 490px; height: 24px; font-size: 11pt;",
-				pageSize:0,
-				emptyText:gtEmptyTextSearch,
-				hideTrigger:true,
-				tpl: '<tpl for="."><div class="search-item" style="height: 28px;"><font color="#666666">{ld}</font> : {[values.label.replace(new RegExp( "(" +  Ext.get(\'gtSearchCombobox\').getValue()  + ")" , \'gi\' ), "<b>$1</b>" )]} <br></div></tpl>',
-				itemSelector: 'div.search-item',
-				listeners: {'select': search_record_select_handler,
-					    scope:this}
-				})
-			]}),
+				region: "center",
+       	             	width: 500,
+				padding: "34px",
+				border: false,
+				bodyStyle: " background-color: white ; ",
+		 		items: [
+					new Ext.form.ComboBox({
+						id: 'gtSearchCombobox',
+						queryParam: 'query',
+						store: ds,
+						displayField:'label',
+						selectOnFocus: true,
+						minChars: 3,
+						typeAhead: false,
+						loadingText: gtLoadingText,
+						width: 450,
+						style: "border: 2px solid #BBBBBB; width: 490px; height: 24px; font-size: 11pt;",
+						pageSize:0,
+						emptyText:gtEmptyTextSearch,
+						hideTrigger:true,
+						tpl: '<tpl for="."><div class="search-item" style="height: 28px;"><font color="#666666">{ld}</font> : {[values.label.replace(new RegExp( "(" +  Ext.get(\'gtSearchCombobox\').getValue()  + ")" , \'gi\' ), "<b>$1</b>" )]} <br></div></tpl>',
+							itemSelector: 'div.search-item',
+						listeners: {'select': search_record_select_handler,
+							    scope:this}
+					})
+				]
+			}),
 			{
 				columnWidth: 0.5,
 				html:"",
@@ -1072,12 +1069,10 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 			new Ext.Panel({
 				region: "east",
 				border: false,
-				width: gtLogoClientWidth,
-				bodyStyle: " background-color: transparent ",
-				autoEl: {
-					tag: 'div',
-					html: '<p style="text-align:right;padding: 15px;font-size:12px;"><a href="'+gtLinkToCouncilWebsite+'" target="_blank">'+ gtBannerRightCornerLine1 +'</a><br> '+ gtBannerRightCornerLine2 +' <br><br>Map powered by <a href="javascript:poziLinkClickHandler()">Pozi</a></p>'
-	                	}
+				width: 200,
+				height: 100,
+				bodyStyle: " background-color: transparent; ",
+				html: '<p style="text-align:right;padding: 15px;font-size:12px;"><a href="'+gtLinkToCouncilWebsite+'" target="_blank">'+ gtBannerRightCornerLine1 +'</a><br> '+ gtBannerRightCornerLine2 +' <br><br>Map powered by <a href="javascript:poziLinkClickHandler()">Pozi</a></p>'
 				
 			})
 			]
