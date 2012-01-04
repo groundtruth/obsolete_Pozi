@@ -982,7 +982,7 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
  	var ds = new Ext.data.JsonStore({
 		autoLoad: false, //autoload the data
 		root: 'rows',
-		baseParams: { config: gtDatabaseConfig},
+		baseParams: { config: gtDatabaseConfig, lga:gtLGACode},
 		fields: [{name: "label"	, mapping:"row.label"},
 			{name: "xmini"	, mapping:"row.xmini"},
 			{name: "ymini"	, mapping:"row.ymini"},

@@ -2,6 +2,8 @@
 
 // Workspace containing the layers and corresponding namespace
 var gtWorkspaceName= "MOYNE"; 
+// In a multi-council database setup, use 354
+var gtLGACode = "";
 var gtFeatureNS = "http://www.pozi.com.au/moyne";
 
 // Database config for the master search table

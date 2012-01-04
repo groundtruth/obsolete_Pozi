@@ -2,6 +2,8 @@
 
 // Workspace containing the layers and corresponding namespace
 var gtWorkspaceName= "MITCHELL"; 
+// In a multi-council database setup, use 346
+var gtLGACode = "";
 var gtFeatureNS = "http://www.pozi.com.au/mitchell";
 
 // Database config for the master search table

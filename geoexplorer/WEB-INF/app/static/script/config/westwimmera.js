@@ -1,7 +1,9 @@
 // Javascript configuration file for West Wimmera
 
 // Workspace containing the layers and corresponding namespace
-var gtWorkspaceName= "GRAMPIANS"; 
+var gtWorkspaceName= "GRAMPIANS";
+// This is a multi-database setup so we need to specify the LGA
+var gtLGACode = "371";
 var gtFeatureNS = "http://www.pozi.com/grampians";
 
 // Database config for the master search table
@@ -15,7 +17,7 @@ var gtOWSEndPoint = 		gtServicesHost + "/geoserver/ows";
 //var gtOWSEndPointVicmap = 	gtServicesHost + "/geoserver/ows";
 var gtWFSEndPoint = 		gtServicesHost + "/geoserver/wfs";
 var gtSearchPropertyEndPoint =  gtServicesHost + "/ws/rest/v3/ws_property_id_by_propnum.php";
-var gtSearchComboEndPoint = 	gtServicesHost + "/ws/rest/v3/ws_all_features_by_string.php";
+var gtSearchComboEndPoint = 	gtServicesHost + "/ws/rest/v3/ws_all_features_by_string_and_lga.php";
 
 var gtGetLayoutEndPoint='http://localhost/ws/rest/v3/ws_get_layouts.php';
 var gtGetLiveDataEndPoint='http://localhost/ws/rest/v3/ws_get_live_data.php';
@@ -32,16 +34,17 @@ var gtMapCenter = [15727146, -4393955];
 var gtMapZoom = 9;
 var gtZoomMax=18;
 var gtQuickZoomDatastore = [
-	['144.936',	'-37.484',	'144.989',	'-37.467', 'Beveridge'	],
-	['145.025',	'-37.229',	'145.069',	'-37.195', 'Broadford'	],
-	['144.931',	'-37.325',	'144.967',	'-37.281', 'Kilmore'	],
-	['144.845',	'-37.148',	'144.876',	'-37.111', 'Pyalong'	],
-	['145.12',	'-37.04',	'145.168',	'-37.006', 'Seymour'	],
-	['145.085',	'-37.109',	'145.112',	'-37.084', 'Tallarook'	],
-	['144.793',	'-37.049',	'144.803',	'-37.038', 'Tooborac'	],
-	['144.953',	'-37.431',	'145.021',	'-37.379', 'Wallan'	],
-	['145.018',	'-37.381',	'145.045',	'-37.349', 'Wandong'	],
-	['145.064',	'-37.303',	'145.069',	'-37.297', 'Waterford Park']];
+['141.079','-36.971','141.090','-36.965','Apsley'],
+['141.416','-37.282','141.423','-37.276','Chetwynd'],
+['141.212','-37.374','141.218','-37.367','Dergholm'],
+['141.276','-37.043','141.306','-37.019','Edenhope'],
+['141.469','-36.724','141.479','-36.715','Goroke'],
+['141.588','-37.170','141.595','-37.163','Harrow'],
+['141.233','-36.383','141.251','-36.370','Kaniva'],
+['141.127','-36.363','141.129','-36.362','Lillimur'],
+['141.339','-36.357','141.348','-36.353','Miram'],
+['140.981','-36.379','140.993','-36.372','Serviceton']
+];
 
 		
 // UI labels
@@ -63,11 +66,6 @@ var gtMapDataSources = {
 		title: "Remote GeoServer",
 		ptype: "gxp_wmscsource"
 	},
-//	local_gwc: {
-//		url: "/geoserver/gwc/service/wms",
-//		title: "GeoWebCache",
-//		ptype: "gxp_wmssource"
-//	},
 	mapquest: {
 		ptype: "gxp_mapquestsource"
 	},
@@ -82,22 +80,22 @@ var gtMapDataSources = {
 //	},
 	ol: {
 		ptype: "gxp_olsource"
-//	},
-//	dse: {
-//		url: "http://images.land.vic.gov.au/ecwp/ecw_wms.dll",
-//		title: "DSE Imagery Server"
 	}
-//	,
-//	localVicmap: {
-//		url: gtOWSEndPointVicmap,
-//		title: "Vicmap source",
-//		ptype: "gxp_wmscsource"
-//	}
 };
     
 // Initial layers      
 var gtLayers = [
 	{
+		source:"backend",
+		name:gtWorkspaceName+":VW_WEST_WIMMERA_MASK",
+		title:"Shire Mask",
+		visibility:true,
+		opacity:0.6,
+		format:"image/png8",
+		styles:"",
+		transparent:true,
+		tiled:false
+	},{
 		source:"backend",
 		name:gtWorkspaceName+":VICMAP_PROPERTY_ADDRESS",
 		title:"Property (Vicmap)",
@@ -106,9 +104,11 @@ var gtLayers = [
 		format:"image/png8",
 		styles:"",
 		transparent:true,
-		cached: false
+		tiled: false
 	},{
-//		source:"localVicmap",
+		source:"mapquest",
+		name: "osm"
+	},{
 		source:"backend",
 		name:"VicmapClassicGrampians",
 		title:"Vicmap Classic",
