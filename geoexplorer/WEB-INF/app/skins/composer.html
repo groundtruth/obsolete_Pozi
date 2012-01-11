@@ -14,9 +14,6 @@
     <link rel="stylesheet" type="text/css" href="externals/gxp/src/theme/all.css">
     <script type="text/javascript" src="script/gxp.js"></script>
 
-    <!-- proj4js resources -->
-    <!--script type="text/javascript" src="http://116.240.195.134/vicmapapi/js/proj/proj4js-compressed.js"></script -->
-
     <!-- GeoExplorer resources -->
     <link rel="stylesheet" type="text/css" href="theme/app/geoexplorer.css" />
     <!--[if IE]><link rel="stylesheet" type="text/css" href="theme/app/ie.css"/><![endif]-->
@@ -27,16 +24,9 @@
 	<script type="text/javascript">
 	</script>
 
-    <!-- <script type="text/javascript" src="script/config/buloke.js"></script> -->
-    <!-- <script type="text/javascript" src="script/GroundtruthExplorer.js"></script> -->
-
     <!-- PrintPreview resources -->
     <link rel="stylesheet" type="text/css" href="externals/PrintPreview/resources/css/printpreview.css">
     <script type="text/javascript" src="script/PrintPreview.js"></script>
-
-
-<!--    <script type="text/javascript" src="script/config/mitchell_local.js"></script> -->
-<!--    <script type="text/javascript" src="script/GroundtruthExplorer.js"></script> -->
 
     <script>
 
@@ -127,17 +117,17 @@
             GeoExt.Lang.set(OpenLayers.Util.getParameters()["locale"] || GeoExt.Lang.locale);
         }
         Ext.BLANK_IMAGE_URL = "theme/app/img/blank.gif";
-///		Proj4js.defs["EPSG:3111"] = "+proj=lcc +lat_1=-36 +lat_2=-38 +lat_0=-37 +lon_0=145 +x_0=2500000 +y_0=2500000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs";
-
         OpenLayers.ImgPath = "externals/openlayers/img/";
         // optionally set locale based on query string parameter
         if (GeoExt.Lang) {
             GeoExt.Lang.set(OpenLayers.Util.getParameters()["locale"] || GeoExt.Lang.locale);
         }
+
 		//var app = new GeoExplorer.Composer({
 
 		// App definition has to be at the global level for Groundtruth to load properly
 		var app;
+
 		// Callback from the load of GroundtruthExplorer
 		var gtScriptLoaded = function(){
 			app = new GroundtruthExplorer({
@@ -153,7 +143,6 @@
  	           tools: gtTools,
  	           sources: gtMapDataSources,
 			   map: {
-///			   		projection: "EPSG:3111",
 					projection: "EPSG:900913",
 					units: "m",
 					maxResolution: 156543.0339,
@@ -161,7 +150,6 @@
 						-20037508.34, -20037508.34,
 						20037508.34, 20037508.34
 					],
-///			   		maxExtent: [1786000.0, 1997264.499195665, 3953471.00160867, 3081000.0],
 					layers: gtLayers,
 					center: gtMapCenter,
 					zoom: gtMapZoom
@@ -170,3 +158,14 @@
 		}
         ;
     </script>
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-27881682-1']);
+		_gaq.push(['_trackPageview']);
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
