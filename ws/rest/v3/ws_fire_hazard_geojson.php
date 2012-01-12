@@ -22,12 +22,20 @@ $err_email = "herve.senot@groundtruth.com.au";
 
 # Retrive URL arguments
 try {
-	$latitude = $_REQUEST['lat'];
-	if ($latitude=='') {$latitude="-38";}
-	$longitude = $_REQUEST['lon'];
-	if ($longitude=='') {$longitude="144";}
-	$limit = $_REQUEST['limit'];
-	if ($limit=='') {$limit='10'};
+	if (!isset($_REQUEST['lat']))
+		{$latitude="-38";}
+	else
+		{$latitude = $_REQUEST['lat'];}
+
+	if (!isset($_REQUEST['lon']))
+		{$longitude="144";}
+	else
+		{$longitude = $_REQUEST['lon'];}
+
+	if (!isset($_REQUEST['limit']))
+		{$limit='10';}
+	else
+		{$limit = $_REQUEST['limit'];}
 //	$format = 'geojson';
 }
 catch (Exception $e) {

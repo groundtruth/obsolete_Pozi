@@ -22,8 +22,10 @@ $err_email = "herve.senot@groundtruth.com.au";
 # Retrive URL arguments
 try {
 	$query = $_REQUEST['query'];
-	$limit = $_REQUEST['limit'];
-	if ($limit=='') {$limit='10'};
+	if (!isset($_REQUEST['limit']))
+		{$limit='10';}
+	else
+		{$limit = $_REQUEST['limit'];}
 	$format = 'json';
 }
 catch (Exception $e) {
@@ -39,7 +41,7 @@ try {
 	$pgconn = pgConnection();
 
     /*** fetch into an PDOStatement object ***/
-//	echo $sql; 
+//	echo $sql;
    $recordSet = $pgconn->prepare($sql);
     $recordSet->execute();
 

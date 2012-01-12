@@ -24,8 +24,10 @@ $err_email = "herve.senot@groundtruth.com.au";
 try {
 	$latitude = $_REQUEST['latitude'];
 	$longitude = $_REQUEST['longitude'];
-	$limit = $_REQUEST['limit'];
-	if ($limit=='') {$limit='10'};
+	if (!isset($_REQUEST['limit']))
+		{$limit='10';}
+	else
+		{$limit = $_REQUEST['limit'];}
 	$format = 'json';
 }
 catch (Exception $e) {

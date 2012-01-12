@@ -23,10 +23,15 @@ try {
 	$prop_num = $_REQUEST['prop_num'];
 	$comments = $_REQUEST['comments'];
 	# Hazard type default to 1
-	$haz_type = $_REQUEST['haz_type'];
-	if ($haz_type==''){$haz_type = 1;}
-	$haz_status = $_REQUEST['haz_status'];
-	if ($haz_status==''){$haz_status = 1;}
+	if (!isset($_REQUEST['haz_type']))
+		{$haz_type=1;}
+	else
+		{$haz_type = $_REQUEST['haz_type'];}
+	# Hazard status default to 1
+	if (!isset($_REQUEST['haz_status']))
+		{$haz_status=1;}
+	else
+		{$haz_status = $_REQUEST['haz_status'];}
 }
 catch (Exception $e) {
     trigger_error("Caught Exception: " . $e->getMessage(), E_USER_ERROR);
