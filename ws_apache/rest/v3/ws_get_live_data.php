@@ -24,6 +24,7 @@ try {
 	$rol = $_REQUEST['role'];
 	$idp = $_REQUEST['id'];
 	$infogroup = $_REQUEST['infoGroup'];
+	$config = $_REQUEST['config'];
 	$format = 'json';
 }
 catch (Exception $e) {
@@ -33,11 +34,21 @@ catch (Exception $e) {
 # Performs the query and returns XML or JSON
 try {
 	$sql = sanitizeSQL("select * from gt_service_routing where role='".$rol."' and info_group='".$infogroup."'");
-///	echo "SQL1: ".$sql;
-	$pgconn = pgConnection();
+
+	// PG connection
+	//$pgconn = pgConnection();
+	// SQLite connection (using PDO)
+	if (file_exists($config.".sqlite"))
+	{
+		$sqliteConn = new PDO("sqlite:".$config.".sqlite", null, null, array(PDO::ATTR_PERSISTENT => true));
+	}
+	else
+	{
+		trigger_error("The SQLite configuration file for '".$config."' can not be found.", E_USER_ERROR);
+	}
 
     /*** fetch into an PDOStatement object ***/
-    $recordSet = $pgconn->prepare($sql);
+    $recordSet = $sqliteConn->prepare($sql);
     $recordSet->execute();
 
     $query_to_exec='';
@@ -69,18 +80,16 @@ try {
 		}
 	}
 
-///	echo "Q: ".$query_to_exec;
-///	echo "C: ".$connection_str;
-///	echo "U: ".$username_conn;
-///	echo "P: ".$password_conn;
-
-
+	foreach(PDO::getAvailableDrivers() as $driver)
+	{
+///		echo $driver.'<br />';
+	}
 
 	if ($idp && $connection_str)
 	{
 	    $odbcconn = new PDO($connection_str, $username_conn, $password_conn, array(PDO::ATTR_PERSISTENT => true));
-		$ODBCrecordSet = $odbcconn->prepare($query_to_exec.$idp."'");
-///		echo "SQL2: ".$query_to_exec.$idp."'";
+		$sql = $query_to_exec.$idp."'";
+		$ODBCrecordSet = $odbcconn->prepare($sql);
 		$ODBCrecordSet->execute();
 
 		require_once("../inc/json.pdo.inc.php");
@@ -96,7 +105,16 @@ try {
 	}
 	else
 	{
-		echo "{\"total_rows\":\"0\",\"rows\":[]}";
+		if (isset($_REQUEST['callback']))
+		{
+			header("Content-Type: text/javascript");
+			echo $_REQUEST['callback']."({\"total_rows\":\"0\",\"rows\":[]})";
+		}
+		else
+		{
+			header("Content-Type: application/json");
+			echo "{\"total_rows\":\"0\",\"rows\":[]}";
+		}
 	}
 
 }
