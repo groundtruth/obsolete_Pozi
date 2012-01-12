@@ -8,6 +8,7 @@ var gtFeatureNS = "http://www.pozi.com.au/mitchell";
 
 // Database config for the master search table
 var gtDatabaseConfig = "mitchellgis";
+var gtInternalDBConfig = "mitchell";
 
 //  Services
 var gtServicesHost = "http://www.pozi.com";
@@ -19,8 +20,8 @@ var gtWFSEndPoint = 		gtServicesHost + "/geoserver/wfs";
 var gtSearchPropertyEndPoint =  gtServicesHost + "/ws/rest/v3/ws_property_id_by_propnum.php";
 var gtSearchComboEndPoint = 	gtServicesHost + "/ws/rest/v3/ws_all_features_by_string.php";
 
-var gtGetLayoutEndPoint='http://localhost/ws/rest/v3/ws_get_layouts.php';
-var gtGetLiveDataEndPoint='http://localhost/ws/rest/v3/ws_get_live_data.php';
+var gtGetLayoutEndPoint='http://localhost/ws_apache/rest/v3/ws_get_layouts.php';
+var gtGetLiveDataEndPoint='http://localhost/ws_apache/rest/v3/ws_get_live_data.php';
 
 // External resources
 //var gtPoziLogoSrc = gtServicesHost+"/"+"theme/app/img/pozi-logo.png";

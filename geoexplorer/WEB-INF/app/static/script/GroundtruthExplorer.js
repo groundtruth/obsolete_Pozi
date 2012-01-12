@@ -541,7 +541,7 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 			        ]),
 				baseParams: {
 					role: gCurrentLoggedRole,
-					config:gtDatabaseConfig
+					config:gtInternalDBConfig
 				},
 				listeners:
 				{
@@ -674,7 +674,7 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 													   	// Passing the tab name
 													   	infoGroup: configArray[i].id,
 													   	// Passing the database to query
-													   	config:gtDatabaseConfig
+													   	config:gtInternalDBConfig
 													},
 													listeners:
 													{

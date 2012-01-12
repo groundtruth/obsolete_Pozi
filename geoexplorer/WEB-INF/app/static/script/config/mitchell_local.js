@@ -2,25 +2,32 @@
 
 // Workspace containing the layers and corresponding namespace
 var gtWorkspaceName= "MITCHELL"; 
+// In a multi-council database setup, use 346
+var gtLGACode = "";
 var gtFeatureNS = "http://www.pozi.com.au/mitchell";
 
 // Database config for the master search table
 var gtDatabaseConfig = "mitchellgis";
+var gtInternalDBConfig = "mitchell";
 
 //  Services
+///var gtServicesHost = "http://www.pozi.com";
 var gtServicesHost = "http://localhost";
-//var gtOWSEndPoint = 		gtServicesHost + "/geoserver/"+gtWorkspaceName+"/ows";
+////var gtOWSEndPoint = 		gtServicesHost + "/geoserver/"+gtWorkspaceName+"/ows";
 var gtOWSEndPoint = 		gtServicesHost + "/geoserver/ows";
 //var gtOWSEndPointVicmap = 	gtServicesHost + "/geoserver/ows";
 var gtWFSEndPoint = 		gtServicesHost + "/geoserver/wfs";
 var gtSearchPropertyEndPoint =  gtServicesHost + "/ws/rest/v3/ws_property_id_by_propnum.php";
 var gtSearchComboEndPoint = 	gtServicesHost + "/ws/rest/v3/ws_all_features_by_string.php";
 
+var gtGetLayoutEndPoint='http://localhost/ws_apache/rest/v3/ws_get_layouts.php';
+var gtGetLiveDataEndPoint='http://localhost/ws_apache/rest/v3/ws_get_live_data.php';
+
 // External resources
-var gtPoziLogoSrc = gtServicesHost+"/"+"theme/app/img/pozi-logo.png";
-var gtPoziLogoWidth = 165; 
+//var gtPoziLogoSrc = gtServicesHost+"/"+"theme/app/img/pozi-logo.png";
+//var gtPoziLogoWidth = 165; 
 var gtLogoClientSrc = gtServicesHost+"/"+"theme/app/img/mitchell_banner.jpg";
-var gtLogoClientWidth=265;
+var gtLogoClientWidth=238;
 
 // Map resources
 // Center determined by: select ST_AsText(ST_Transform(ST_SetSRID(ST_Centroid(the_geom),4283),900913)) from dse_vmadmin_lga where lga_name='MITCHELL'
@@ -38,8 +45,8 @@ var gtQuickZoomDatastore = [
 	['144.953',	'-37.431',	'145.021',	'-37.379', 'Wallan'	],
 	['145.018',	'-37.381',	'145.045',	'-37.349', 'Wandong'	],
 	['145.064',	'-37.303',	'145.069',	'-37.297', 'Waterford Park']];
-	
-	
+
+		
 // UI labels
 var gtDetailsTitle='Details';
 var gtInfoTitle = 'Info';
@@ -114,7 +121,7 @@ var gtLayers = [
 	},{
 		source:"local",
 		name:gtWorkspaceName+":VICMAP_BUILDINGREG_BUSHFIRE_PRONE_AREA",
-		title:"Busfire-Prone Areas (Vicmap)",
+		title:"Bushfire-Prone Areas (Vicmap)",
 		visibility:false,
 		opacity:0.25,
 		format:"image/png8",
@@ -151,6 +158,15 @@ var gtLayers = [
 		source:"local",
 		name:gtWorkspaceName+":MSC_SPORTS_RESERVE",
 		title:"Sports Reserves",
+		visibility:false,
+		opacity:0.75,
+		format:"image/png",
+		styles:"",
+		transparent:true
+	},{
+		source:"local",
+		name:gtWorkspaceName+":MSC_CUSTOMER_SERVICE_CENTRE",
+		title:"Customer Service Centres",
 		visibility:false,
 		opacity:0.75,
 		format:"image/png",
@@ -196,7 +212,7 @@ var gtLayers = [
 			"None", {visibility: false}
 		]
 	}];
-	
+
 
 // WFS layer: style , definition , namespaces
 var gtStyleMap = new OpenLayers.StyleMap();
@@ -235,19 +251,20 @@ var gtTools = [{
 			outputConfig: {
 				autoScroll: true
 			}
-		}, {
-			ptype: "gxp_addlayers",
-			actionTarget: "tree.tbar",
-			upload: true
-		}, {
-			ptype: "gxp_removelayer",
-			actionTarget: ["tree.tbar", "layertree.contextMenu"]
+//		}, {
+//			ptype: "gxp_addlayers",
+//			actionTarget: "tree.tbar",
+//			upload: true
+//		}, {
+//			ptype: "gxp_removelayer",
+//			actionTarget: ["tree.tbar", "layertree.contextMenu"]
 		}, {
 			ptype: "gxp_layerproperties",
-			actionTarget: ["tree.tbar", "layertree.contextMenu"]
-		}, {
-			ptype: "gxp_styler",
-			actionTarget: ["tree.tbar", "layertree.contextMenu"]
+///			actionTarget: ["tree.tbar", "layertree.contextMenu"]
+			actionTarget: ["layertree.contextMenu"]
+//		}, {
+//			ptype: "gxp_styler",
+//			actionTarget: ["tree.tbar", "layertree.contextMenu"]
 		}, {
 			ptype: "gxp_zoomtolayerextent",
 			actionTarget: {
@@ -332,60 +349,18 @@ var gtTools = [{
 
 	var gtCreateTools = function () {
 		var tools = GeoExplorer.Composer.superclass.createTools.apply(this, arguments);
-		if (this.authorizedRoles.length === 0) {
-			this.loginButton = new Ext.Button({
-				iconCls: 'login',
-				text: this.loginText,
-				handler: this.showLoginDialog,
-				scope: this
-			});
-			tools.push(['->', this.loginButton]);
-		} else {
-
-		}
-		var aboutButton = new Ext.Button({
-			text: "Pozi",
-			iconCls: "icon-geoexplorer",
-			handler: 
-				function () {
-					var appInfo = new Ext.Panel({
-						title: this.appInfoText,
-						html: "<iframe style='border: none; height: 100%; width: 100%' src='about.html' frameborder='0' border='0'><a target='_blank' href='about.html'>" + this.aboutText + "</a> </iframe>"
-					});
-//					var about = Ext.applyIf(this.about, {
-//						title: '',
-//						"abstract": '',
-//						contact: ''
-//					});
-//					var mapInfo = new Ext.Panel({
-//						title: this.mapInfoText,
-//						html: '<div class="gx-info-panel">' + '<h2>' + this.titleText + '</h2><p>' + about.title + '</p><h2>' + this.descriptionText + '</h2><p>' + about['abstract'] + '</p> <h2>' + this.contactText + '</h2><p>' + about.contact + '</p></div>',
-//						height: 'auto',
-//						width: 'auto'
-//					});
-					var poziInfo = new Ext.Panel({
-						title: "Pozi",
-						html: "<iframe style='border: none; height: 100%; width: 100%' src='about-pozi.html' frameborder='0' border='0'><a target='_blank' href='about-pozi.html'>" + "</a> </iframe>"
-					});
-					var tabs = new Ext.TabPanel({
-						activeTab: 0,
-						items: [
-						poziInfo,appInfo]
-					});
-					var win = new Ext.Window({
-						title: this.aboutThisMapText,
-						modal: true,
-						layout: "fit",
-						width: 300,
-						height: 300,
-						items: [
-						tabs]
-					});
-					win.show();
-				},			
-			scope: this
-		});
-		tools.unshift("-");
+///		if (this.authorizedRoles.length === 0) {
+///			this.loginButton = new Ext.Button({
+///				iconCls: 'login',
+///				text: this.loginText,
+///				handler: this.showLoginDialog,
+///				scope: this
+///			});
+///			tools.push(['->', this.loginButton]);
+///		} else {
+///
+///		}
+		tools.unshift("");
 //		tools.unshift(new Ext.Button({
 //			tooltip: this.exportMapText,
 //			needsAuthorization: true,
@@ -406,12 +381,41 @@ var gtTools = [{
 //			scope: this,
 //			iconCls: "icon-save"
 //		}));
-		tools.unshift("-");
-		tools.unshift(aboutButton);
+		tools.unshift("");
 		return tools;
 	};
 	
 	
-var gtInitialDisclaimerFlag=false;
+var poziLinkClickHandler = function () {
+	var appInfo = new Ext.Panel({
+		title: "GeoExplorer",
+		html: "<iframe style='border: none; height: 100%; width: 100%' src='about.html' frameborder='0' border='0'><a target='_blank' href='about.html'>" + this.aboutText + "</a> </iframe>"
+	});
+	var poziInfo = new Ext.Panel({
+		title: "Pozi Explorer",
+		html: "<iframe style='border: none; height: 100%; width: 100%' src='about-pozi.html' frameborder='0' border='0'><a target='_blank' href='about-pozi.html'>" + "</a> </iframe>"
+	});
+	var tabs = new Ext.TabPanel({
+		activeTab: 0,
+		items: [
+		poziInfo,appInfo]
+	});
+	var win = new Ext.Window({
+		title: "About this map",
+		modal: true,
+		layout: "fit",
+		width: 300,
+		height: 300,
+		items: [
+			tabs]
+		});
+	win.show();
+};	
+	
+var gtInitialDisclaimerFlag=true;
 var gtDisclaimer="disclaimer.html";
 var gtRedirectIfDeclined="http://www.mitchellshire.vic.gov.au/";
+var gtLinkToCouncilWebsite="http://www.mitchellshire.vic.gov.au/";
+var gtBannerLineColor="#DE932A";
+var gtBannerRightCornerLine1="Mitchell Shire Council";
+var gtBannerRightCornerLine2="Victoria, Australia";
