@@ -406,10 +406,10 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 			for(var l in app.mapPanel.map.layers)
 			{
 				// Additional WMS parameters - allows printing of the imagery at Buloke (username and password to be reinstated when deploying onsite)			
-				if (app.mapPanel.map.layers[l].name=="Aerial Photo (CIP 2009)")
+				if (app.mapPanel.map.layers[l].name.substring(0,12)==="Aerial Photo")
 				{
-					app.mapPanel.map.layers[l].params["USERNAME"]="";
-					app.mapPanel.map.layers[l].params["PASSWORD"]="";
+					app.mapPanel.map.layers[l].params["USERNAME"]=gtAerialUsername;
+					app.mapPanel.map.layers[l].params["PASSWORD"]=gtAerialPassword;
 				}
 			}
 		

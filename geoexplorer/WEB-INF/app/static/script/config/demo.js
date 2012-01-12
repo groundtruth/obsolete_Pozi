@@ -10,6 +10,10 @@ var gtFeatureNS = "http://www.pozi.com.au/moyne";
 var gtDatabaseConfig = "moynegis";
 var gtInternalDBConfig = "moyne";
 
+// Aerial imagery credentials
+gtAerialUsername = "";
+gtAerialPassword = "";
+
 //  Services
 var gtServicesHost = "http://www.pozi.com";
 ///var gtServicesHost = "http://localhost";

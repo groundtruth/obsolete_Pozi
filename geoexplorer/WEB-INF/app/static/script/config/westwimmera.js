@@ -10,6 +10,10 @@ var gtFeatureNS = "http://www.pozi.com/grampians";
 var gtDatabaseConfig = "grampiansgis";
 var gtInternalDBConfig = "westwimmera";
 
+// Aerial imagery credentials
+gtAerialUsername = "";
+gtAerialPassword = "";
+
 //  Services
 var gtServicesHost = "http://49.156.17.41";
 ///var gtServicesHost = "http://localhost";

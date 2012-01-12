@@ -10,6 +10,10 @@ var gtFeatureNS = "http://www.pozi.com.au/mitchell";
 var gtDatabaseConfig = "mitchellgis";
 var gtInternalDBConfig = "mitchell";
 
+// Aerial imagery credentials
+gtAerialUsername = "sweepingplains";
+gtAerialPassword = "sunburntcountry";
+
 //  Services
 ///var gtServicesHost = "http://www.pozi.com";
 var gtServicesHost = "http://localhost";

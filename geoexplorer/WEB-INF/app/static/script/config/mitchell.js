@@ -10,6 +10,10 @@ var gtFeatureNS = "http://www.pozi.com.au/mitchell";
 var gtDatabaseConfig = "mitchellgis";
 var gtInternalDBConfig = "mitchell";
 
+// Aerial imagery credentials
+gtAerialUsername = "sweepingplains";
+gtAerialPassword = "sunburntcountry";
+
 //  Services
 var gtServicesHost = "http://www.pozi.com";
 ///var gtServicesHost = "http://localhost";
@@ -85,10 +89,10 @@ var gtMapDataSources = {
 //	},
 	ol: {
 		ptype: "gxp_olsource"
-//	},
-//	dse: {
-//		url: "http://images.land.vic.gov.au/ecwp/ecw_wms.dll",
-//		title: "DSE Imagery Server"
+	},
+	dse: {
+		url: "http://images.land.vic.gov.au/ecwp/ecw_wms.dll",
+		title: "DSE Imagery Server"
 	}
 //	,
 //	localVicmap: {
@@ -100,6 +104,16 @@ var gtMapDataSources = {
     
 // Initial layers      
 var gtLayers = [
+	{
+		source:"dse",
+		name :"AERIAL_MITCHELL_2007JAN26_AIR_VIS_50CM_MGA55",
+		title:"Aerial Photo (CIP 2007)",
+		visibility:false,
+		opacity:0.9,
+		selected:false,
+		format:"image/JPEG",
+		transparent:true
+	},
 	{
 		source:"local",
 		name:gtWorkspaceName+":VMPLAN_ZONE_CODELIST",

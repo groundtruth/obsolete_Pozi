@@ -2,10 +2,17 @@
 
 // Workspace containing the layers and corresponding namespace
 var gtWorkspaceName= "BULOKE"; 
+// In a multi-council database setup, use a non-null value
+var gtLGACode = "";
 var gtFeatureNS = "http://www.pozi.com.au/buloke";
 
 // Database config for the master search table
 var gtDatabaseConfig = "bulokegis";
+var gtInternalDBConfig = "buloke";
+
+// Aerial imagery credentials
+gtAerialUsername = "gtruth";
+gtAerialPassword = "buloke";
 
 //  Services
 ////var gtServicesHost = "http://pozi";
@@ -18,9 +25,12 @@ var gtWFSEndPoint = 		gtServicesHost + "/geoserver/wfs";
 var gtSearchPropertyEndPoint =  gtServicesHost + "/ws/rest/v3/ws_property_id_by_propnum.php";
 var gtSearchComboEndPoint = 	gtServicesHost + "/ws/rest/v3/ws_all_features_by_string.php";
 
+var gtGetLayoutEndPoint='http://localhost/ws_apache/rest/v3/ws_get_layouts.php';
+var gtGetLiveDataEndPoint='http://localhost/ws_apache/rest/v3/ws_get_live_data.php';
+
 // External resources
-var gtPoziLogoSrc = gtServicesHost+"/"+"theme/app/img/pozi-logo.png";
-var gtPoziLogoWidth = 165; 
+//var gtPoziLogoSrc = gtServicesHost+"/"+"theme/app/img/pozi-logo.png";
+//var gtPoziLogoWidth = 165; 
 var gtLogoClientSrc = gtServicesHost+"/"+"theme/app/img/buloke_banner.png";
 var gtLogoClientWidth=179;
 
