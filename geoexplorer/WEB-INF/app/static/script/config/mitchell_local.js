@@ -8,7 +8,6 @@ var gtFeatureNS = "http://www.pozi.com.au/mitchell";
 
 // Database config for the master search table
 var gtDatabaseConfig = "mitchellgis";
-var gtInternalDBConfig = "mitchellgis";
 
 // Aerial imagery credentials
 gtAerialUsername = "sweepingplains";
@@ -24,12 +23,12 @@ var gtWFSEndPoint = 		gtServicesHost + "/geoserver/wfs";
 var gtSearchPropertyEndPoint =  gtServicesHost + "/ws/rest/v3/ws_property_id_by_propnum.php";
 var gtSearchComboEndPoint = 	gtServicesHost + "/ws/rest/v3/ws_all_features_by_string.php";
 
-var gtGetLayoutEndPoints=['http://localhost/ws_apache/rest/v3/ws_get_layouts_sqlite.php','http://www.pozi.com/ws/rest/v3/ws_get_layouts_pgsql.php'];
-//var gtGetLiveDataEndPoint='http://localhost/ws_apache/rest/v3/ws_get_live_data.php';
+var gtGetLiveDataEndPoints=[
+	{ urlLayout:'http://localhost/ws_apache/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://localhost/ws_apache/rest/v3/ws_get_live_data.php',	storeMode:'sqlite',	storeName:'mitchell'},
+	{ urlLayout:'http://www.pozi.com/ws/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://www.pozi.com/ws/rest/v3/ws_get_live_data.php',	storeMode:'pgsql',	storeName:'mitchellgis'}
+];
 
-// External resources
-//var gtPoziLogoSrc = gtServicesHost+"/"+"theme/app/img/pozi-logo.png";
-//var gtPoziLogoWidth = 165; 
+// External resources 
 var gtLogoClientSrc = gtServicesHost+"/"+"theme/app/img/mitchell_banner.jpg";
 var gtLogoClientWidth=238;
 

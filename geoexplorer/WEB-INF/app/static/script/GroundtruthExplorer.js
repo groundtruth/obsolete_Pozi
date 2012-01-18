@@ -530,14 +530,14 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 			
 			// Using endpoints array
 			var ds;
-			for (urlIdx in gtGetLayoutEndPoints)
+			for (urlIdx in gtGetLiveDataEndPoints)
 			{
 				if (urlIdx != "remove")
 				{
 					ds = new Ext.data.Store({
 						autoLoad:true,
 						proxy: new Ext.data.ScriptTagProxy({
-							url: gtGetLayoutEndPoints[urlIdx]
+							url: gtGetLiveDataEndPoints[urlIdx].urlLayout
 						}),
 						reader: new Ext.data.JsonReader({	
 							root: 'rows',
@@ -548,7 +548,8 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 						]),
 						baseParams: {
 							role: gCurrentLoggedRole,
-							config:gtInternalDBConfig
+							mode: gtGetLiveDataEndPoints[urlIdx].storeMode,
+							config: gtGetLiveDataEndPoints[urlIdx].storeName
 						},
 						listeners:
 						{
@@ -557,16 +558,17 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 								// Setting up a global variable array to define the info panel layouts
 								for (key=0;key<recs.length;key++)
 								{
+									var a = recs[key].json.row.val_arr[0];
+								
 									if (gLayoutsArr[recs[key].json.row.key_arr])
 									{
 										// If this key (layer) already exists, we add the JSON element (tab) to its value (tab array)
-										gLayoutsArr[recs[key].json.row.key_arr].push(recs[key].json.row.val_arr[0]);
-										echo;
+										gLayoutsArr[recs[key].json.row.key_arr].push(a);
 									}
 									else
 									{
 										// We create this key if it didn't exist
-										gLayoutsArr[recs[key].json.row.key_arr]=recs[key].json.row.val_arr;
+										gLayoutsArr[recs[key].json.row.key_arr]=[a];
 									}
 								}
 							}
@@ -676,8 +678,7 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 												var ds = new Ext.data.Store({
 													autoLoad:true,
 													proxy: new Ext.data.ScriptTagProxy({
-//														url: gtGetLiveDataEndPoint
-														url: configArray[i].url
+														url: gtGetLiveDataEndPoints[configArray[i].definition].urlLiveData
 													}),
 													reader: new Ext.data.JsonReader({	
 														root: 'rows',
@@ -693,8 +694,10 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 													   	id: record.data.content[configArray[i].idName],
 													   	// Passing the tab name
 													   	infoGroup: configArray[i].id,
-													   	// Passing the database to query
-													   	config:gtInternalDBConfig
+													   	// Passing the database type to query
+													   	mode: gtGetLiveDataEndPoints[configArray[i].definition].storeMode,
+													   	// Passing the database name to query
+													   	config: gtGetLiveDataEndPoints[configArray[i].definition].storeName												   	
 													},
 													listeners:
 													{

@@ -25,6 +25,7 @@ try {
 	$idp = $_REQUEST['id'];
 	$infogroup = $_REQUEST['infoGroup'];
 	$config = $_REQUEST['config'];
+	$mode= $_REQUEST['mode'];
 	$format = 'json';
 }
 catch (Exception $e) {
@@ -33,22 +34,34 @@ catch (Exception $e) {
 
 # Performs the query and returns XML or JSON
 try {
+
 	$sql = sanitizeSQL("select * from gt_service_routing where role='".$rol."' and info_group='".$infogroup."'");
 
-	// PG connection
-	//$pgconn = pgConnection();
-	// SQLite connection (using PDO)
-	if (file_exists($config.".sqlite"))
+	if ($mode == 'pgsql')
 	{
-		$sqliteConn = new PDO("sqlite:".$config.".sqlite", null, null, array(PDO::ATTR_PERSISTENT => true));
+		$pgconn = pgConnection();
+		$conn = $pgconn;
+	}
+	elseif ($mode == 'sqlite')
+	{
+		// SQLite connection (using PDO) - relies on the SQLite file to be in the same directory as this script
+		if (file_exists($config.".sqlite"))
+		{
+			$sqliteConn = new PDO("sqlite:".$config.".sqlite", null, null, array(PDO::ATTR_PERSISTENT => true));
+			$conn = $sqliteConn;
+		}
+		else
+		{
+			trigger_error("The SQLite configuration file for '".$config."' can not be found.", E_USER_ERROR);
+		}
 	}
 	else
 	{
-		trigger_error("The SQLite configuration file for '".$config."' can not be found.", E_USER_ERROR);
+		// Trigger error, this should not happen
 	}
 
     /*** fetch into an PDOStatement object ***/
-    $recordSet = $sqliteConn->prepare($sql);
+    $recordSet = $conn->prepare($sql);
     $recordSet->execute();
 
     $query_to_exec='';
@@ -80,17 +93,15 @@ try {
 		}
 	}
 
-	foreach(PDO::getAvailableDrivers() as $driver)
-	{
-///		echo $driver.'<br />';
-	}
-
 	if ($idp && $connection_str)
 	{
-	    $odbcconn = new PDO($connection_str, $username_conn, $password_conn, array(PDO::ATTR_PERSISTENT => true));
+		// Establishing the connection based on the configuration in gt_service_routing
+	    $conn2 = new PDO($connection_str, $username_conn, $password_conn, array(PDO::ATTR_PERSISTENT => true));
+
 		$sql = $query_to_exec.$idp."'";
-		$ODBCrecordSet = $odbcconn->prepare($sql);
-		$ODBCrecordSet->execute();
+		//echo $sql;
+		$recordSet2 = $conn2->prepare($sql);
+		$recordSet2->execute();
 
 		require_once("../inc/json.pdo.inc.php");
 		if (isset($_REQUEST['callback']))
@@ -101,7 +112,7 @@ try {
 		{
 			header("Content-Type: application/json");
 		}
-		echo rs2json($ODBCrecordSet);
+		echo rs2json($recordSet2);
 	}
 	else
 	{
