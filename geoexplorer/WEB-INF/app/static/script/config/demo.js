@@ -8,7 +8,6 @@ var gtFeatureNS = "http://www.pozi.com.au/moyne";
 
 // Database config for the master search table
 var gtDatabaseConfig = "moynegis";
-var gtInternalDBConfig = "moyne";
 
 // Aerial imagery credentials
 gtAerialUsername = "";
@@ -24,12 +23,12 @@ var gtWFSEndPoint = 		gtServicesHost + "/geoserver/wfs";
 var gtSearchPropertyEndPoint =  gtServicesHost + "/ws/rest/v3/ws_property_id_by_propnum.php";
 var gtSearchComboEndPoint = 	gtServicesHost + "/ws/rest/v3/ws_all_features_by_string.php";
 
-var gtGetLayoutEndPoint='http://localhost/ws_apache/rest/v3/ws_get_layouts.php';
-var gtGetLiveDataEndPoint='http://localhost/ws_apache/rest/v3/ws_get_live_data.php';
+var gtGetLiveDataEndPoints=[
+	{ urlLayout:'http://localhost/ws_apache/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://localhost/ws_apache/rest/v3/ws_get_live_data.php',	storeMode:'sqlite',	storeName:'moyne'},
+	{ urlLayout:'http://www.pozi.com/ws/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://www.pozi.com/ws/rest/v3/ws_get_live_data.php',	storeMode:'pgsql',	storeName:'moynegis'}
+];
 
 // External resources
-var gtPoziLogoSrc = gtServicesHost+"/"+"theme/app/img/pozi-logo.png";
-var gtPoziLogoWidth = 165; 
 var gtLogoClientSrc = gtServicesHost+"/"+"theme/app/img/blank.gif";
 var gtLogoClientWidth=1;
 
@@ -358,3 +357,7 @@ var gtTools = [{
 var gtInitialDisclaimerFlag=false;
 var gtDisclaimer="disclaimer.html";
 var gtRedirectIfDeclined="http://www.moyne.vic.gov.au/";
+var gtLinkToCouncilWebsite="http://www.moyne.vic.gov.au/";
+var gtBannerLineColor="#000066";
+var gtBannerRightCornerLine1="Moyne Shire Council";
+var gtBannerRightCornerLine2="Victoria, Australia";
