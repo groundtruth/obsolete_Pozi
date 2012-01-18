@@ -527,34 +527,53 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 			
 			// Extraction of the information panel layouts for the current authorized role
 			// We should degrade nicely if the service is not found
-			var ds = new Ext.data.Store({
-				autoLoad:true,
-				proxy: new Ext.data.ScriptTagProxy({
-					url: gtGetLayoutEndPoint
-				}),
-				reader: new Ext.data.JsonReader({	
-					root: 'rows',
-					totalProperty: 'total_rows',
-					id: 'key_arr'	
-					}, 
-					[	{name: 'key_arr', mapping: 'row.key_arr'}
-			        ]),
-				baseParams: {
-					role: gCurrentLoggedRole,
-					config:gtInternalDBConfig
-				},
-				listeners:
+			
+			// Using endpoints array
+			var ds;
+			for (urlIdx in gtGetLayoutEndPoints)
+			{
+				if (urlIdx != "remove")
 				{
-					load: function(store, recs)
-					{
-						// Setting up a global variable array to define the info panel layouts
-						for (key=0;key<recs.length;key++)
+					ds = new Ext.data.Store({
+						autoLoad:true,
+						proxy: new Ext.data.ScriptTagProxy({
+							url: gtGetLayoutEndPoints[urlIdx]
+						}),
+						reader: new Ext.data.JsonReader({	
+							root: 'rows',
+							totalProperty: 'total_rows',
+							id: 'key_arr'	
+							}, 
+							[	{name: 'key_arr', mapping: 'row.key_arr'}
+						]),
+						baseParams: {
+							role: gCurrentLoggedRole,
+							config:gtInternalDBConfig
+						},
+						listeners:
 						{
-							gLayoutsArr[recs[key].json.row.key_arr]=recs[key].json.row.val_arr;
+							load: function(store, recs)
+							{
+								// Setting up a global variable array to define the info panel layouts
+								for (key=0;key<recs.length;key++)
+								{
+									if (gLayoutsArr[recs[key].json.row.key_arr])
+									{
+										// If this key (layer) already exists, we add the JSON element (tab) to its value (tab array)
+										gLayoutsArr[recs[key].json.row.key_arr].push(recs[key].json.row.val_arr[0]);
+										echo;
+									}
+									else
+									{
+										// We create this key if it didn't exist
+										gLayoutsArr[recs[key].json.row.key_arr]=recs[key].json.row.val_arr;
+									}
+								}
+							}
 						}
-					}
+					});
 				}
-			});
+			}
 		        
 		});
 
@@ -657,7 +676,8 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 												var ds = new Ext.data.Store({
 													autoLoad:true,
 													proxy: new Ext.data.ScriptTagProxy({
-														url: gtGetLiveDataEndPoint
+//														url: gtGetLiveDataEndPoint
+														url: configArray[i].url
 													}),
 													reader: new Ext.data.JsonReader({	
 														root: 'rows',

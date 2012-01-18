@@ -30,26 +30,28 @@ catch (Exception $e) {
 # Performs the query and returns XML or JSON
 try {
 	// PGSQL query
-	// $sql = sanitizeSQL("select gs1.layer_name as key_arr,'['||array_to_string(array(select gs2.ext_group_definition from gt_service_routing gs2 where gs2.role='".$rol."' and gs2.layer_name=gs1.layer_name),',')||']' as val_arr from (select layer_name from gt_service_routing where role='".$rol."' group by layer_name) gs1");
+	$sql = sanitizeSQL("select gs1.layer_name as key_arr,'['||array_to_string(array(select gs2.ext_group_definition from gt_service_routing gs2 where gs2.role='".$rol."' and gs2.layer_name=gs1.layer_name),',')||']' as val_arr from (select layer_name from gt_service_routing where role='".$rol."' group by layer_name) gs1");
 	// SQLITE query
-	$sql = sanitizeSQL("select layer_name as key_arr,\"[\"||group_concat(ext_group_definition,\",\")||\"]\" as val_arr from gt_service_routing where role='".$rol."'");
+	//$sql = sanitizeSQL("select layer_name as key_arr,\"[\"||group_concat(ext_group_definition,\",\")||\"]\" as val_arr from gt_service_routing where role='".$rol."'");
 
 	//echo $sql."\n";
 
 	// Postgre connection
-	//$pgconn = pgConnection();
-	// SQLite connection (using PDO)
-	if (file_exists($config.".sqlite"))
-	{
-		$sqliteConn = new PDO("sqlite:".$config.".sqlite", null, null, array(PDO::ATTR_PERSISTENT => true));
-	}
-	else
-	{
-		trigger_error("The SQLite configuration file for '".$config."' can not be found.", E_USER_ERROR);
-	}
+	$pgconn = pgConnection();
+/// SQLite connection (using PDO)
+///	if (file_exists($config.".sqlite"))
+///	{
+///		$sqliteConn = new PDO("sqlite:".$config.".sqlite", null, null, array(PDO::ATTR_PERSISTENT => true));
+///	}
+///	else
+///	{
+///		trigger_error("The SQLite configuration file for '".$config."' can not be found.", E_USER_ERROR);
+///	}
+
+	$conn = $pgconn;
 
     /*** fetch into an PDOStatement object ***/
-    $recordSet = $sqliteConn->prepare($sql);
+    $recordSet = $conn->prepare($sql);
     $recordSet->execute();
 
 	require_once("../inc/json.pdo.inc.php");
