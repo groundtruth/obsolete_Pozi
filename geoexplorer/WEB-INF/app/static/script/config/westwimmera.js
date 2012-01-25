@@ -25,7 +25,7 @@ var gtSearchComboEndPoint = 	gtServicesHost + "/ws/rest/v3/ws_all_features_by_st
 
 var gtGetLiveDataEndPoints=[
 	{ urlLayout:'http://localhost/ws_apache/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://localhost/ws_apache/rest/v3/ws_get_live_data.php',	storeMode:'sqlite',	storeName:'westwimmera'},
-	{ urlLayout:'http://www.pozi.com/ws/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://www.pozi.com/ws/rest/v3/ws_get_live_data.php',	storeMode:'pgsql',	storeName:'westwimmeragis'}
+	{ urlLayout:'http://49.156.17.41/ws/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://49.156.17.41/ws/rest/v3/ws_get_live_data.php',	storeMode:'pgsql',	storeName:'vicmap'}
 ];
 
 // External resources
