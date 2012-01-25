@@ -64,10 +64,11 @@ try {
     $recordSet = $conn->prepare($sql);
     $recordSet->execute();
 
-    $query_to_exec='';
-    $connection_str ='';
-    $username_conn ='';
+	$query_to_exec='';	
+	$connection_str ='';	
+	$username_conn ='';
 	$password_conn ='';
+	$query_end ='';
 
     // Using the query returned to build an ODBC request
 	while ($row  = $recordSet->fetch(PDO::FETCH_ASSOC))
@@ -77,6 +78,10 @@ try {
 			if ($key == "query")
 			{
 				$query_to_exec = $val;
+			}
+			if ($key == "query_end")
+			{
+				$query_end = $val;
 			}
 			if ($key == "odbc_conn_str")
 			{
@@ -98,7 +103,7 @@ try {
 		// Establishing the connection based on the configuration in gt_service_routing
 	    $conn2 = new PDO($connection_str, $username_conn, $password_conn, array(PDO::ATTR_PERSISTENT => true));
 
-		$sql = $query_to_exec.$idp."'";
+		$sql = $query_to_exec.$idp.$query_end;
 		//echo $sql;
 		$recordSet2 = $conn2->prepare($sql);
 		$recordSet2->execute();
