@@ -643,19 +643,59 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 														{
 													   		// A JSONP is returned, we just want to insert the content in the corresponding accordion
 													   		var res_data = recs[0].json.row;
-															var item_array=new Array();
-												   		
 													   		if (res_data)
 													   		{
+																var item_array2 = new Array();
+																var has_gsv = false;
 																for (j in res_data)
 																{
 																	if (j!="target")
 																	{
-																		// Formatting the cells for attribute display in a tidy table
-																		item_array.push({html:"<div style='font-size:8pt;'><font color='#666666'>"+j+"</font></div>"});
-																		item_array.push({html:"<div style='font-size:10pt;'>"+res_data[j]+"</div>"});	
+																		if (j.search(/^gsv/)>-1)
+																		{
+																			// Not showing the cells - technical properties for Google Street View
+																			has_gsv = true;
+																		}
+																		else
+																		{
+																			// Formatting the cells for attribute display in a tidy table
+																			item_array2.push({html:"<div style='font-size:8pt;'><font color='#666666'>"+j+"</font></div>"});
+																			item_array2.push({html:"<div style='font-size:10pt;'>"+res_data[j]+"</div>"});
+																		}
 																	}
 																}
+
+																// Adding a Google Street View link for selected datasets
+																if (has_gsv)
+																{
+																	var gsv_lat, gsv_lon, gsv_head=0;
+
+																	for(var k in res_data)
+																	{
+																		if (k=="gsv_lat")
+																		{
+																			gsv_lat=res_data[k];
+																		}
+																		if (k=="gsv_lon")
+																		{
+																			gsv_lon=res_data[k];
+																		}
+																		if (k=="gsv_head")
+																		{
+																			gsv_head=res_data[k];
+																		}												
+																	}
+
+																	if (gsv_lat && gsv_lon)
+																	{
+																		// Adjusted to the size of the column
+																		var size_thumb = 245;
+																		var gsvthumb = "http://maps.googleapis.com/maps/api/streetview?location="+gsv_lat+","+gsv_lon+"&fov=90&heading="+gsv_head+"&pitch=-10&sensor=false&size="+size_thumb+"x"+size_thumb;
+																		var gsvlink = "http://maps.google.com.au/maps?layer=c&cbll="+gsv_lat+","+gsv_lon+"&cbp=12,"+gsv_head+",,0,0";
+																		item_array2.push({html:"<div style='font-size:10pt;'><a href='"+gsvlink+"' target='_blank'><img src='"+gsvthumb+"'/></a></div>",height:size_thumb,colspan:2});											
+																	}
+																}
+
 																// Identification of the div to render the attributes to
 																var targ = Ext.get(Ext.getCmp(res_data["target"]).body.id).dom;
 																// And rendering that to the relevant part of the screen
@@ -668,7 +708,7 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 																	//,closable:false
 																	,defaults:{height:20}
 																	,renderTo: targ
-																	,items: item_array
+																	,items: item_array2
 																});
 																win.doLayout();
 																g++;
