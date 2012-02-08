@@ -31,10 +31,6 @@ function overlay_getTileURL(bounds) {
 // Timeout of AJAX requests in ms
 Ext.Ajax.timeout = 2000;
 
-
-
-
-
 // Style for WFS highlight
 var rule_for_all = new OpenLayers.Rule({
 	symbolizer: gtSymbolizer, elseFilter: true
@@ -108,21 +104,6 @@ var clear_highlight = function(){
 }
 
 Ext.namespace("gxp.plugins");
-
-//// Overrride the legend addAction to try to remove VicmapClassic from the legend -- so far unsuccessful
-///gxp.plugins.Legend.prototype.addOutput = function (config) {
-///        return gxp.plugins.Legend.superclass.addOutput.call(this, Ext.apply({
-///            xtype: 'gx_legendpanel',
-///            ascending: false,
-///            border: false,
-///            layerStore: (function(arr){
-///            			return arr;
-///            		})(this.target.mapPanel.layers),
-///            defaults: {
-///                cls: 'gxp-legend-item'
-///            }
-///        }, config));
-///    };
 
 // Override of the GetFeatureInfo addActions handler
 gxp.plugins.WMSGetFeatureInfo.prototype.addActions = function() {
@@ -202,7 +183,6 @@ gxp.plugins.WMSGetFeatureInfo.prototype.addActions = function() {
 			info.controls = [];
 			var layerCounter = 0;
 			queryableLayers.each(function (x) {
-//				x.getLayer().url=x.getLayer().url.replace(/:8080/,"");
 				var control = new OpenLayers.Control.WMSGetFeatureInfo({
 					url: x.getLayer().url,
 					queryVisible: true,
@@ -331,8 +311,6 @@ var search_record_select_handler = function (combo,record){
 	}
 		
 	// Updating the WFS protocol to fetch this record
-	// Potential trap: the featureNS has to match the GeoServer workspace's namespace - at the moment, this will only work if we query DSE workspace objects where DSE's namespace is dse.vic.gov.au
-	// TBC that this is a problem
 	glayerLocSel.protocol = new OpenLayers.Protocol.WFS({
 		version:       "1.1.0",
 		url:           gtWFSEndPoint,
@@ -423,43 +401,6 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 			}
 		
 			// Adding the WFS layer to the map
-////changed 17/06/2011	app.mapPanel.layers.map.addLayers([glayerLocSel]);
-
-//			var tmsoverlay = new OpenLayers.Layer.TMS( "Near Maps", "",
-//			{   // url: '', serviceVersion: '.', layername: '.',
-//				type: 'png', getURL: overlay_getTileURL, alpha: true, isBaseLayer: false, transparent: true, selected: false, transitionEffect: 'resize', group:"background"
-//			});	
-//			if (OpenLayers.Util.alphaHack() == false) 
-//			{ 
-//				tmsoverlay.setOpacity(1.0); 
-//			} 
-	
-//			app.mapPanel.layers.map.addLayers([glayerLocSel,tmsoverlay]);
-
-///			Proj4js.defs["EPSG:3111"] = "+proj=lcc +lat_1=-36 +lat_2=-38 +lat_0=-37 +lon_0=145 +x_0=2500000 +y_0=2500000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs";
-///			OpenLayers.Vicmap.Util = OpenLayers.Vicmap.Util || {};
-///			OpenLayers.Vicmap.Util.PROJECTION = new OpenLayers.Projection("EPSG:3111");
-
-///			OpenLayers.Layer.WMS.prototype.getFullRequestString = function(newParams, altUrl) { 
-///				this.params.SRS = "EPSG:3111";
-///				return OpenLayers.Layer.Grid.prototype.getFullRequestString.apply( this, arguments); 
-///			};
-
-///			var vicmapwms = new OpenLayers.Layer.WMS("VicMap", "http://116.240.195.134/vicmapapi/map/wms", {
-///				layers: "CARTOGRAPHICAL",
-///				format: "image/png",
-///				firstTile: true,
-///			}, {
-///				projection: "EPSG:3111",
-///				tileSize: new OpenLayers.Size(512, 512),
-///				tileOrigin: new OpenLayers.LonLat(-34932800, 57119200),
-///				isBaseLayer: true,
-///				buffer: 0,
-///				maxExtent: new OpenLayers.Bounds(1786000.0, 1997264.499195665, 3953471.00160867, 3081000.0),
-///				attribution: "Vicmap API &copy; 2011 State Government of Victoria"
-///			});
-			
-///			app.mapPanel.map.addLayers([glayerLocSel,vicmapwms]);
 			app.mapPanel.map.addLayers([glayerLocSel]);
 	
 			// If a property number has been passed
@@ -495,7 +436,6 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 				// Refresh the WFS layer now (no object highlighted)
 		        	//glayerLocSel.refresh({force:true});
 		        	// Trialing to not have that done when the application loads -- it would happen on a first pan or search result
-		        	// We don't really need to have it done at the same time everything else is happening		        	
 		        }
 			// Bringing the disclaimer in - if selected by council
 			if (gtInitialDisclaimerFlag)
@@ -506,7 +446,6 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 					layout: "fit",
 					width: 300,
 					height: 300,
-//					closeAction:'hide',
 					items:[
 						{
 							html: "<iframe style='border: none; height: 100%; width: 100%' src='"+gtDisclaimer+"' frameborder='0' border='0'><a target='_blank' href='"+gtDisclaimer+"'>" + "</a> </iframe>",
@@ -534,9 +473,7 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 				gCurrentLoggedRole=app.authorizedRoles[0];
 			}
 			
-			// Extraction of the information panel layouts for the current authorized role
-			// We should degrade nicely if the service is not found
-			
+			// Extraction of the information panel layouts for the current authorized role - we should degrade nicely if the service is not found
 			// Using endpoints array
 			var ds;
 			for (urlIdx in gtGetLiveDataEndPoints)
@@ -640,11 +577,7 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 							disabled: true,
 							mode: 'local',
 							typeAhead: true,
-							//listAlign: ['tr-br?', [22,0] ],
-							//listWidth: 200,
-							//hideMode:'offsets',
 							forceSelection: true,
-							//selectOnFocus: true,
 							triggerAction: 'all',
 							emptyText: gtEmptyTextSelectFeature,
 							tpl: '<tpl for="."><div class="info-item" style="height: 16px;">{type}: {label}</div></tpl>',
@@ -652,10 +585,6 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 							listeners: {'select': function (combo,record){
 										var e0=Ext.getCmp('gtAccordion');
 
-										//var e1=e0.items.items[0].body.id;
-										//var e2=Ext.get(e1).dom;
-										//e2.innerHTML="";
-										
 										e0.removeAll();
 										// Accordion part for normal attributes
 										e0.add({id:'attributeAcc',title: gtDetailsTitle,html: '<p></p>',autoScroll: true});
@@ -814,8 +743,7 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 											
 											if (k.search(/^gsv/)>-1)
 											{
-												// Not showing the cells
-												// technical properties for Google Street View
+												// Not showing the cells - technical properties for Google Street View
 												has_gsv = true;
 											}
 											else
@@ -1057,7 +985,6 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 				columnWidth: 0.5,
 				html:"",
 	                	height: 100,
-//				bodyStyle: " background-color: white ; ",
 				border:false
         		}
 			,
@@ -1093,7 +1020,6 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 				columnWidth: 0.5,
 				html:"",
 	                	height: 100,
-//				bodyStyle: " background-color: white ; ",
 				border:false
 			}
 			,
