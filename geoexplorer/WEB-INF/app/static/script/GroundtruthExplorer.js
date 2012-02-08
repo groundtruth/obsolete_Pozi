@@ -179,6 +179,12 @@ gxp.plugins.WMSGetFeatureInfo.prototype.addActions = function() {
 							var urlLegend=app.mapPanel.layers.data.items[l].data.styles[0].legend.href;
 							app.mapPanel.layers.data.items[l].data.styles[0].legend.href = urlLegend.replace(/http:\/\/\d+.\d+.\d+.\d+:\d+/,gtServicesHost);
 						}	
+						else
+						{
+							// Layer groups don't have a legend URL and trigger a Java exception on each map call
+							// Work-around: provide the blank image as the legend URL (ideally, the item would not appear at all in the legend)
+							app.mapPanel.layers.data.items[l].data.styles=[{legend:{href:Ext.BLANK_IMAGE_URL}}];
+						}
 					}
 				}
 			}
@@ -405,11 +411,14 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 		
 			for(var l in app.mapPanel.map.layers)
 			{
-				// Additional WMS parameters - allows printing of the imagery at Buloke (username and password to be reinstated when deploying onsite)			
-				if (app.mapPanel.map.layers[l].name.substring(0,12)==="Aerial Photo")
+				if (!isNaN(l))
 				{
-					app.mapPanel.map.layers[l].params["USERNAME"]=gtAerialUsername;
-					app.mapPanel.map.layers[l].params["PASSWORD"]=gtAerialPassword;
+					// Additional WMS parameters - users don't have to enter credentials and allows printing of the imagery			
+					if (app.mapPanel.map.layers[l].name.substring(0,12)==="Aerial Photo")
+					{
+						app.mapPanel.map.layers[l].params["USERNAME"]=gtAerialUsername;
+						app.mapPanel.map.layers[l].params["PASSWORD"]=gtAerialPassword;
+					}
 				}
 			}
 		
