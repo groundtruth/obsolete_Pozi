@@ -969,7 +969,7 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
             		// Required to have the footer display
 		        html: '<p style="font-size:8px;"><br></p>',
 		},
-		footerStyle:'background-color:'+gtBannerLineColor+';;border:0px;',
+		footerStyle:'background-color:'+gtBannerLineColor+';border:0px;',
 		// Removes the grey border around the footer (and around the whole container body)
 		bodyStyle:'border:0px;',
             	items:
