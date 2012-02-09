@@ -70,11 +70,16 @@ var gtPropNum;
 var gtLegendHeight = 400;
 var gtPrintTitle = "Loddon Shire Council";
 
-// Datasources
+// Datasources 
 var gtMapDataSources = {
 	backend: {
 		url: gtOWSEndPoint,
 		title: "Remote GeoServer",
+		ptype: "gxp_wmscsource"
+	},
+	local: {
+		url: "/geoserver/ows",
+		title: "Local GeoServer",
 		ptype: "gxp_wmscsource"
 	},
 	mapquest: {
@@ -116,6 +121,46 @@ var gtLayers = [
 		styles:"",
 		transparent:true,
 		tiled: false
+	},{
+		source:"local",
+		name:"LODDON:LSC_PROPERTY_VALUATION",
+		title:"Property Valuation:CIV Change (%)",
+		visibility:false,
+		opacity:0.6,
+		format:"image/png8",
+		styles:"",
+		transparent:true,
+		tiled:false
+	},{
+		source:"local",
+		name:"LODDON:LSC_PROPERTY_VALUATION",
+		title:"Property Valuation:Level of Values ($ per ha)",
+		visibility:false,
+		opacity:0.6,
+		format:"image/png8",
+		styles:"LevelOfvalue($perha)",
+		transparent:true,
+		tiled:false
+	},{
+		source:"local",
+		name:"LODDON:LSC_PROPERTY_VALUATION",
+		title:"Property Valuation:SV Change (%)",
+		visibility:false,
+		opacity:0.6,
+		format:"image/png8",
+		styles:"SV_Change(%)",
+		transparent:true,
+		tiled:false
+	},{
+		source:"local",
+		name:"LODDON:LSC_PROPERTY_VALUATION",
+		title:"Property Valuation:SubMarket Groups",
+		visibility:false,
+		opacity:0.6,
+		format:"image/png8",
+		styles:"SubMarketsGroups",
+		transparent:true,
+		tiled:false
 	},{
 		source:"mapquest",
 		name: "osm"
@@ -277,17 +322,17 @@ var gtTools = [{
 
 	var gtCreateTools = function () {
 		var tools = GeoExplorer.Composer.superclass.createTools.apply(this, arguments);
-///		if (this.authorizedRoles.length === 0) {
-///			this.loginButton = new Ext.Button({
-///				iconCls: 'login',
-///				text: this.loginText,
-///				handler: this.showLoginDialog,
-///				scope: this
-///			});
-///			tools.push(['->', this.loginButton]);
-///		} else {
-///
-///		}
+		if (this.authorizedRoles.length === 0) {
+			this.loginButton = new Ext.Button({
+				iconCls: 'login',
+				text: this.loginText,
+				handler: this.showLoginDialog,
+				scope: this
+			});
+			tools.push(['->', this.loginButton]);
+		} else {
+
+		}
 		tools.unshift("");
 //		tools.unshift(new Ext.Button({
 //			tooltip: this.exportMapText,
