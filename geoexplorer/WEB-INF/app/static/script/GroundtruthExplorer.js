@@ -1111,11 +1111,11 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
       	    	displayField:'label',
       	    	typeAhead: true,
       	    	mode: 'local',
+		editable: false,
       	    	forceSelection: true,
       	    	triggerAction: 'all',
       	    	width:125,
       	    	emptyText:gtEmptyTextQuickZoom,
-      	    	selectOnFocus:true,
       	    	listeners: {'select': function (combo,record){
       	    				var projsrc = new OpenLayers.Projection("EPSG:4326");
       	    				var projdest = new OpenLayers.Projection("EPSG:900913");
