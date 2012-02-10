@@ -35,7 +35,7 @@ catch (Exception $e) {
 # Performs the query and returns XML or JSON
 try {
 
-	$sql = sanitizeSQL("select * from gt_service_routing where role='".$rol."' and info_group='".$infogroup."'");
+	$sql = sanitizeSQL("select * from gt_service_routing where (role='".$rol."' or role='*') and info_group='".$infogroup."'");
 
 	if ($mode == 'pgsql')
 	{
