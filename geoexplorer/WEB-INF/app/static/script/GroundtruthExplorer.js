@@ -504,7 +504,7 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 								// Setting up a global variable array to define the info panel layouts
 								for (key=0;key<recs.length;key++)
 								{
-									var a = recs[key].json.row.val_arr[0];
+									var a = recs[key].json.row.val_arr;
 								
 									if (gLayoutsArr[recs[key].json.row.key_arr])
 									{
@@ -514,7 +514,7 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 									else
 									{
 										// We create this key if it didn't exist
-										gLayoutsArr[recs[key].json.row.key_arr]=[a];
+										gLayoutsArr[recs[key].json.row.key_arr]=a; 
 									}
 								}
 							}
@@ -587,7 +587,7 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 
 										e0.removeAll();
 										// Accordion part for normal attributes
-										e0.add({id:'attributeAcc',title: gtDetailsTitle,html: '<p></p>',autoScroll: true});
+										e0.add({id:'attributeAcc',title: gtDetailsTitle,html: '<p></p>'});
 
 										// Layout configuration the global variable array loaded at application start										
 										var configArray = gLayoutsArr[record.data.layer];
@@ -635,7 +635,9 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 													   	// Passing the database type to query
 													   	mode: gtGetLiveDataEndPoints[configArray[i].definition].storeMode,
 													   	// Passing the database name to query
-													   	config: gtGetLiveDataEndPoints[configArray[i].definition].storeName												   	
+													   	config: gtGetLiveDataEndPoints[configArray[i].definition].storeName,
+														// Passing the LGA code, so that the query can be narrowed down
+												   		lga: gtLGACode
 													},
 													listeners:
 													{
@@ -837,7 +839,6 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 											,renderTo: e2
 											,items: item_array
 										});
-																				
 									},
 								    scope:this}
 						    
@@ -870,7 +871,8 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 			defaults: {
 				// applied to each contained panel
 				bodyStyle: " background-color: transparent ",
-				collapsed: true
+				collapsed: true,
+				autoScroll:true
 			},
 			layoutConfig: {
 				// layout-specific configs go here
