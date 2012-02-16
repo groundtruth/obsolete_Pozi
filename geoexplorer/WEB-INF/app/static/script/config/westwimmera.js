@@ -4,7 +4,7 @@
 var gtWorkspaceName= "VICMAP";
 // This is a multi-database setup so we need to specify the LGA
 var gtLGACode = "371";
-var gtFeatureNS = "http://www.pozi.com/grampians";
+var gtFeatureNS = "http://www.pozi.com/vicmap";
 
 // Database config for the master search table
 var gtDatabaseConfig = "vicmap";
@@ -116,7 +116,7 @@ var gtLayers = [
 		name: "osm"
 	},{
 		source:"backend",
-		name:"VicmapClassicGrampians",
+		name:"VicmapClassic",
 		title:"Vicmap Classic",
 		visibility:true,
 		opacity:1,
@@ -156,7 +156,7 @@ var gtLayerLocSel = new OpenLayers.Layer.Vector("Search Result", {
 		geometryName:  gtWFSgeometryName,
 		schema:        gtWFSEndPoint+"?service=WFS&version=1.1.0&request=DescribeFeatureType&TypeName="+gtWorkspaceName+":VMPROP_PROPERTY"
 	}),
-	filter: new OpenLayers.Filter.Comparison({type: OpenLayers.Filter.Comparison.EQUAL_TO,property: 'pr_propnum',value: 0}),
+	filter: new OpenLayers.Filter.Comparison({type: OpenLayers.Filter.Comparison.EQUAL_TO,property: 'pr_propnum',value: -1}),
 	projection: new OpenLayers.Projection("EPSG:4326")			
 });
 

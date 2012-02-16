@@ -159,7 +159,7 @@ var gtLayerLocSel = new OpenLayers.Layer.Vector("Search Result", {
 		geometryName:  gtWFSgeometryName,
 		schema:        gtWFSEndPoint+"?service=WFS&version=1.1.0&request=DescribeFeatureType&TypeName="+gtWorkspaceName+":VMPROP_PROPERTY"
 	}),
-	filter: new OpenLayers.Filter.Comparison({type: OpenLayers.Filter.Comparison.EQUAL_TO,property: 'prop_propnum',value: 99999999}),
+	filter: new OpenLayers.Filter.Comparison({type: OpenLayers.Filter.Comparison.EQUAL_TO,property: 'prop_propnum',value: -1}),
 	projection: new OpenLayers.Projection("EPSG:4326")			
 });
 
