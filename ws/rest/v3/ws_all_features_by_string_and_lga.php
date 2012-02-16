@@ -36,8 +36,8 @@ catch (Exception $e) {
 try {
 	$lga_clause="";
 	$lga = $_REQUEST['lga'];
-	if ($lga!='') {$lga_clause="AND lga='".$lga."'"};
-	$sql = sanitizeSQL("select (case ld when 'Parcel SPI' then replace(label,'\\\','\\\\\\\') else initcap(label) end) as label,xmini,ymini,xmaxi,ymaxi,gsns,gsln,idcol,(case ld when 'Parcel SPI' then replace(idval,'\\\','\\\\\\\') else idval end) as idval,ld from gt_master_search where label like '%'||upper('".$query."')||'%' ".$lga_clause."order by position(upper('".$query."') in label),(case when ld in ('Locality') then 1 when ld in ('Feature') then 2 when ld in ('Road') then 3 when ld in ('Address') then 4 else 9 end),label limit ".$limit);
+	if ($lga!='') {$lga_clause="(select * from gt_master_search where lga='".$lga."') t"; } else {$lga_clause = "gt_master_search";};
+	$sql = sanitizeSQL("select (case ld when 'Parcel SPI' then replace(label,'\\\','\\\\\\\') else initcap(label) end) as label,xmini,ymini,xmaxi,ymaxi,gsns,gsln,idcol,(case ld when 'Parcel SPI' then replace(idval,'\\\','\\\\\\\') else idval end) as idval,ld from ".$lga_clause." where label like '%'||upper('".$query."')||'%' order by position(upper('".$query."') in label),(case when ld in ('Locality') then 1 when ld in ('Feature') then 2 when ld in ('Road') then 3 when ld in ('Address') then 4 else 9 end),label limit ".$limit);
 	$pgconn = pgConnection();
 
     /*** fetch into an PDOStatement object ***/
