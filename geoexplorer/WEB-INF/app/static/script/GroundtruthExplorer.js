@@ -509,7 +509,7 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 									if (gLayoutsArr[recs[key].json.row.key_arr])
 									{
 										// If this key (layer) already exists, we add the JSON element (tab) to its value (tab array)
-										gLayoutsArr[recs[key].json.row.key_arr].push(a);
+										gLayoutsArr[recs[key].json.row.key_arr]= gLayoutsArr[recs[key].json.row.key_arr].concat(a);
 									}
 									else
 									{
