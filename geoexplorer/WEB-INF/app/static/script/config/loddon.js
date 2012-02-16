@@ -162,6 +162,16 @@ var gtLayers = [
 		transparent:true,
 		tiled:false
 	},{
+		source:"local",
+		name:"LODDON:LSC_PROPERTY_VALUATION",
+		title:"Property Valuation:Sales Use",
+		visibility:false,
+		opacity:0.6,
+		format:"image/png8",
+		styles:"PointGrad",
+		transparent:true,
+		tiled:false
+	},{
 		source:"mapquest",
 		name: "osm"
 	},{

@@ -1,13 +1,13 @@
 // Javascript configuration file for West Wimmera
 
 // Workspace containing the layers and corresponding namespace
-var gtWorkspaceName= "GRAMPIANS";
+var gtWorkspaceName= "VICMAP";
 // This is a multi-database setup so we need to specify the LGA
 var gtLGACode = "371";
 var gtFeatureNS = "http://www.pozi.com/grampians";
 
 // Database config for the master search table
-var gtDatabaseConfig = "grampiansgis";
+var gtDatabaseConfig = "vicmap";
 
 // Aerial imagery credentials
 gtAerialUsername = "";
@@ -24,7 +24,7 @@ var gtSearchPropertyEndPoint =  gtServicesHost + "/ws/rest/v3/ws_property_id_by_
 var gtSearchComboEndPoint = 	gtServicesHost + "/ws/rest/v3/ws_all_features_by_string_and_lga.php";
 
 var gtGetLiveDataEndPoints=[
-	{ urlLayout:'http://localhost/ws_apache/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://localhost/ws_apache/rest/v3/ws_get_live_data.php',	storeMode:'sqlite',	storeName:'westwimmera'},
+	{ urlLayout:'http://192.168.10.12/ws/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://192.168.10.12/ws/rest/v3/ws_get_live_data.php',	storeMode:'sqlite',	storeName:'westwimmera'},
 	{ urlLayout:'http://49.156.17.41/ws/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://49.156.17.41/ws/rest/v3/ws_get_live_data.php',	storeMode:'pgsql',	storeName:'vicmap'}
 ];
 
@@ -93,7 +93,7 @@ var gtMapDataSources = {
 var gtLayers = [
 	{
 		source:"backend",
-		name:gtWorkspaceName+":VW_WEST_WIMMERA_MASK",
+		name:"GRAMPIANS"+":VW_WEST_WIMMERA_MASK",
 		title:"Shire Mask",
 		visibility:true,
 		opacity:0.6,
