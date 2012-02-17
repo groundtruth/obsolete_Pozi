@@ -636,19 +636,21 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 													   	mode: gtGetLiveDataEndPoints[configArray[i].definition].storeMode,
 													   	// Passing the database name to query
 													   	config: gtGetLiveDataEndPoints[configArray[i].definition].storeName,
-														// Passing the LGA code, so that the query can be narrowed down
+														// Passing the LGA code, so that the query can be narrowed down (unused)
 												   		lga: gtLGACode
 													},
 													listeners:
 													{
 														load: function(store, recs)
 														{
-													   		// A JSONP is returned, we just want to insert the content in the corresponding accordion
-													   		var res_data = recs[0].json.row;
-													   		if (res_data)
-													   		{
+															// Looping thru the records returned by the query
+															tab_array = new Array();
+															for (m = 0 ; m < recs.length; m++)
+															{
+																res_data = recs[m].json.row;
 																var item_array2 = new Array();
 																var has_gsv = false;
+
 																for (j in res_data)
 																{
 																	if (j!="target")
@@ -659,8 +661,7 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 																			has_gsv = true;
 																		}
 																		else
-																		{
-																			// Formatting the cells for attribute display in a tidy table
+																		{																			// Formatting the cells for attribute display in a tidy table
 																			item_array2.push({html:"<div style='font-size:8pt;'><font color='#666666'>"+j+"</font></div>"});
 																			item_array2.push({html:"<div style='font-size:10pt;'>"+res_data[j]+"</div>"});
 																		}
@@ -698,9 +699,24 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 																	}
 																}
 
-																// Identification of the div to render the attributes to
-																var targ = Ext.get(Ext.getCmp(res_data["target"]).body.id).dom;
-																// And rendering that to the relevant part of the screen
+																tab_el = {
+																	title	: m+1,
+																	layout	: 'table',
+																	defaults:{height:20},
+																	layoutConfig:{columns:2},
+																	items	: item_array2
+																};
+
+																tab_array.push(tab_el);
+															}
+															
+															// Identification of the div to render the attributes to
+															var targ = Ext.get(Ext.getCmp(recs[0].json.row["target"]).body.id).dom;																
+
+															// The container depends on the number of records returned
+															if (tab_array.length==1)
+															{
+																// Rendering as a table
 																var win = new Ext.Panel({
 																	id:'tblayout-win'+g
 																	//,width:227
@@ -710,17 +726,29 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 																	//,closable:false
 																	,defaults:{height:20}
 																	,renderTo: targ
-																	,items: item_array2
+																	,items: tab_array[0].items
 																});
-																win.doLayout();
-																g++;
 															}
+															else
+															{
+																// Renderng as a tab panel of tables
+																var win = new Ext.TabPanel({
+																	activeTab       : 0,
+																	id              : 'tblayout-win'+g,
+																	enableTabScroll : true,
+																	resizeTabs      : false,
+																	minTabWidth     : 15,																
+																	id:'tblayout-win'+g,
+																	border:false,
+																	renderTo: targ,
+																	items: tab_array
+																});
+															}
+															win.doLayout();																
+															g++;
 														}
 													}
 												});
-
-
-
 											}
 										}
 										
