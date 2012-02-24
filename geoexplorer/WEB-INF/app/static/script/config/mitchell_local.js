@@ -104,33 +104,33 @@ var gtMapDataSources = {
 // Initial layers      
 var gtLayers = [
 	{
-		source:"local",
-		name:gtWorkspaceName+":VMPLAN_ZONE_CODELIST",
-		title:"Planning Zones (Vicmap)",
-		visibility:false,
-		opacity:0.5,
-		format:"image/png8",
-		styles:"",
-		transparent:true
-	},{
-		source:"local",
-		name:gtWorkspaceName+":VMPLAN_OVERLAY_CODELIST",
-		title:"Planning Overlays (Vicmap)",
-		visibility:false,
-		opacity:0.5,
-		format:"image/png8",
-		styles:"",
-		transparent:true
-	},{
-		source:"local",
-		name:gtWorkspaceName+":VICMAP_BUILDINGREG_BUSHFIRE_PRONE_AREA",
-		title:"Bushfire-Prone Areas (Vicmap)",
-		visibility:false,
-		opacity:0.25,
-		format:"image/png8",
-		styles:"",
-		transparent:true
-	},{
+//		source:"local",
+//		name:gtWorkspaceName+":VMPLAN_ZONE_CODELIST",
+//		title:"Planning Zones (Vicmap)",
+//		visibility:false,
+//		opacity:0.5,
+//		format:"image/png8",
+//		styles:"",
+//		transparent:true
+//	},{
+//		source:"local",
+//		name:gtWorkspaceName+":VMPLAN_OVERLAY_CODELIST",
+//		title:"Planning Overlays (Vicmap)",
+//		visibility:false,
+//		opacity:0.5,
+//		format:"image/png8",
+//		styles:"",
+//		transparent:true
+//	},{
+//		source:"local",
+//		name:gtWorkspaceName+":VICMAP_BUILDINGREG_BUSHFIRE_PRONE_AREA",
+//		title:"Bushfire-Prone Areas (Vicmap)",
+//		visibility:false,
+//		opacity:0.25,
+//		format:"image/png8",
+//		styles:"",
+//		transparent:true
+//	},{
 		source:"local",
 		name:gtWorkspaceName+":VICMAP_PROPERTY_ADDRESS",
 		title:"Property (Vicmap)",
@@ -141,32 +141,53 @@ var gtLayers = [
 		transparent:true
 	},{
 		source:"local",
-		name:gtWorkspaceName+":MSC_GARBAGE_COLLECTION",
+		name:gtWorkspaceName+":MSC_GARBAGE_COLLECTION2",
 		title:"Waste Collection",
 		visibility:false,
 		opacity:0.6,
 		format:"image/png8",
 		styles:"",
-		transparent:true
+		transparent:true,
+		tiled:false
 	},{
 		source:"local",
-		name:gtWorkspaceName+":MSC_LEISURE_CENTRE",
-		title:"Leisure Centres",
+		name:gtWorkspaceName+":MSC_ROAD_CLOSURE",
+		title:"Road Closures",
 		visibility:false,
-		opacity:0.75,
-		format:"image/png",
+		opacity:1,
+		format:"image/png8",
 		styles:"",
-		transparent:true
+		transparent:true,
+		tiled:false
 	},{
-		source:"local",
-		name:gtWorkspaceName+":MSC_SPORTS_RESERVE",
-		title:"Sports Reserves",
-		visibility:false,
-		opacity:0.75,
-		format:"image/png",
-		styles:"",
-		transparent:true
-	},{
+//		source:"local",
+//		name:gtWorkspaceName+":VMTRANS_ROAD",
+//		title:"Road test",
+//		visibility:false,
+//		opacity:0.6,
+//		format:"image/png8",
+//		styles:"",
+//		transparent:true,
+//		tiled:false
+//	},{
+//		source:"local",
+//		name:gtWorkspaceName+":MSC_LEISURE_CENTRE",
+//		title:"Leisure Centres",
+//		visibility:false,
+//		opacity:0.75,
+//		format:"image/png",
+//		styles:"",
+//		transparent:true
+//	},{
+//		source:"local",
+//		name:gtWorkspaceName+":MSC_SPORTS_RESERVE",
+//		title:"Sports Reserves",
+//		visibility:false,
+//		opacity:0.75,
+//		format:"image/png",
+//		styles:"",
+//		transparent:true
+//	},{
 		source:"local",
 		name:gtWorkspaceName+":MSC_CUSTOMER_SERVICE_CENTRE",
 		title:"Customer Service Centres",
@@ -174,27 +195,29 @@ var gtLayers = [
 		opacity:0.75,
 		format:"image/png",
 		styles:"",
-		transparent:true
+		transparent:true,
+		tiled:false		
 	},{
-		source:"local",
-		name:gtWorkspaceName+":MSC_LIBRARY",
-		title:"Libraries",
-		visibility:false,
-		opacity:0.75,
-		format:"image/png",
-		styles:"",
-		transparent:true
-	},{
-		source:"local",
-		name:gtWorkspaceName+":MSC_KINDERGARTEN",
-		title:"Kindergartens",
-		visibility:false,
-		opacity:0.75,
-		format:"image/png",
-		styles:"",
-		transparent:true
-	},{
-//		source:"localVicmap",
+//		source:"local",
+//		name:gtWorkspaceName+":MSC_LIBRARY",
+//		title:"Libraries",
+//		visibility:false,
+//		opacity:0.75,
+//		format:"image/png",
+//		styles:"",
+//		transparent:true,
+//		tiled:false
+//	},{
+//		source:"local",
+//		name:gtWorkspaceName+":MSC_KINDERGARTEN",
+//		title:"Kindergartens",
+//		visibility:false,
+//		opacity:0.75,
+//		format:"image/png",
+//		styles:"",
+//		transparent:true
+//	},{
+		source:"localVicmap",
 		source:"local",
 		name:"VicmapClassicMitchell",
 		title:"Vicmap Classic",
@@ -236,7 +259,7 @@ var gtLayerLocSel = new OpenLayers.Layer.Vector("Search Result", {
 		geometryName:  gtWFSgeometryName,
 		schema:        gtWFSEndPoint+"?service=WFS&version=1.1.0&request=DescribeFeatureType&TypeName="+gtWorkspaceName+":VMPROP_PROPERTY"
 	}),
-	filter: new OpenLayers.Filter.Comparison({type: OpenLayers.Filter.Comparison.EQUAL_TO,property: 'prop_propnum',value: 0}),
+	filter: new OpenLayers.Filter.Comparison({type: OpenLayers.Filter.Comparison.EQUAL_TO,property: 'prop_propnum',value: -1}),
 	projection: new OpenLayers.Projection("EPSG:4326")			
 });
 
@@ -296,19 +319,19 @@ var gtTools = [{
 //				index: 2
 //			}
 //		}, {
-//			ptype: "gxp_featuremanager",
-//			id: "featuremanager",
-//			maxFeatures: 20
-//		}, {
-//			ptype: "gxp_featureeditor",
-//			featureManager: "featuremanager",
-//			autoLoadFeatures: true,
-//			toggleGroup: this.toggleGroup,
-//			actionTarget: {
-//				target: "paneltbar",
-//				index: 6
-//			}
-//		}, {
+			ptype: "gxp_featuremanager",
+			id: "featuremanager",
+			maxFeatures: 20
+		}, {
+			ptype: "gxp_featureeditor",
+			featureManager: "featuremanager",
+			autoLoadFeatures: true,
+			toggleGroup: this.toggleGroup,
+			actionTarget: {
+				target: "paneltbar",
+				index: 6
+			}
+		}, {
 
 //			ptype: "gxp_zoom",
 //			actionTarget: {
@@ -352,18 +375,18 @@ var gtTools = [{
 
 	var gtCreateTools = function () {
 		var tools = GeoExplorer.Composer.superclass.createTools.apply(this, arguments);
-///		if (this.authorizedRoles.length === 0) {
-///			this.loginButton = new Ext.Button({
-///				iconCls: 'login',
-///				text: this.loginText,
-///				handler: this.showLoginDialog,
-///				scope: this
-///			});
-///			tools.push(['->', this.loginButton]);
-///		} else {
-///
-///		}
-		tools.unshift("");
+		if (this.authorizedRoles.length === 0) {
+			this.loginButton = new Ext.Button({
+				iconCls: 'login',
+				text: this.loginText,
+				handler: this.showLoginDialog,
+				scope: this
+			});
+			tools.push(['->', this.loginButton]);
+		} else {
+
+		}
+		tools.unshift("");		tools.unshift("");		tools.unshift("");
 //		tools.unshift(new Ext.Button({
 //			tooltip: this.exportMapText,
 //			needsAuthorization: true,
