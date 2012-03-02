@@ -346,7 +346,7 @@ var search_record_select_handler = function (combo,record){
 					cont["the_geom_WFS"]=this.features[k];										
 
 					// Building a record and inserting it into an array											
-					row_array = new Array(k,typ,lab,cont); 
+					row_array = new Array(k,typ,lab,cont,null,null,this.features[k].layer.protocol.featureType); 
 					gComboDataArray.push(row_array);
 				}
 				
