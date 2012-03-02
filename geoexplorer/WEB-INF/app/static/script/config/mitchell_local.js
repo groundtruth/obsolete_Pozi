@@ -361,14 +361,14 @@ var gtTools = [{
 				index: 2
 			}
 		}
-//		, {
-//			ptype: "gxp_googleearth",
-//			actionTarget: {
-//				target: "paneltbar",
-//				index: 9
-//			},
-//			apiKey: 'ABQIAAAAeDjUod8ItM9dBg5_lz0esxTnme5EwnLVtEDGnh-lFVzRJhbdQhQBX5VH8Rb3adNACjSR5kaCLQuBmw'
-//		}
+		, {
+			ptype: "gxp_googleearth",
+			actionTarget: {
+				target: "paneltbar",
+				index: 9
+			},
+			apiKey: 'ABQIAAAAeDjUod8ItM9dBg5_lz0esxTnme5EwnLVtEDGnh-lFVzRJhbdQhQBX5VH8Rb3adNACjSR5kaCLQuBmw'
+		}
 		
 		];
 
