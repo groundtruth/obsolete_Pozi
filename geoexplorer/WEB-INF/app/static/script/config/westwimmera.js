@@ -72,6 +72,11 @@ var gtMapDataSources = {
 		title: "Remote GeoServer",
 		ptype: "gxp_wmscsource"
 	},
+	local: {
+		url: "/geoserver/ows",
+		title: "Local GeoServer",
+		ptype: "gxp_wmscsource"
+	},
 	mapquest: {
 		ptype: "gxp_mapquestsource"
 	},
@@ -94,9 +99,19 @@ var gtLayers = [
 	{
 		source:"backend",
 		name:"GRAMPIANS"+":VW_WEST_WIMMERA_MASK",
-		title:"Shire Mask",
+		title:"Shire",
 		visibility:true,
 		opacity:0.6,
+		format:"image/png8",
+		styles:"",
+		transparent:true,
+		tiled:false
+	},{
+		source:"local",
+		name:"WESTWIMMERA:WWSC_MAINTENANCE_ZONE",
+		title:"Maintenance Zones",
+		visibility:false,
+		opacity:0.8,
 		format:"image/png8",
 		styles:"",
 		transparent:true,
@@ -111,6 +126,16 @@ var gtLayers = [
 		styles:"",
 		transparent:true,
 		tiled: false
+	},{
+		source:"local",
+		name:"WESTWIMMERA:WWSC_ROAD_DETAIL",
+		title:"Road Details (Moloney)",
+		visibility:false,
+		opacity:0.8,
+		format:"image/png8",
+		styles:"",
+		transparent:true,
+		tiled:false
 	},{
 		source:"mapquest",
 		name: "osm"
@@ -272,17 +297,17 @@ var gtTools = [{
 
 	var gtCreateTools = function () {
 		var tools = GeoExplorer.Composer.superclass.createTools.apply(this, arguments);
-///		if (this.authorizedRoles.length === 0) {
-///			this.loginButton = new Ext.Button({
-///				iconCls: 'login',
-///				text: this.loginText,
-///				handler: this.showLoginDialog,
-///				scope: this
-///			});
-///			tools.push(['->', this.loginButton]);
-///		} else {
-///
-///		}
+		if (this.authorizedRoles.length === 0) {
+			this.loginButton = new Ext.Button({
+				iconCls: 'login',
+				text: this.loginText,
+				handler: this.showLoginDialog,
+				scope: this
+			});
+			tools.push(['->', this.loginButton]);
+		} else {
+
+		}
 		tools.unshift("");
 //		tools.unshift(new Ext.Button({
 //			tooltip: this.exportMapText,
