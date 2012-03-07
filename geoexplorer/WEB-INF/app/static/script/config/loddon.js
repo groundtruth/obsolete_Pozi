@@ -103,14 +103,24 @@ var gtMapDataSources = {
 var gtLayers = [
 	{
 		source:"backend",
-		name:gtWorkspaceName+":VW_LODDON_MASK",
-		title:"Shire Mask",
-		visibility:true,
+		name:gtWorkspaceName+":VW_DSE_VMPLAN_ZONE",
+		title:"Planning Zones (Vicmap)",
+		visibility:false,
 		opacity:0.6,
 		format:"image/png8",
 		styles:"",
 		transparent:true,
-		tiled:false
+		tiled: false
+	},{
+		source:"backend",
+		name:gtWorkspaceName+":VW_DSE_VMPLAN_OVERLAY",
+		title:"Planning Overlays (Vicmap)",
+		visibility:false,
+		opacity:0.6,
+		format:"image/png8",
+		styles:"",
+		transparent:true,
+		tiled: false
 	},{
 		source:"backend",
 		name:gtWorkspaceName+":VICMAP_PROPERTY_ADDRESS",
@@ -169,6 +179,16 @@ var gtLayers = [
 		opacity:0.6,
 		format:"image/png8",
 		styles:"PointGrad",
+		transparent:true,
+		tiled:false
+	},{
+		source:"backend",
+		name:gtWorkspaceName+":VW_LODDON_MASK",
+		title:"Shire",
+		visibility:true,
+		opacity:0.6,
+		format:"image/png8",
+		styles:"",
 		transparent:true,
 		tiled:false
 	},{
