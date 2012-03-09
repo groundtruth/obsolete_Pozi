@@ -1,7 +1,7 @@
 // Javascript configuration file for West Wimmera
 
 // Workspace containing the layers and corresponding namespace
-var gtWorkspaceName= "VICMAP";
+var gtWorkspaceName= "WESTWIMMERA";
 // This is a multi-database setup so we need to specify the LGA
 var gtLGACode = "371";
 var gtFeatureNS = "http://www.pozi.com/vicmap";
@@ -98,17 +98,27 @@ var gtMapDataSources = {
 var gtLayers = [
 	{
 		source:"backend",
-		name:"GRAMPIANS"+":VW_WEST_WIMMERA_MASK",
-		title:"Shire",
-		visibility:true,
+		name:"VICMAP:VW_DSE_VMPLAN_ZONE",
+		title:"Planning Zones (Vicmap)",
+		visibility:false,
 		opacity:0.6,
 		format:"image/png8",
 		styles:"",
 		transparent:true,
-		tiled:false
+		tiled: false
+	},{
+		source:"backend",
+		name:"VICMAP:VW_DSE_VMPLAN_OVERLAY",
+		title:"Planning Overlays (Vicmap)",
+		visibility:false,
+		opacity:0.6,
+		format:"image/png8",
+		styles:"",
+		transparent:true,
+		tiled: false
 	},{
 		source:"local",
-		name:"WESTWIMMERA:WWSC_MAINTENANCE_ZONE",
+		name:gtWorkspaceName+":WWSC_MAINTENANCE_ZONE",
 		title:"Maintenance Zones",
 		visibility:false,
 		opacity:0.8,
@@ -118,7 +128,7 @@ var gtLayers = [
 		tiled:false
 	},{
 		source:"backend",
-		name:gtWorkspaceName+":VICMAP_PROPERTY_ADDRESS",
+		name:"VICMAP:VICMAP_PROPERTY_ADDRESS",
 		title:"Property (Vicmap)",
 		visibility:true,
 		opacity:0.25,
@@ -127,11 +137,31 @@ var gtLayers = [
 		transparent:true,
 		tiled: false
 	},{
+		source:"backend",
+		name:"VICMAP:VMPROP_PARCEL",
+		title:"Parcel (Vicmap)",
+		visibility:false,
+		opacity:0.75,
+		format:"image/png8",
+		styles:"parcel_label",
+		transparent:true,
+		tiled:false
+	},{
 		source:"local",
-		name:"WESTWIMMERA:WWSC_ROAD_DETAIL",
+		name:gtWorkspaceName+":WWSC_ROAD_DETAIL",
 		title:"Road Details (Moloney)",
 		visibility:false,
 		opacity:0.8,
+		format:"image/png8",
+		styles:"",
+		transparent:true,
+		tiled:false
+	},{
+		source:"backend",
+		name:"VICMAP:VW_WEST_WIMMERA_MASK",
+		title:"Shire",
+		visibility:true,
+		opacity:0.6,
 		format:"image/png8",
 		styles:"",
 		transparent:true,
@@ -179,7 +209,7 @@ var gtLayerLocSel = new OpenLayers.Layer.Vector("Search Result", {
 		srsName:       gtWFSsrsName,
 		featureNS:     gtFeatureNS,
 		geometryName:  gtWFSgeometryName,
-		schema:        gtWFSEndPoint+"?service=WFS&version=1.1.0&request=DescribeFeatureType&TypeName="+gtWorkspaceName+":VMPROP_PROPERTY"
+		schema:        gtWFSEndPoint+"?service=WFS&version=1.1.0&request=DescribeFeatureType&TypeName="+"VICMAP:VMPROP_PROPERTY"
 	}),
 	filter: new OpenLayers.Filter.Comparison({type: OpenLayers.Filter.Comparison.EQUAL_TO,property: 'pr_propnum',value: -1}),
 	projection: new OpenLayers.Projection("EPSG:4326")			

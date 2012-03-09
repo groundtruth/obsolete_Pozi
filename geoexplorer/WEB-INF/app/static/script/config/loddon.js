@@ -1,7 +1,7 @@
 // Javascript configuration file for West Wimmera
 
 // Workspace containing the layers and corresponding namespace
-var gtWorkspaceName= "VICMAP";
+var gtWorkspaceName= "LODDON";
 // This is a multi-database setup so we need to specify the LGA
 var gtLGACode = "338";
 var gtFeatureNS = "http://www.pozi.com/vicmap";
@@ -10,8 +10,8 @@ var gtFeatureNS = "http://www.pozi.com/vicmap";
 var gtDatabaseConfig = "vicmap";
 
 // Aerial imagery credentials
-gtAerialUsername = "";
-gtAerialPassword = "";
+gtAerialUsername = "Loddon";
+gtAerialPassword = "loddon";
 
 //  Services
 var gtServicesHost = "http://49.156.17.41";
@@ -96,14 +96,27 @@ var gtMapDataSources = {
 //	},
 	ol: {
 		ptype: "gxp_olsource"
+	},
+	dse: {
+		url: "http://images.land.vic.gov.au/ecwp/ecw_wms.dll",
+		title: "DSE Imagery Server"
 	}
 };
     
 // Initial layers      
 var gtLayers = [
 	{
+		source:"dse",
+		name :"AERIAL_LODDON_2009APR14_AIR_VIS_35CM_MGA54",
+		title:"Aerial Photo (CIP 2009)",
+		visibility:false,
+		opacity:0.9,
+		selected:false,
+		format:"image/JPEG",
+		transparent:true
+	},{
 		source:"backend",
-		name:gtWorkspaceName+":VW_DSE_VMPLAN_ZONE",
+		name:"VICMAP:VW_DSE_VMPLAN_ZONE",
 		title:"Planning Zones (Vicmap)",
 		visibility:false,
 		opacity:0.6,
@@ -113,7 +126,7 @@ var gtLayers = [
 		tiled: false
 	},{
 		source:"backend",
-		name:gtWorkspaceName+":VW_DSE_VMPLAN_OVERLAY",
+		name:"VICMAP:VW_DSE_VMPLAN_OVERLAY",
 		title:"Planning Overlays (Vicmap)",
 		visibility:false,
 		opacity:0.6,
@@ -123,17 +136,27 @@ var gtLayers = [
 		tiled: false
 	},{
 		source:"backend",
-		name:gtWorkspaceName+":VICMAP_PROPERTY_ADDRESS",
+		name:"VICMAP:VICMAP_PROPERTY_ADDRESS",
 		title:"Property (Vicmap)",
 		visibility:true,
 		opacity:0.25,
 		format:"image/png8",
 		styles:"",
 		transparent:true,
-		tiled: false
+		tiled:false
+	},{
+		source:"backend",
+		name:"VICMAP:VMPROP_PARCEL",
+		title:"Parcel (Vicmap)",
+		visibility:false,
+		opacity:0.75,
+		format:"image/png8",
+		styles:"parcel_label",
+		transparent:true,
+		tiled:false
 	},{
 		source:"local",
-		name:"LODDON:LSC_PROPERTY_VALUATION",
+		name:gtWorkspaceName+":LSC_PROPERTY_VALUATION",
 		title:"Property Valuation:CIV Change (%)",
 		visibility:false,
 		opacity:0.6,
@@ -143,7 +166,7 @@ var gtLayers = [
 		tiled:false
 	},{
 		source:"local",
-		name:"LODDON:LSC_PROPERTY_VALUATION",
+		name:gtWorkspaceName+":LSC_PROPERTY_VALUATION",
 		title:"Property Valuation:Level of Values ($ per ha)",
 		visibility:false,
 		opacity:0.6,
@@ -153,7 +176,7 @@ var gtLayers = [
 		tiled:false
 	},{
 		source:"local",
-		name:"LODDON:LSC_PROPERTY_VALUATION",
+		name:gtWorkspaceName+":LSC_PROPERTY_VALUATION",
 		title:"Property Valuation:SV Change (%)",
 		visibility:false,
 		opacity:0.6,
@@ -163,7 +186,7 @@ var gtLayers = [
 		tiled:false
 	},{
 		source:"local",
-		name:"LODDON:LSC_PROPERTY_VALUATION",
+		name:gtWorkspaceName+":LSC_PROPERTY_VALUATION",
 		title:"Property Valuation:SubMarket Groups",
 		visibility:false,
 		opacity:0.6,
@@ -173,7 +196,7 @@ var gtLayers = [
 		tiled:false
 	},{
 		source:"local",
-		name:"LODDON:LSC_PROPERTY_VALUATION",
+		name:gtWorkspaceName+":LSC_PROPERTY_VALUATION",
 		title:"Property Valuation:Sales Use",
 		visibility:false,
 		opacity:0.6,
@@ -183,8 +206,8 @@ var gtLayers = [
 		tiled:false
 	},{
 		source:"backend",
-		name:gtWorkspaceName+":VW_LODDON_MASK",
-		title:"Shire",
+		name:"VICMAP:VW_LODDON_MASK",
+		title:"Municipal Boundary",
 		visibility:true,
 		opacity:0.6,
 		format:"image/png8",
@@ -234,7 +257,7 @@ var gtLayerLocSel = new OpenLayers.Layer.Vector("Search Result", {
 		srsName:       gtWFSsrsName,
 		featureNS:     gtFeatureNS,
 		geometryName:  gtWFSgeometryName,
-		schema:        gtWFSEndPoint+"?service=WFS&version=1.1.0&request=DescribeFeatureType&TypeName="+gtWorkspaceName+":VMPROP_PROPERTY"
+		schema:        gtWFSEndPoint+"?service=WFS&version=1.1.0&request=DescribeFeatureType&TypeName="+"VICMAP:VMPROP_PROPERTY"
 	}),
 	filter: new OpenLayers.Filter.Comparison({type: OpenLayers.Filter.Comparison.EQUAL_TO,property: 'pr_propnum',value: -1}),
 	projection: new OpenLayers.Projection("EPSG:4326")			
