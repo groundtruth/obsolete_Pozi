@@ -6,6 +6,7 @@ var glab;
 var gFormat;
 var gLayoutsArr = new Array();
 var gCurrentLoggedRole='NONE';
+var gCurrentExpandedTabIdx=[];
 
 // TMS Nearmaps
 //var mapBounds = new OpenLayers.Bounds( 140.661827141, -37.2265422532, 144.266533381, -33.6703768551).transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
@@ -410,7 +411,7 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 				var prop_by_prop_num_handler=function(request){
 					// Considering only the first row returned
 					var res=[];
-					res_data = Ext.util.JSON.decode(request.responseText).rows[0].row;
+					res_data = request.data.items[0].json.row;
 				
 					if (res_data)
 					{
@@ -425,11 +426,37 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 				};
 				
 				// AJAX request for info on the property passed in the URL
-				var request = OpenLayers.Request.GET({
-				    url: gtSearchPropertyEndPoint,
-				    params: {query: initPropertyNum,config:gtDatabaseConfig},
-				    callback: prop_by_prop_num_handler
+				//var request = OpenLayers.Request.GET({
+				//    url: gtSearchPropertyEndPoint,
+				//    params: {query: initPropertyNum,config:gtDatabaseConfig},
+				//    callback: prop_by_prop_num_handler
+				//});
+
+				var ds = new Ext.data.JsonStore({
+					autoLoad: true, //autoload the data
+					root: 'rows',
+					baseParams: {query: initPropertyNum, config: gtDatabaseConfig, lga:gtLGACode},
+					fields: [{name: "label"	, mapping:"row.label"},
+						{name: "xmini"	, mapping:"row.xmini"},
+						{name: "ymini"	, mapping:"row.ymini"},
+						{name: "xmaxi"	, mapping:"row.xmaxi"},
+						{name: "ymaxi"	, mapping:"row.ymaxi"},
+						{name: "gsns"	, mapping:"row.gsns"},
+						{name: "gsln"	, mapping:"row.gsln"},
+						{name: "idcol"	, mapping:"row.idcol"},
+						{name: "idval"	, mapping:"row.idval"},
+						{name: "ld"	, mapping:"row.ld"}
+					],
+			//		proxy: new Ext.data.HttpProxy({
+					proxy: new Ext.data.ScriptTagProxy({
+						url: gtSearchPropertyEndPoint
+					}),
+					listeners: {
+						load: prop_by_prop_num_handler
+					}
 				});
+
+
 		        }
 		        else
 		        {
@@ -598,7 +625,12 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 										
 										// Refreshing the DOM with the newly added parts
 										e0.doLayout();										
-										e0.items.itemAt(0).expand();
+										//e0.items.itemAt(0).expand();
+										if (!(gCurrentExpandedTabIdx[record.data.layer]))
+										{
+											gCurrentExpandedTabIdx[record.data.layer]="0";
+										}
+										e0.items.itemAt(gCurrentExpandedTabIdx[record.data.layer]).expand();
 	
 										// Setting a reference on this part of the DOM for injection of the attributes										
 										var e1=e0.items.items[0].body.id;
@@ -710,41 +742,44 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 																tab_array.push(tab_el);
 															}
 															
-															// Identification of the div to render the attributes to
-															var targ = Ext.get(Ext.getCmp(recs[0].json.row["target"]).body.id).dom;																
-
-															// The container depends on the number of records returned
-															if (tab_array.length==1)
+															// Identification of the div to render the attributes to, if there is anything to render
+															if (recs[0])
 															{
-																// Rendering as a table
-																var win = new Ext.Panel({
-																	id:'tblayout-win'+g
-																	//,width:227
-																	,layout:'table'
-																	,layoutConfig:{columns:2}
-																	,border:false
-																	//,closable:false
-																	,defaults:{height:20}
-																	,renderTo: targ
-																	,items: tab_array[0].items
-																});
-															}
-															else
-															{
-																// Renderng as a tab panel of tables
-																var win = new Ext.TabPanel({
-																	activeTab       : 0,
-																	id              : 'tblayout-win'+g,
-																	enableTabScroll : true,
-																	resizeTabs      : false,
-																	minTabWidth     : 15,																
-																	id:'tblayout-win'+g,
-																	border:false,
-																	renderTo: targ,
-																	items: tab_array
-																});
-															}
-															win.doLayout();																
+																var targ = Ext.get(Ext.getCmp(recs[0].json.row["target"]).body.id).dom;																
+															
+																// The container depends on the number of records returned
+																if (tab_array.length==1)
+																{
+																	// Rendering as a table
+																	var win = new Ext.Panel({
+																		id:'tblayout-win'+g
+																		//,width:227
+																		,layout:'table'
+																		,layoutConfig:{columns:2}
+																		,border:false
+																		//,closable:false
+																		,defaults:{height:20}
+																		,renderTo: targ
+																		,items: tab_array[0].items
+																	});
+																}
+																else
+																{
+																	// Renderng as a tab panel of tables
+																	var win = new Ext.TabPanel({
+																		activeTab       : 0,
+																		id              : 'tblayout-win'+g,
+																		enableTabScroll : true,
+																		resizeTabs      : false,
+																		minTabWidth     : 15,																
+																		id:'tblayout-win'+g,
+																		border:false,
+																		renderTo: targ,
+																		items: tab_array
+																	});
+																}
+																win.doLayout();	
+															}															
 															g++;
 														}
 													}
@@ -900,7 +935,22 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 				// applied to each contained panel
 				bodyStyle: " background-color: transparent ",
 				collapsed: true,
-				autoScroll:true
+				autoScroll:true,
+				listeners:{
+					scope: this,
+					expand:function(p){
+						for(k in p.ownerCt.items.items)
+						{	
+							if (p.ownerCt.items.items[k].id==p.id)
+							{
+								var cb = Ext.getCmp('gtInfoCombobox');
+								// Layer name of the currently selected item in the combo
+								gCurrentExpandedTabIdx[cb.getStore().data.items[cb.getStore().find("type",cb.getValue())].data.layer] = k;
+								break;
+							}
+						}
+					}
+				}
 			},
 			layoutConfig: {
 				// layout-specific configs go here
@@ -1037,7 +1087,7 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
             	height: 100,
             	footerCfg: {
             		// Required to have the footer display
-		        html: '<p style="font-size:8px;"><br></p>',
+		        html: '<p style="font-size:8px;"><br></p>'
 		},
 		footerStyle:'background-color:'+gtBannerLineColor+';border:0px;',
 		// Removes the grey border around the footer (and around the whole container body)
