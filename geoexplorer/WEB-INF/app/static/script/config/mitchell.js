@@ -3,33 +3,33 @@
 // Workspace containing the layers and corresponding namespace
 var gtWorkspaceName= "MITCHELL"; 
 // In a multi-council database setup, use 346
-var gtLGACode = "";
-var gtFeatureNS = "http://www.pozi.com.au/mitchell";
+var gtLGACode = "346";
+var gtFeatureNS = "http://www.pozi.com/vicmap";
 
 // Database config for the master search table
-var gtDatabaseConfig = "mitchellgis";
+var gtDatabaseConfig = "vicmap";
 
 // Aerial imagery credentials
 gtAerialUsername = "sweepingplains";
 gtAerialPassword = "sunburntcountry";
 
 //  Services
-var gtServicesHost = "http://www.pozi.com";
+var gtServicesHost = "http://49.156.17.41";
 ///var gtServicesHost = "http://localhost";
 ////var gtOWSEndPoint = 		gtServicesHost + "/geoserver/"+gtWorkspaceName+"/ows";
 var gtOWSEndPoint = 		gtServicesHost + "/geoserver/ows";
 //var gtOWSEndPointVicmap = 	gtServicesHost + "/geoserver/ows";
 var gtWFSEndPoint = 		gtServicesHost + "/geoserver/wfs";
 var gtSearchPropertyEndPoint =  gtServicesHost + "/ws/rest/v3/ws_property_id_by_propnum.php";
-var gtSearchComboEndPoint = 	gtServicesHost + "/ws/rest/v3/ws_all_features_by_string.php";
+var gtSearchComboEndPoint = 	gtServicesHost + "/ws/rest/v3/ws_all_features_by_string_and_lga.php";
 
 var gtGetLiveDataEndPoints=[
 	{ urlLayout:'http://localhost/ws_apache/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://localhost/ws_apache/rest/v3/ws_get_live_data.php',	storeMode:'sqlite',	storeName:'mitchell'},
-	{ urlLayout:'http://www.pozi.com/ws/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://www.pozi.com/ws/rest/v3/ws_get_live_data.php',	storeMode:'pgsql',	storeName:'mitchellgis'}
+	{ urlLayout:'http://49.156.17.41/ws/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://49.156.17.41/ws/rest/v3/ws_get_live_data.php',	storeMode:'pgsql',	storeName:'vicmap'}
 ];
 
 // External resources
-var gtLogoClientSrc = gtServicesHost+"/"+"theme/app/img/mitchell_banner.jpg";
+var gtLogoClientSrc = "http://www.pozi.com/"+"theme/app/img/mitchell_banner.jpg";
 var gtLogoClientWidth=238;
 
 // Map resources
@@ -64,8 +64,13 @@ var gtPrintTitle = "Mitchell Shire Council";
 
 // Datasources
 var gtMapDataSources = {
-	local: {
+	backend: {
 		url: gtOWSEndPoint,
+		title: "Remote GeoServer",
+		ptype: "gxp_wmscsource"
+	},
+	local: {
+		url: "/geoserver/ows",
 		title: "Local GeoServer",
 		ptype: "gxp_wmscsource"
 	},
@@ -114,23 +119,25 @@ var gtLayers = [
 		transparent:true
 	},
 	{
-		source:"local",
-		name:gtWorkspaceName+":VMPLAN_ZONE_CODELIST",
+		source:"backend",
+		name:"VICMAP:VW_DSE_VMPLAN_ZONE",
 		title:"Planning Zones (Vicmap)",
 		visibility:false,
 		opacity:0.5,
 		format:"image/png8",
 		styles:"",
-		transparent:true
+		transparent:true,
+		tiled: false
 	},{
-		source:"local",
-		name:gtWorkspaceName+":VMPLAN_OVERLAY_CODELIST",
+		source:"backend",
+		name:"VICMAP:VW_DSE_VMPLAN_OVERLAY",
 		title:"Planning Overlays (Vicmap)",
 		visibility:false,
 		opacity:0.5,
 		format:"image/png8",
 		styles:"",
-		transparent:true
+		transparent:true,
+		tiled: false
 	},{
 		source:"local",
 		name:gtWorkspaceName+":VICMAP_BUILDINGREG_BUSHFIRE_PRONE_AREA",
@@ -141,14 +148,15 @@ var gtLayers = [
 		styles:"",
 		transparent:true
 	},{
-		source:"local",
-		name:gtWorkspaceName+":VICMAP_PROPERTY_ADDRESS",
+		source:"backend",
+		name:"VICMAP:VICMAP_PROPERTY_ADDRESS",
 		title:"Property (Vicmap)",
 		visibility:true,
 		opacity:0.25,
 		format:"image/png8",
 		styles:"",
-		transparent:true
+		transparent:true,
+		tiled:false
 	},{
 		source:"local",
 		name:gtWorkspaceName+":MSC_GARBAGE_COLLECTION",
@@ -204,9 +212,19 @@ var gtLayers = [
 		styles:"",
 		transparent:true
 	},{
+		source:"backend",
+		name:"VICMAP:VW_MITCHELL_MASK",
+		title:"Municipal Boundary",
+		visibility:true,
+		opacity:0.6,
+		format:"image/png8",
+		styles:"",
+		transparent:true,
+		tiled:false
+	},{
 //		source:"localVicmap",
-		source:"local",
-		name:"VicmapClassicMitchell",
+		source:"backend",
+		name:"VicmapClassic",
 		title:"Vicmap Classic",
 		visibility:true,
 		opacity:1,
@@ -244,7 +262,7 @@ var gtLayerLocSel = new OpenLayers.Layer.Vector("Search Result", {
 		srsName:       gtWFSsrsName,
 		featureNS:     gtFeatureNS,
 		geometryName:  gtWFSgeometryName,
-		schema:        gtWFSEndPoint+"?service=WFS&version=1.1.0&request=DescribeFeatureType&TypeName="+gtWorkspaceName+":VMPROP_PROPERTY"
+		schema:        gtWFSEndPoint+"?service=WFS&version=1.1.0&request=DescribeFeatureType&TypeName="+"VICMAP:VMPROP_PROPERTY"
 	}),
 	filter: new OpenLayers.Filter.Comparison({type: OpenLayers.Filter.Comparison.EQUAL_TO,property: 'prop_propnum',value: -1}),
 	projection: new OpenLayers.Projection("EPSG:4326")			
