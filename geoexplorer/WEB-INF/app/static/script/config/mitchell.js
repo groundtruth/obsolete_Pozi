@@ -174,7 +174,8 @@ var gtLayers = [
 		opacity:0.75,
 		format:"image/png",
 		styles:"",
-		transparent:true
+		transparent:true,
+		tiled:false
 	},{
 		source:"local",
 		name:gtWorkspaceName+":MSC_SPORTS_RESERVE",
@@ -183,7 +184,8 @@ var gtLayers = [
 		opacity:0.75,
 		format:"image/png",
 		styles:"",
-		transparent:true
+		transparent:true,
+		tiled:false
 	},{
 		source:"local",
 		name:gtWorkspaceName+":MSC_CUSTOMER_SERVICE_CENTRE",
@@ -192,7 +194,8 @@ var gtLayers = [
 		opacity:0.75,
 		format:"image/png",
 		styles:"",
-		transparent:true
+		transparent:true,
+		tiled:false
 	},{
 		source:"local",
 		name:gtWorkspaceName+":MSC_LIBRARY",
@@ -201,7 +204,8 @@ var gtLayers = [
 		opacity:0.75,
 		format:"image/png",
 		styles:"",
-		transparent:true
+		transparent:true,
+		tiled:false
 	},{
 		source:"local",
 		name:gtWorkspaceName+":MSC_KINDERGARTEN",
@@ -210,7 +214,8 @@ var gtLayers = [
 		opacity:0.75,
 		format:"image/png",
 		styles:"",
-		transparent:true
+		transparent:true,
+		tiled:false
 	},{
 		source:"backend",
 		name:"VICMAP:VW_MITCHELL_MASK",
