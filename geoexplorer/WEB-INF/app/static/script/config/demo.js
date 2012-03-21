@@ -36,7 +36,10 @@ var gtLogoClientWidth=1;
 // Map center over Mortlake: select ST_AsText(ST_Transform(ST_SetSRID(ST_Centroid(the_geom),4283),900913)) from dse_vmfeat_locality_point where place_name='MORTLAKE'
 var gtMapCenter = [15896865, -4590599];
 var gtMapZoom = 15;
-var gtZoomMax=18;
+// When zooming after a search
+var gtZoomMax = 18;
+// Constraint on the general max zoom level of the map
+var gtMaxZoomLevel = 20;
 var gtQuickZoomDatastore = [
 	['142.630',	'-38.155',	'142.949',	'-37.961', 'Mortlake'	],
 	['142.328',	'-38.322',	'142.416',	'-38.231', 'Koroit'	],

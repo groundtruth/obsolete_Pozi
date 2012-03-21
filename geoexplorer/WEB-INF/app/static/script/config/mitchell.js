@@ -36,7 +36,10 @@ var gtLogoClientWidth=238;
 // Center determined by: select ST_AsText(ST_Transform(ST_SetSRID(ST_Centroid(the_geom),4283),900913)) from dse_vmadmin_lga where lga_name='MITCHELL'
 var gtMapCenter = [16143500, -4461908];
 var gtMapZoom = 10;
-var gtZoomMax=18;
+// When zooming after a search
+var gtZoomMax = 18;
+// Constraint on the general max zoom level of the map
+var gtMaxZoomLevel = 20;
 var gtQuickZoomDatastore = [
 	['144.936',	'-37.484',	'144.989',	'-37.467', 'Beveridge'	],
 	['145.025',	'-37.229',	'145.069',	'-37.195', 'Broadford'	],
