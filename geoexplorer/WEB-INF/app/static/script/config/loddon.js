@@ -38,7 +38,10 @@ var gtLogoClientWidth=116;
 // Center determined by: select ST_AsText(ST_Transform(ST_SetSRID(ST_Centroid(the_geom),4283),900913)) from dse_vmadmin_lga where lga_name='WEST WIMMERA'
 var gtMapCenter = [16015218, -4350806];
 var gtMapZoom = 9;
-var gtZoomMax=18;
+// When zooming after a search
+var gtZoomMax = 18;
+// Constraint on the general max zoom level of the map
+var gtMaxZoomLevel = 20;
 var gtQuickZoomDatastore = [
 ['143.713','-36.126','143.735','-36.108','Boort'],
 ['143.748','-36.294','143.758','-36.288','Borung'],
@@ -157,7 +160,7 @@ var gtLayers = [
 	},{
 		source:"local",
 		name:gtWorkspaceName+":LSC_PROPERTY_VALUATION",
-		title:"Property Valuation:CIV Change (%)",
+		title:"Property Valuation Stage 2:CIV Change (%)",
 		visibility:false,
 		opacity:0.6,
 		format:"image/png8",
@@ -167,7 +170,7 @@ var gtLayers = [
 	},{
 		source:"local",
 		name:gtWorkspaceName+":LSC_PROPERTY_VALUATION",
-		title:"Property Valuation:Level of Values ($ per ha)",
+		title:"Property Valuation Stage 2:Level of Values ($ per ha)",
 		visibility:false,
 		opacity:0.6,
 		format:"image/png8",
@@ -177,7 +180,7 @@ var gtLayers = [
 	},{
 		source:"local",
 		name:gtWorkspaceName+":LSC_PROPERTY_VALUATION",
-		title:"Property Valuation:SV Change (%)",
+		title:"Property Valuation Stage 2:SV Change (%)",
 		visibility:false,
 		opacity:0.6,
 		format:"image/png8",
@@ -187,7 +190,7 @@ var gtLayers = [
 	},{
 		source:"local",
 		name:gtWorkspaceName+":LSC_PROPERTY_VALUATION",
-		title:"Property Valuation:SubMarket Groups",
+		title:"Property Valuation Stage 2:SubMarket Groups",
 		visibility:false,
 		opacity:0.6,
 		format:"image/png8",
@@ -197,11 +200,31 @@ var gtLayers = [
 	},{
 		source:"local",
 		name:gtWorkspaceName+":LSC_PROPERTY_VALUATION",
-		title:"Property Valuation:Sales Use",
+		title:"Property Valuation Stage 2:Sales Use",
 		visibility:false,
 		opacity:0.6,
 		format:"image/png8",
 		styles:"PointGrad",
+		transparent:true,
+		tiled:false
+	},{
+		source:"local",
+		name:gtWorkspaceName+":LSC_STAGE4_RESIDENTIAL",
+		title:"Property Valuation Stage 4: Residential data",
+		visibility:false,
+		opacity:0.6,
+		format:"image/png8",
+		styles:"STAGE4_Residential",
+		transparent:true,
+		tiled:false
+	},{
+		source:"local",
+		name:gtWorkspaceName+":LSC_STAGE4_RURAL",
+		title:"Property Valuation Stage 4:Rural data",
+		visibility:false,
+		opacity:0.6,
+		format:"image/png8",
+		styles:"STAGE4_Rural",
 		transparent:true,
 		tiled:false
 	},{
@@ -215,9 +238,6 @@ var gtLayers = [
 		transparent:true,
 		tiled:false
 	},{
-		source:"mapquest",
-		name: "osm"
-	},{
 		source:"backend",
 		name:"VicmapClassic",
 		title:"Vicmap Classic",
@@ -229,6 +249,10 @@ var gtLayers = [
 		styles:"",
 		transparent:true,
 		cached:true
+	},{
+		source:"mapquest",
+		name: "osm",
+		visibility: false
 	},{
 		source: "ol",
 		group: "background",
