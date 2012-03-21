@@ -38,7 +38,10 @@ var gtLogoClientWidth=167;
 // Center determined by: select ST_AsText(ST_Transform(ST_SetSRID(ST_Centroid(the_geom),4283),900913)) from dse_vmadmin_lga where lga_name='WEST WIMMERA'
 var gtMapCenter = [15727146, -4393955];
 var gtMapZoom = 9;
-var gtZoomMax=18;
+// When zooming after a search
+var gtZoomMax = 18;
+// Constraint on the general max zoom level of the map
+var gtMaxZoomLevel = 20;
 var gtQuickZoomDatastore = [
 ['141.079','-36.971','141.090','-36.965','Apsley'],
 ['141.416','-37.282','141.423','-37.276','Chetwynd'],
@@ -118,6 +121,16 @@ var gtLayers = [
 		tiled: false
 	},{
 		source:"local",
+		name:gtWorkspaceName+":AAV_CULTURAL_SENSITIVITY",
+		title:"Cultural Sensitivity (AAV, 12/2011)",
+		visibility:false,
+		opacity:0.6,
+		format:"image/png8",
+		styles:"",
+		transparent:true,
+		tiled: false
+	},{
+		source:"local",
 		name:gtWorkspaceName+":WWSC_MAINTENANCE_ZONE",
 		title:"Maintenance Zones",
 		visibility:false,
@@ -157,6 +170,16 @@ var gtLayers = [
 		transparent:true,
 		tiled:false
 	},{
+		source:"local",
+		name:gtWorkspaceName+":WWSC_TRANSFER_STATION",
+		title:"Transfer Stations",
+		visibility:false,
+		opacity:0.9,
+		format:"image/png8",
+		styles:"",
+		transparent:true,
+		tiled:false
+	},{
 		source:"backend",
 		name:"VICMAP:VW_WEST_WIMMERA_MASK",
 		title:"Shire",
@@ -166,9 +189,6 @@ var gtLayers = [
 		styles:"",
 		transparent:true,
 		tiled:false
-	},{
-		source:"mapquest",
-		name: "osm"
 	},{
 		source:"backend",
 		name:"VicmapClassic",
@@ -181,6 +201,10 @@ var gtLayers = [
 		styles:"",
 		transparent:true,
 		cached:true
+	},{
+		source:"mapquest",
+		name: "osm",
+		visibility: false
 	},{
 		source: "ol",
 		group: "background",
@@ -271,20 +295,19 @@ var gtTools = [{
 //				index: 2
 //			}
 //		}, {
-//			ptype: "gxp_featuremanager",
-//			id: "featuremanager",
-//			maxFeatures: 20
-//		}, {
-//			ptype: "gxp_featureeditor",
-//			featureManager: "featuremanager",
-//			autoLoadFeatures: true,
-//			toggleGroup: this.toggleGroup,
-//			actionTarget: {
-//				target: "paneltbar",
-//				index: 6
-//			}
-//		}, {
-
+			ptype: "gxp_featuremanager",
+			id: "featuremanager",
+			maxFeatures: 20
+		}, {
+			ptype: "gxp_featureeditor",
+			featureManager: "featuremanager",
+			autoLoadFeatures: true,
+			toggleGroup: this.toggleGroup,
+			actionTarget: {
+				target: "paneltbar",
+				index: 6
+			}
+		}, {
 //			ptype: "gxp_zoom",
 //			actionTarget: {
 //				target: "paneltbar",
@@ -327,6 +350,8 @@ var gtTools = [{
 
 	var gtCreateTools = function () {
 		var tools = GeoExplorer.Composer.superclass.createTools.apply(this, arguments);
+		tools.unshift("");
+		tools.unshift("");
 		if (this.authorizedRoles.length === 0) {
 			this.loginButton = new Ext.Button({
 				iconCls: 'login',
