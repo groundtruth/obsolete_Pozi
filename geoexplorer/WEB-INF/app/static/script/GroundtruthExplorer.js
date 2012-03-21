@@ -106,6 +106,40 @@ var clear_highlight = function(){
 
 Ext.namespace("gxp.plugins");
 
+// Overrride for a better control of zoom levels on individual layers
+gxp.plugins.WMSCSource.prototype.createLayerRecord = function (config) {
+        var record = gxp.plugins.WMSCSource.superclass.createLayerRecord.apply(this, arguments);
+        var caps = this.store.reader.raw.capability;
+        var tileSets = (caps && caps.vendorSpecific && caps.vendorSpecific) ? caps.vendorSpecific.tileSets : null;
+        if ((tileSets !== null) && (record !== undefined)) {
+            var layer = record.get("layer");
+            var mapProjection = this.getMapProjection();
+            for (var i = 0, len = tileSets.length; i < len; i++) {
+                var tileSet = tileSets[i];
+                if (tileSet.layers === layer.params.LAYERS) {
+                    var tileProjection;
+                    for (var srs in tileSet.srs) {
+                        tileProjection = new OpenLayers.Projection(srs);
+                        break;
+                    }
+                    if (mapProjection.equals(tileProjection)) {
+                        var bbox = tileSet.bbox[srs].bbox;
+                        // We narrow the number of zooms available
+                        tileSet.resolutions = tileSet.resolutions.slice(0,gtMaxZoomLevel);
+                        layer.addOptions({
+                            resolutions: tileSet.resolutions,
+                            tileSize: new OpenLayers.Size(tileSet.width, tileSet.height),
+                            tileOrigin: new OpenLayers.LonLat(bbox[0], bbox[1])
+                        });
+                        layer.params.TILED = (config.cached !== false) && true;
+                        break;
+                    }
+                }
+            }
+        }
+        return record;
+    };
+
 // Override of the GetFeatureInfo addActions handler
 gxp.plugins.WMSGetFeatureInfo.prototype.addActions = function() {
 		this.popupCache = {};
