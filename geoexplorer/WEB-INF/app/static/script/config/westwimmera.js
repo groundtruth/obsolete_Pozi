@@ -124,7 +124,7 @@ var gtLayers = [
 		name:gtWorkspaceName+":AAV_CULTURAL_SENSITIVITY",
 		title:"Cultural Sensitivity (AAV, 12/2011)",
 		visibility:false,
-		opacity:0.6,
+		opacity:0.5,
 		format:"image/png8",
 		styles:"",
 		transparent:true,
@@ -170,11 +170,11 @@ var gtLayers = [
 		transparent:true,
 		tiled:false
 	},{
-		source:"local",
-		name:gtWorkspaceName+":WWSC_TRANSFER_STATION",
+		source:"backend",
+		name:"VICMAP:VW_TRANSFER_STATION",
 		title:"Transfer Stations",
 		visibility:false,
-		opacity:0.9,
+		opacity:0.85,
 		format:"image/png8",
 		styles:"",
 		transparent:true,

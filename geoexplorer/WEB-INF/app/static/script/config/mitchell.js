@@ -221,6 +221,16 @@ var gtLayers = [
 		tiled:false
 	},{
 		source:"backend",
+		name:"VICMAP:VW_TRANSFER_STATION",
+		title:"Transfer Stations",
+		visibility:false,
+		opacity:0.85,
+		format:"image/png8",
+		styles:"",
+		transparent:true,
+		tiled:false
+	},{
+		source:"backend",
 		name:"VICMAP:VW_MITCHELL_MASK",
 		title:"Municipal Boundary",
 		visibility:true,
