@@ -1,44 +1,47 @@
-// Javascript configuration file for Buloke
+// Javascript configuration file for West Wimmera
 
 // Workspace containing the layers and corresponding namespace
-var gtWorkspaceName= "BULOKE"; 
-// In a multi-council database setup, use a non-null value
-var gtLGACode = "";
-var gtFeatureNS = "http://www.pozi.com.au/buloke";
+var gtWorkspaceName= "BULOKE";
+// This is a multi-database setup so we need to specify the LGA
+var gtLGACode = "309";
+var gtFeatureNS = "http://www.pozi.com/vicmap";
 
 // Database config for the master search table
-var gtDatabaseConfig = "bulokegis";
-var gtInternalDBConfig = "buloke";
+var gtDatabaseConfig = "vicmap";
 
 // Aerial imagery credentials
 gtAerialUsername = "gtruth";
 gtAerialPassword = "buloke";
 
 //  Services
-////var gtServicesHost = "http://pozi";
-var gtServicesHost = "http://localhost";
-//var gtOWSEndPoint = 		gtServicesHost + "/geoserver/"+gtWorkspaceName+"/ows";
+var gtServicesHost = "http://49.156.17.41";
+///var gtServicesHost = "http://localhost";
+////var gtOWSEndPoint = 		gtServicesHost + "/geoserver/"+gtWorkspaceName+"/ows";
 var gtOWSEndPoint = 		gtServicesHost + "/geoserver/ows";
-var gtVicmapHost = "http://www.pozi.com";
-var gtOWSEndPointVicmap = 	gtVicmapHost + "/geoserver/ows";
+//var gtOWSEndPointVicmap = 	gtServicesHost + "/geoserver/ows";
 var gtWFSEndPoint = 		gtServicesHost + "/geoserver/wfs";
 var gtSearchPropertyEndPoint =  gtServicesHost + "/ws/rest/v3/ws_property_id_by_propnum.php";
-var gtSearchComboEndPoint = 	gtServicesHost + "/ws/rest/v3/ws_all_features_by_string.php";
+var gtSearchComboEndPoint = 	gtServicesHost + "/ws/rest/v3/ws_all_features_by_string_and_lga.php";
 
-var gtGetLayoutEndPoint='http://localhost/ws_apache/rest/v3/ws_get_layouts.php';
-var gtGetLiveDataEndPoint='http://localhost/ws_apache/rest/v3/ws_get_live_data.php';
+var gtGetLiveDataEndPoints=[
+	{ urlLayout:'http://10.58.200.28/ws/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://10.58.200.28/ws/rest/v3/ws_get_live_data.php',	storeMode:'sqlite',	storeName:'buloke'},
+	{ urlLayout:'http://49.156.17.41/ws/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://49.156.17.41/ws/rest/v3/ws_get_live_data.php',	storeMode:'pgsql',	storeName:'vicmap'}
+];
 
 // External resources
 //var gtPoziLogoSrc = gtServicesHost+"/"+"theme/app/img/pozi-logo.png";
 //var gtPoziLogoWidth = 165; 
-var gtLogoClientSrc = gtServicesHost+"/"+"theme/app/img/buloke_banner.png";
+var gtLogoClientSrc = "http://www.pozi.com/theme/app/img/buloke_banner.png";
 var gtLogoClientWidth=179;
 
 // Map resources
-// Center determined by: select ST_AsText(ST_Transform(ST_SetSRID(ST_Centroid(the_geom),4283),900913)) from dse_vmadmin_lga where lga_name='BULOKE'
+// Center determined by: select ST_AsText(ST_Transform(ST_SetSRID(ST_Centroid(the_geom),4283),900913)) from dse_vmadmin_lga where lga_name='WEST WIMMERA'
 var gtMapCenter = [15932253, -4280583];
 var gtMapZoom = 9;
-var gtZoomMax=18;
+// When zooming after a search
+var gtZoomMax = 18;
+// Constraint on the general max zoom level of the map
+var gtMaxZoomLevel = 20;
 var gtQuickZoomDatastore = [
 	['142.992',	'-35.6407',	'142.997',	'-35.6357'	,'Berriwillock'	],
 	['142.909',	'-35.9871',	'142.918',	'-35.9798'	,'Birchip'	],
@@ -51,6 +54,7 @@ var gtQuickZoomDatastore = [
 	['142.86',	'-36.1584',	'142.866',	'-36.1489'	,'Watchem'	],
 	['142.723',	'-35.7577',	'142.725',	'-35.7573'	,'Watchupga'	],
 	['143.223',	'-36.0791',	'143.234',	'-36.0706'	,'Wycheproof'	] ];
+
 		
 // UI labels
 var gtDetailsTitle='Details';
@@ -61,21 +65,21 @@ var gtLoadingText = 'Searching...';
 var gtEmptyTextSelectFeature = 'Selected features ...';
 var gtClearButton='clear';
 var gtPropNum;
-var gtLegendHeight = 200;
+var gtLegendHeight = 400;
 var gtPrintTitle = "Buloke Shire Council";
 
-// Datasources
+// Datasources 
 var gtMapDataSources = {
-	local: {
+	backend: {
 		url: gtOWSEndPoint,
+		title: "Remote GeoServer",
+		ptype: "gxp_wmscsource"
+	},
+	local: {
+		url: "/geoserver/ows",
 		title: "Local GeoServer",
 		ptype: "gxp_wmscsource"
 	},
-//	local_gwc: {
-//		url: "/geoserver/gwc/service/wms",
-//		title: "GeoWebCache",
-//		ptype: "gxp_wmssource"
-//	},
 	mapquest: {
 		ptype: "gxp_mapquestsource"
 	},
@@ -95,14 +99,8 @@ var gtMapDataSources = {
 		url: "http://images.land.vic.gov.au/ecwp/ecw_wms.dll",
 		title: "DSE Imagery Server"
 	}
-	,
-	pozivicmap: {
-		url: gtOWSEndPointVicmap,
-		title: "Vicmap source",
-		ptype: "gxp_wmscsource"
-	}
 };
-      
+    
 // Initial layers      
 var gtLayers = [
 	{
@@ -115,40 +113,43 @@ var gtLayers = [
 		format:"image/JPEG",
 		transparent:true
 	},{
-		source:"local",
-		name:gtWorkspaceName+":VMPLAN_ZONE_CODELIST",
-		title:"Planning Zone (Vicmap)",
+		source:"backend",
+		name:"VICMAP:VW_DSE_VMPLAN_ZONE",
+		title:"Planning Zones (Vicmap)",
 		visibility:false,
-		opacity:0.5,
+		opacity:0.6,
 		format:"image/png8",
 		styles:"",
-		transparent:true
+		transparent:true,
+		tiled: false
 	},{
-		source:"local",
-		name:gtWorkspaceName+":VMPLAN_OVERLAY_CODELIST",
-		title:"Planning Overlay (Vicmap)",
+		source:"backend",
+		name:"VICMAP:VW_DSE_VMPLAN_OVERLAY",
+		title:"Planning Overlays (Vicmap)",
 		visibility:false,
-		opacity:0.5,
+		opacity:0.6,
 		format:"image/png8",
 		styles:"",
-		transparent:true
+		transparent:true,
+		tiled: false
 	},{
-		source:"local",
-		name:gtWorkspaceName+":VICMAP_PROPERTY_ADDRESS",
+		source:"backend",
+		name:"VICMAP:VICMAP_PROPERTY_ADDRESS",
 		title:"Property (Vicmap)",
 		visibility:true,
-		opacity:0.5,
+		opacity:0.25,
 		format:"image/png8",
 		styles:"",
-		transparent:true
+		transparent:true,
+		tiled:false
 	},{
-		source:"local",
-		name:gtWorkspaceName+":VMPROP_PARCEL",
+		source:"backend",
+		name:"VICMAP:VMPROP_PARCEL",
 		title:"Parcel (Vicmap)",
 		visibility:false,
-		opacity:0.5,
+		opacity:0.75,
 		format:"image/png8",
-		styles:"Parcel_Overlay",
+		styles:"parcel_label",
 		transparent:true,
 		tiled:false
 	},{
@@ -232,18 +233,29 @@ var gtLayers = [
 		format:"image/png8",
 		styles:"",
 		transparent:true
-//	},{
-//		source:"bing",
-//		name:"Road",
-//		title:"Bing Roads",
-//		visibility:true,
-//		group:"background",
-//		fixed:true,
-//		selected:true
 	},{
-		source:"pozivicmap",
-//		source:"local",
-		name:"VicmapClassicBuloke",
+		source:"backend",
+		name:"VICMAP:VW_TRANSFER_STATION",
+		title:"Transfer Stations",
+		visibility:false,
+		opacity:0.85,
+		format:"image/png8",
+		styles:"",
+		transparent:true,
+		tiled:false
+	},{
+		source:"backend",
+		name:"VICMAP:VW_BULOKE_MASK",
+		title:"Municipal Boundary",
+		visibility:true,
+		opacity:0.6,
+		format:"image/png8",
+		styles:"",
+		transparent:true,
+		tiled:false
+	},{
+		source:"backend",
+		name:"VicmapClassic",
 		title:"Vicmap Classic",
 		visibility:true,
 		opacity:1,
@@ -253,6 +265,10 @@ var gtLayers = [
 		styles:"",
 		transparent:true,
 		cached:true
+	},{
+		source:"mapquest",
+		name: "osm",
+		visibility: false
 	},{
 		source: "ol",
 		group: "background",
@@ -281,9 +297,9 @@ var gtLayerLocSel = new OpenLayers.Layer.Vector("Search Result", {
 		srsName:       gtWFSsrsName,
 		featureNS:     gtFeatureNS,
 		geometryName:  gtWFSgeometryName,
-		schema:        gtWFSEndPoint+"?service=WFS&version=1.1.0&request=DescribeFeatureType&TypeName="+gtWorkspaceName+":VMPROP_PROPERTY"
+		schema:        gtWFSEndPoint+"?service=WFS&version=1.1.0&request=DescribeFeatureType&TypeName="+"VICMAP:VMPROP_PROPERTY"
 	}),
-	filter: new OpenLayers.Filter.Comparison({type: OpenLayers.Filter.Comparison.EQUAL_TO,property: 'prop_propnum',value: 0}),
+	filter: new OpenLayers.Filter.Comparison({type: OpenLayers.Filter.Comparison.EQUAL_TO,property: 'pr_propnum',value: -1}),
 	projection: new OpenLayers.Projection("EPSG:4326")			
 });
 
@@ -301,16 +317,17 @@ var gtTools = [{
 			outputConfig: {
 				autoScroll: true
 			}
-		}, {
-			ptype: "gxp_addlayers",
-			actionTarget: "tree.tbar",
-			upload: true
-		}, {
-			ptype: "gxp_removelayer",
-			actionTarget: ["tree.tbar", "layertree.contextMenu"]
+//		}, {
+//			ptype: "gxp_addlayers",
+//			actionTarget: "tree.tbar",
+//			upload: true
+//		}, {
+//			ptype: "gxp_removelayer",
+//			actionTarget: ["tree.tbar", "layertree.contextMenu"]
 		}, {
 			ptype: "gxp_layerproperties",
-			actionTarget: ["tree.tbar", "layertree.contextMenu"]
+///			actionTarget: ["tree.tbar", "layertree.contextMenu"]
+			actionTarget: ["layertree.contextMenu"]
 //		}, {
 //			ptype: "gxp_styler",
 //			actionTarget: ["tree.tbar", "layertree.contextMenu"]
@@ -409,49 +426,7 @@ var gtTools = [{
 		} else {
 
 		}
-		var aboutButton = new Ext.Button({
-			text: "Pozi",
-			iconCls: "icon-geoexplorer",
-			handler: 
-				function () {
-					var appInfo = new Ext.Panel({
-						title: this.appInfoText,
-						html: "<iframe style='border: none; height: 100%; width: 100%' src='about.html' frameborder='0' border='0'><a target='_blank' href='about.html'>" + this.aboutText + "</a> </iframe>"
-					});
-//					var about = Ext.applyIf(this.about, {
-//						title: '',
-//						"abstract": '',
-//						contact: ''
-//					});
-//					var mapInfo = new Ext.Panel({
-//						title: this.mapInfoText,
-//						html: '<div class="gx-info-panel">' + '<h2>' + this.titleText + '</h2><p>' + about.title + '</p><h2>' + this.descriptionText + '</h2><p>' + about['abstract'] + '</p> <h2>' + this.contactText + '</h2><p>' + about.contact + '</p></div>',
-//						height: 'auto',
-//						width: 'auto'
-//					});
-					var poziInfo = new Ext.Panel({
-						title: "Pozi",
-						html: "<iframe style='border: none; height: 100%; width: 100%' src='about-pozi.html' frameborder='0' border='0'><a target='_blank' href='about-pozi.html'>" + "</a> </iframe>"
-					});
-					var tabs = new Ext.TabPanel({
-						activeTab: 0,
-						items: [
-						poziInfo,appInfo]
-					});
-					var win = new Ext.Window({
-						title: this.aboutThisMapText,
-						modal: true,
-						layout: "fit",
-						width: 300,
-						height: 300,
-						items: [
-						tabs]
-					});
-					win.show();
-				},			
-			scope: this
-		});
-		tools.unshift("-");
+		tools.unshift("");
 //		tools.unshift(new Ext.Button({
 //			tooltip: this.exportMapText,
 //			needsAuthorization: true,
@@ -472,12 +447,41 @@ var gtTools = [{
 //			scope: this,
 //			iconCls: "icon-save"
 //		}));
-		tools.unshift("-");
-		tools.unshift(aboutButton);
+		tools.unshift("");
 		return tools;
 	};
 	
 	
+var poziLinkClickHandler = function () {
+	var appInfo = new Ext.Panel({
+		title: "GeoExplorer",
+		html: "<iframe style='border: none; height: 100%; width: 100%' src='about.html' frameborder='0' border='0'><a target='_blank' href='about.html'>" + this.aboutText + "</a> </iframe>"
+	});
+	var poziInfo = new Ext.Panel({
+		title: "Pozi Explorer",
+		html: "<iframe style='border: none; height: 100%; width: 100%' src='about-pozi.html' frameborder='0' border='0'><a target='_blank' href='about-pozi.html'>" + "</a> </iframe>"
+	});
+	var tabs = new Ext.TabPanel({
+		activeTab: 0,
+		items: [
+		poziInfo,appInfo]
+	});
+	var win = new Ext.Window({
+		title: "About this map",
+		modal: true,
+		layout: "fit",
+		width: 300,
+		height: 300,
+		items: [
+			tabs]
+		});
+	win.show();
+};	
+	
 var gtInitialDisclaimerFlag=false;
 var gtDisclaimer="disclaimer.html";
-var gtRedirectIfDeclined="http://www.google.com";
+var gtRedirectIfDeclined="http://www.buloke.vic.gov.au/";
+var gtLinkToCouncilWebsite="http://www.buloke.vic.gov.au/";
+var gtBannerLineColor="#0066A3";
+var gtBannerRightCornerLine1="Buloke Shire Council";
+var gtBannerRightCornerLine2="Victoria, Australia";
