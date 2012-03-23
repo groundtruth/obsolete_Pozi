@@ -73,6 +73,17 @@ var gCombostore = new Ext.data.ArrayStore({
             load: function(ds,records,o) {
 		var cb = Ext.getCmp('gtInfoCombobox');
 		var rec = records[0];
+		if (records.length>1)
+		{
+			// Multiple records, color of the combo background is different
+			cb.addClass("x-form-multi");
+			
+		}
+		else
+		{
+			// Restoring the color to a normal white
+			cb.removeClass("x-form-multi");
+		}
 		cb.setValue(rec.data.type);
 		cb.fireEvent('select',cb,rec);
 	        },
@@ -96,6 +107,7 @@ var clear_highlight = function(){
 	cb.collapse();
 	cb.clearValue();
 	cb.disable();
+	cb.removeClass("x-form-multi");
 	// Removing all values from the combo
 	gCombostore.removeAll();
 	// Clearing the details from the panel
