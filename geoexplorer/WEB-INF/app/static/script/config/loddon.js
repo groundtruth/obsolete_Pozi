@@ -160,7 +160,7 @@ var gtLayers = [
 	},{
 		source:"local",
 		name:gtWorkspaceName+":LSC_PROPERTY_VALUATION",
-		title:"Property Valuation Stage 2:CIV Change (%)",
+		title:"Stage 2:CIV Change (%)",
 		visibility:false,
 		opacity:0.6,
 		format:"image/png8",
@@ -170,7 +170,7 @@ var gtLayers = [
 	},{
 		source:"local",
 		name:gtWorkspaceName+":LSC_PROPERTY_VALUATION",
-		title:"Property Valuation Stage 2:Level of Values ($ per ha)",
+		title:"Stage 2:Level of Values ($ per ha)",
 		visibility:false,
 		opacity:0.6,
 		format:"image/png8",
@@ -180,7 +180,7 @@ var gtLayers = [
 	},{
 		source:"local",
 		name:gtWorkspaceName+":LSC_PROPERTY_VALUATION",
-		title:"Property Valuation Stage 2:SV Change (%)",
+		title:"Stage 2:SV Change (%)",
 		visibility:false,
 		opacity:0.6,
 		format:"image/png8",
@@ -190,7 +190,7 @@ var gtLayers = [
 	},{
 		source:"local",
 		name:gtWorkspaceName+":LSC_PROPERTY_VALUATION",
-		title:"Property Valuation Stage 2:SubMarket Groups",
+		title:"Stage 2:SubMarket Groups",
 		visibility:false,
 		opacity:0.6,
 		format:"image/png8",
@@ -200,7 +200,7 @@ var gtLayers = [
 	},{
 		source:"local",
 		name:gtWorkspaceName+":LSC_PROPERTY_VALUATION",
-		title:"Property Valuation Stage 2:Sales Use",
+		title:"Stage 2:Sales Use",
 		visibility:false,
 		opacity:0.6,
 		format:"image/png8",
@@ -210,21 +210,111 @@ var gtLayers = [
 	},{
 		source:"local",
 		name:gtWorkspaceName+":LSC_STAGE4_RESIDENTIAL",
-		title:"Property Valuation Stage 4: Residential data",
+		title:"Stage 4: Residential data:Sales Use",
 		visibility:false,
 		opacity:0.6,
 		format:"image/png8",
-		styles:"STAGE4_Residential",
+		styles:"PointGrad_ST4",
+		transparent:true,
+		tiled:false
+	},{
+		source:"local",
+		name:gtWorkspaceName+":LSC_STAGE4_RESIDENTIAL",
+		title:"Stage 4: Residential data:CIV Change (%)",
+		visibility:false,
+		opacity:0.6,
+		format:"image/png8",
+		styles:"CIV_Change(%)",
+		transparent:true,
+		tiled:false
+	},{
+		source:"local",
+		name:gtWorkspaceName+":LSC_STAGE4_RESIDENTIAL",
+		title:"Stage 4: Residential data:SV Change(%)",
+		visibility:false,
+		opacity:0.6,
+		format:"image/png8",
+		styles:"SV_Change(%)",
+		transparent:true,
+		tiled:false
+	},{
+		source:"local",
+		name:gtWorkspaceName+":LSC_STAGE4_RESIDENTIAL",
+		title:"Stage 4: Residential data:SubMarkets Groups",
+		visibility:false,
+		opacity:0.6,
+		format:"image/png8",
+		styles:"SubMarketsGroups_Residential_ST4",
+		transparent:true,
+		tiled:false
+	},{
+		source:"local",
+		name:gtWorkspaceName+":LSC_STAGE4_RESIDENTIAL",
+		title:"Stage 4: Residential data:Level of values ($ per ha)",
+		visibility:false,
+		opacity:0.6,
+		format:"image/png8",
+		styles:"LevelOfvalue($perha)_ST4",
 		transparent:true,
 		tiled:false
 	},{
 		source:"local",
 		name:gtWorkspaceName+":LSC_STAGE4_RURAL",
-		title:"Property Valuation Stage 4:Rural data",
+		title:"Stage 4: Rural data:Sales Use",
 		visibility:false,
 		opacity:0.6,
 		format:"image/png8",
-		styles:"STAGE4_Rural",
+		styles:"PointGrad_ST4",
+		transparent:true,
+		tiled:false
+	},{
+		source:"local",
+		name:gtWorkspaceName+":LSC_STAGE4_RURAL",
+		title:"Stage 4: Rural data:CIV Change (%)",
+		visibility:false,
+		opacity:0.6,
+		format:"image/png8",
+		styles:"CIV_Change(%)",
+		transparent:true,
+		tiled:false
+	},{
+		source:"local",
+		name:gtWorkspaceName+":LSC_STAGE4_RURAL",
+		title:"Stage 4: Rural data:SV Change (%)",
+		visibility:false,
+		opacity:0.6,
+		format:"image/png8",
+		styles:"SV_Change(%)",
+		transparent:true,
+		tiled:false
+	},{
+		source:"local",
+		name:gtWorkspaceName+":LSC_STAGE4_RURAL",
+		title:"Stage 4: Rural data:Level of Values ($ per ha)",
+		visibility:false,
+		opacity:0.6,
+		format:"image/png8",
+		styles:"LevelOfvalue($perha)_ST4",
+		transparent:true,
+		tiled:false
+	},{
+		source:"local",
+		name:gtWorkspaceName+":LSC_STAGE4_RURAL",
+		title:"Stage 4: Rural data:SubMarkets Groups",
+		visibility:false,
+		opacity:0.6,
+		format:"image/png8",
+		styles:"SubMarketsGroups",
+		transparent:true,
+		tiled:false
+	},{
+		source:"backend",
+		name:"VICMAP:VW_TRANSFER_STATION",
+		title:"Transfer Stations",
+		visibility:false,
+		opacity:0.85,
+		format:"image/png8",
+		styles:"",
 		transparent:true,
 		tiled:false
 	},{
