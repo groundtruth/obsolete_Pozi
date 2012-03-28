@@ -109,15 +109,6 @@ var gtMapDataSources = {
 // Initial layers      
 var gtLayers = [
 	{
-		source:"dse",
-		name :"AERIAL_LODDON_2009APR14_AIR_VIS_35CM_MGA54",
-		title:"Aerial Photo (CIP 2009)",
-		visibility:false,
-		opacity:0.9,
-		selected:false,
-		format:"image/JPEG",
-		transparent:true
-	},{
 		source:"backend",
 		name:"VICMAP:VW_DSE_VMPLAN_ZONE",
 		title:"Planning Zones (Vicmap)",
@@ -319,6 +310,18 @@ var gtLayers = [
 		tiled:false
 	},{
 		source:"backend",
+		name:"LabelClassic",
+		title:"Labels",
+		visibility:true,
+		opacity:1,
+		selected:false,
+		format:"image/png8",
+		styles:"",
+		transparent:true,
+		cached:false,
+		tiled:false
+	},{
+		source:"backend",
 		name:"VICMAP:VW_LODDON_MASK",
 		title:"Municipal Boundary",
 		visibility:true,
@@ -343,6 +346,26 @@ var gtLayers = [
 		source:"mapquest",
 		name: "osm",
 		visibility: false
+	},{
+		source:"dse",
+		name :"AERIAL_LODDON_2009APR14_AIR_CIR_35CM_MGA54",
+		title:"Aerial Photo (CIP 2009, Infra-red)",
+		visibility:false,
+		opacity:0.9,
+		group:"background",
+		selected:false,
+		format:"image/JPEG",
+		transparent:true
+	},{
+		source:"dse",
+		name :"AERIAL_LODDON_2009APR14_AIR_VIS_35CM_MGA54",
+		title:"Aerial Photo (CIP 2009)",
+		visibility:false,
+		opacity:0.9,
+		group:"background",
+		selected:false,
+		format:"image/JPEG",
+		transparent:true
 	},{
 		source: "ol",
 		group: "background",

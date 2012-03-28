@@ -10,8 +10,8 @@ var gtFeatureNS = "http://www.pozi.com/vicmap";
 var gtDatabaseConfig = "vicmap";
 
 // Aerial imagery credentials
-gtAerialUsername = "";
-gtAerialPassword = "";
+gtAerialUsername = "lkorf";
+gtAerialPassword = "0003";
 
 //  Services
 var gtServicesHost = "http://49.156.17.41";
@@ -94,6 +94,10 @@ var gtMapDataSources = {
 //	},
 	ol: {
 		ptype: "gxp_olsource"
+	},
+	dse: {
+		url: "http://images.land.vic.gov.au/ecwp/ecw_wms.dll",
+		title: "DSE Imagery Server"
 	}
 };
     
@@ -181,6 +185,17 @@ var gtLayers = [
 		tiled:false
 	},{
 		source:"backend",
+		name:"LabelClassic",
+		title:"Labels",
+		visibility:true,
+		opacity:1,
+		selected:false,
+		format:"image/png8",
+		styles:"",
+		transparent:true,
+		cached:false
+	},{
+		source:"backend",
 		name:"VICMAP:VW_WEST_WIMMERA_MASK",
 		title:"Shire",
 		visibility:true,
@@ -205,6 +220,16 @@ var gtLayers = [
 		source:"mapquest",
 		name: "osm",
 		visibility: false
+	},{
+		source:"dse",
+		name :"AERIAL_WIMMERA-CMA_2004NOV01_AIR_VIS_60CM_MGA54",
+		title:"Aerial Photo (WCMA 2004)",
+		visibility:false,
+		opacity:0.9,
+		group:"background",
+		selected:false,
+		format:"image/JPEG",
+		transparent:true
 	},{
 		source: "ol",
 		group: "background",

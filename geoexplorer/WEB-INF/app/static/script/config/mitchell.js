@@ -112,16 +112,6 @@ var gtMapDataSources = {
 // Initial layers      
 var gtLayers = [
 	{
-		source:"dse",
-		name :"AERIAL_MITCHELL_2007JAN26_AIR_VIS_50CM_MGA55",
-		title:"Aerial Photo (CIP 2007)",
-		visibility:false,
-		opacity:0.9,
-		selected:false,
-		format:"image/JPEG",
-		transparent:true
-	},
-	{
 		source:"backend",
 		name:"VICMAP:VW_DSE_VMPLAN_ZONE",
 		title:"Planning Zones (Vicmap)",
@@ -231,6 +221,17 @@ var gtLayers = [
 		tiled:false
 	},{
 		source:"backend",
+		name:"LabelClassic",
+		title:"Labels",
+		visibility:true,
+		opacity:1,
+		selected:false,
+		format:"image/png8",
+		styles:"",
+		transparent:true,
+		cached:false
+	},{
+		source:"backend",
 		name:"VICMAP:VW_MITCHELL_MASK",
 		title:"Municipal Boundary",
 		visibility:true,
@@ -252,6 +253,16 @@ var gtLayers = [
 		styles:"",
 		transparent:true,
 		cached:true
+	},{
+		source:"dse",
+		name :"AERIAL_MITCHELL_2007JAN26_AIR_VIS_50CM_MGA55",
+		title:"Aerial Photo (CIP 2007)",
+		visibility:false,
+		opacity:0.9,
+		group:"background",
+		selected:false,
+		format:"image/JPEG",
+		transparent:true
 	},{
 		source: "ol",
 		group: "background",
