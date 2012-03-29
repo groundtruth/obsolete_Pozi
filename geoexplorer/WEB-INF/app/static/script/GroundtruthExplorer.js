@@ -182,7 +182,7 @@ gxp.plugins.WMSGetFeatureInfo.prototype.addActions = function() {
 			// It's the number of layers that support WMS get feature info that are currently visible
 			var queryableLayers = this.target.mapPanel.layers.queryBy(function (x) {
 				var u = x.getLayer().url;
-				if (u)
+				if (u && typeof u == "string")
 				{
 					// Removing the by-default assumption that the local layers will have 8080, except for basemaps
 					if (x.get("group") != "background")
@@ -230,8 +230,18 @@ gxp.plugins.WMSGetFeatureInfo.prototype.addActions = function() {
 			info.controls = [];
 			var layerCounter = 0;
 			queryableLayers.each(function (x) {
+				// There might be a way to distribute the controls over several URLs
+				var first_url;
+				if (typeof x.getLayer().url == "object")
+				{
+					first_url = x.getLayer().url[0];
+				}
+				else
+				{
+					first_url = x.getLayer().url;
+				}
 				var control = new OpenLayers.Control.WMSGetFeatureInfo({
-					url: x.getLayer().url,
+					url: first_url,
 					queryVisible: true,
 					radius: 64,
 					infoFormat: 'text/html',
@@ -733,6 +743,23 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 																{
 																	if (j!="target")
 																	{
+																		var val=res_data[j];
+																		if (val.search(/^http/)>-1)
+																		{
+																			if (val.search(/\.jpg/)>-1)
+																			{
+																				val="<a href='"+val+"' target='_blank'><img src='"+val+"' height='20' width='20' /></a>";
+																			}
+																			else
+																			{
+																				val="<a href='"+val+"' target='_blank'>link</a>";
+																			}
+																		}
+																		else
+																		{
+																			val=val.replace(/ 12:00 AM/g,"");
+																		}
+												
 																		if (j.search(/^gsv/)>-1)
 																		{
 																			// Not showing the cells - technical properties for Google Street View
@@ -741,7 +768,7 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 																		else
 																		{																			// Formatting the cells for attribute display in a tidy table
 																			item_array2.push({html:"<div style='font-size:8pt;'><font color='#666666'>"+j+"</font></div>"});
-																			item_array2.push({html:"<div style='font-size:10pt;'>"+res_data[j]+"</div>"});
+																			item_array2.push({html:"<div style='font-size:10pt;'>"+val+"</div>"});
 																		}
 																	}
 																}

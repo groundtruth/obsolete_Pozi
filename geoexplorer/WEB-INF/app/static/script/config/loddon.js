@@ -76,7 +76,7 @@ var gtPrintTitle = "Loddon Shire Council";
 // Datasources 
 var gtMapDataSources = {
 	backend: {
-		url: gtOWSEndPoint,
+		url: ["http://m1.pozi.com/geoserver/ows","http://m2.pozi.com/geoserver/ows","http://m3.pozi.com/geoserver/ows","http://m4.pozi.com/geoserver/ows"],
 		title: "Remote GeoServer",
 		ptype: "gxp_wmscsource"
 	},
@@ -343,15 +343,81 @@ var gtLayers = [
 		transparent:true,
 		cached:true
 	},{
-		source:"mapquest",
-		name: "osm",
-		visibility: false
+		source:"dse",
+		name :"SATELLITE_NTH-VIC-FLOODS_2010SEP07_SAT_TM542_25M_MGA55",
+		title:"Aerial Photo (North Victoria 07/09/2010)",
+		visibility:false,
+		opacity:1,
+		group:"background",
+		selected:false,
+		format:"image/JPEG",
+		transparent:true
+	},{
+		source:"dse",
+		name :"SATELLITE_LODDON-FLOOD_2011JAN16_SAT_RE321_5M_MGA54",
+		title:"Aerial Photo (Loddon 16/01/2011)",
+		visibility:false,
+		opacity:1,
+		group:"background",
+		selected:false,
+		format:"image/JPEG",
+		transparent:true
+	},{
+		source:"dse",
+		name :"TOWNS_SERPENTINE-FLOOD_2011JAN16_AIR_CIR_15CM_MGA55",
+		title:"Aerial Photo (Serpentine 16/01/2011 IR)",
+		visibility:false,
+		opacity:1,
+		group:"background",
+		selected:false,
+		format:"image/JPEG",
+		transparent:true
+	},{
+		source:"dse",
+		name :"TOWNS_SERPENTINE-FLOOD_2011JAN16_AIR_VIS_15CM_MGA55",
+		title:"Aerial Photo (Serpentine 16/01/2011)",
+		visibility:false,
+		opacity:1,
+		group:"background",
+		selected:false,
+		format:"image/JPEG",
+		transparent:true
+	},{
+		source:"dse",
+		name :"TOWNS_KERANG-FLOOD_2011JAN22_AIR_VIS_50CM_MGA54",
+		title:"Aerial Photo (Kerang 22/01/2011)",
+		visibility:false,
+		opacity:1,
+		group:"background",
+		selected:false,
+		format:"image/JPEG",
+		transparent:true
+	},{
+		source:"dse",
+		name :"TOWNS_KERANG-FLOOD_2011JAN19_AIR_CIR_50CM_MGA54",
+		title:"Aerial Photo (Kerang 19/01/2011 IR)",
+		visibility:false,
+		opacity:1,
+		group:"background",
+		selected:false,
+		format:"image/JPEG",
+		transparent:true
+	},{
+		source:"dse",
+		name :"TOWNS_KERANG-FLOOD_2011JAN19_AIR_VIS_50CM_MGA54",
+		title:"Aerial Photo (Kerang 19/01/2011)",
+		visibility:false,
+		opacity:1,
+		group:"background",
+		selected:false,
+		format:"image/JPEG",
+		transparent:true
 	},{
 		source:"dse",
 		name :"AERIAL_LODDON_2009APR14_AIR_CIR_35CM_MGA54",
-		title:"Aerial Photo (CIP 2009, Infra-red)",
+		title:"Aerial Photo (CIP 2009 IR)",
 		visibility:false,
-		opacity:0.9,
+		opacity:1,
 		group:"background",
 		selected:false,
 		format:"image/JPEG",
@@ -361,11 +427,16 @@ var gtLayers = [
 		name :"AERIAL_LODDON_2009APR14_AIR_VIS_35CM_MGA54",
 		title:"Aerial Photo (CIP 2009)",
 		visibility:false,
-		opacity:0.9,
+		opacity:1,
 		group:"background",
 		selected:false,
 		format:"image/JPEG",
 		transparent:true
+	},{
+		source:"mapquest",
+		name: "osm",
+		visibility: false,
+		group:"background"
 	},{
 		source: "ol",
 		group: "background",

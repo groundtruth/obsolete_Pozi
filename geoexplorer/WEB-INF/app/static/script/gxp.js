@@ -6430,8 +6430,19 @@ gxp.plugins.WMSSource = Ext.extend(gxp.plugins.LayerSource, {
         if (this.version) {
             baseParams.VERSION = this.version;
         }
+        // Support for an array of URLs rather than a single URL
+	var first_url;
+	if (typeof this.url == "object")
+	{
+		first_url = this.url[0];
+	}
+	else
+	{
+		first_url = this.url;
+	}
         this.store = new GeoExt.data.WMSCapabilitiesStore({
-            url: this.trimUrl(this.url, baseParams),
+//            url: this.trimUrl(this.url, baseParams),
+            url: this.trimUrl(first_url, baseParams),
             baseParams: baseParams,
             format: this.format,
             autoLoad: true,
@@ -6493,7 +6504,8 @@ gxp.plugins.WMSSource = Ext.extend(gxp.plugins.LayerSource, {
                 FORMAT: config.format,
                 TRANSPARENT: config.transparent
             }, layer.params);
-            layer = new OpenLayers.Layer.WMS(config.title || layer.name, layer.url, params, {
+//            layer = new OpenLayers.Layer.WMS(config.title || layer.name, layer.url, params, {
+            layer = new OpenLayers.Layer.WMS(config.title || layer.name, this.url, params, {
                 attribution: layer.attribution,
                 maxExtent: maxExtent,
                 restrictedExtent: maxExtent,
