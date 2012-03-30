@@ -104,15 +104,6 @@ var gtMapDataSources = {
 // Initial layers      
 var gtLayers = [
 	{
-		source:"dse",
-		name :"AERIAL_MALLEE_2009JAN14_AIR_VIS_50CM_MGA54",
-		title:"Aerial Photo (CIP 2009)",
-		visibility:false,
-		opacity:0.9,
-		selected:false,
-		format:"image/JPEG",
-		transparent:true
-	},{
 		source:"backend",
 		name:"VICMAP:VW_DSE_VMPLAN_ZONE",
 		title:"Planning Zones (Vicmap)",
@@ -226,8 +217,8 @@ var gtLayers = [
 		transparent:true
 	},{
 		source:"local",
-		name:gtWorkspaceName+":DOT_SCHOOLBUS_ROUTES_2011",
-		title:"School Bus Routes (DOT 2011)",
+		name:gtWorkspaceName+":DOT_SCHOOLBUS_ROUTES_2012",
+		title:"School Bus Routes (DOT 2012)",
 		visibility:false,
 		opacity:0.5,
 		format:"image/png8",
@@ -277,6 +268,16 @@ var gtLayers = [
 		styles:"",
 		transparent:true,
 		cached:true
+	},{
+		source:"dse",
+		name :"AERIAL_MALLEE_2009JAN14_AIR_VIS_50CM_MGA54",
+		title:"Aerial Photo (CIP 2009)",
+		visibility:false,
+		group:"background",
+		opacity:1,
+		selected:false,
+		format:"image/JPEG",
+		transparent:true
 	},{
 		source:"mapquest",
 		name: "osm",
