@@ -71,7 +71,7 @@ var gtPrintTitle = "Buloke Shire Council";
 // Datasources 
 var gtMapDataSources = {
 	backend: {
-		url: gtOWSEndPoint,
+		url: ["http://m1.pozi.com/geoserver/ows","http://m2.pozi.com/geoserver/ows","http://m3.pozi.com/geoserver/ows","http://m4.pozi.com/geoserver/ows"],
 		title: "Remote GeoServer",
 		ptype: "gxp_wmscsource"
 	},
@@ -242,6 +242,18 @@ var gtLayers = [
 		format:"image/png8",
 		styles:"",
 		transparent:true,
+		tiled:false
+	},{
+		source:"backend",
+		name:"LabelClassic",
+		title:"Labels",
+		visibility:true,
+		opacity:1,
+		selected:false,
+		format:"image/png8",
+		styles:"",
+		transparent:true,
+		cached:false,
 		tiled:false
 	},{
 		source:"backend",
