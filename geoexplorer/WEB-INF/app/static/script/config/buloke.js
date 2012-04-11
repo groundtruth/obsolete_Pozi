@@ -70,14 +70,14 @@ var gtPrintTitle = "Buloke Shire Council";
 
 // Datasources 
 var gtMapDataSources = {
-	backend: {
-		url: ["http://m1.pozi.com/geoserver/ows","http://m2.pozi.com/geoserver/ows","http://m3.pozi.com/geoserver/ows","http://m4.pozi.com/geoserver/ows"],
-		title: "Remote GeoServer",
+	local: {
+		url: "/geoserver/BULOKE/ows",
+		title: "Buloke Shire Council Layers",
 		ptype: "gxp_wmscsource"
 	},
-	local: {
-		url: "/geoserver/ows",
-		title: "Local GeoServer",
+	backend: {
+		url: ["http://m1.pozi.com/geoserver/ows","http://m2.pozi.com/geoserver/ows","http://m3.pozi.com/geoserver/ows","http://m4.pozi.com/geoserver/ows"],
+		title: "Vicmap Layers",
 		ptype: "gxp_wmscsource"
 	},
 	mapquest: {
@@ -199,22 +199,24 @@ var gtLayers = [
 		transparent:true
 	},{
 		source:"local",
-		name:gtWorkspaceName+":ASSETS_MOLONEY_ROADS",
+		name:gtWorkspaceName+":VW_BSC_ASSETS_MOLONEY_ROAD",
 		title:"Roads (Moloney)",
 		visibility:false,
 		opacity:1,
 		format:"image/png8",
 		styles:"",
-		transparent:true
+		transparent:true,
+		tiled:false
 	},{
 		source:"local",
-		name:gtWorkspaceName+":ASSETS_PROPOSED_ROAD_HIERARCHY",
+		name:gtWorkspaceName+":BSC_ASSETS_PROP_ROAD_HIERARCHY",
 		title:"Proposed Road Hierarchy (Assets)",
 		visibility:false,
 		opacity:0.5,
 		format:"image/png8",
 		styles:"",
-		transparent:true
+		transparent:true,
+		tiled:false
 	},{
 		source:"local",
 		name:gtWorkspaceName+":DOT_SCHOOLBUS_ROUTES_2012",
@@ -330,13 +332,13 @@ var gtTools = [{
 			outputConfig: {
 				autoScroll: true
 			}
-//		}, {
-//			ptype: "gxp_addlayers",
-//			actionTarget: "tree.tbar",
-//			upload: true
-//		}, {
-//			ptype: "gxp_removelayer",
-//			actionTarget: ["tree.tbar", "layertree.contextMenu"]
+		}, {
+			ptype: "gxp_addlayers",
+			actionTarget: "tree.tbar",
+			upload: true
+		}, {
+			ptype: "gxp_removelayer",
+			actionTarget: ["layertree.contextMenu"]
 		}, {
 			ptype: "gxp_layerproperties",
 ///			actionTarget: ["tree.tbar", "layertree.contextMenu"]
