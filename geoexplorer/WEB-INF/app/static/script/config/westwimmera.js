@@ -76,7 +76,7 @@ var gtMapDataSources = {
 		ptype: "gxp_wmscsource"
 	},
 	local: {
-		url: "/geoserver/ows",
+		url: "/geoserver/WESTWIMMERA/ows",
 		title: "Local GeoServer",
 		ptype: "gxp_wmscsource"
 	},
@@ -215,6 +215,7 @@ var gtLayers = [
 		format:"image/png8",
 		styles:"",
 		transparent:true,
+		tiled: true,
 		cached:true
 	},{
 		source:"mapquest",

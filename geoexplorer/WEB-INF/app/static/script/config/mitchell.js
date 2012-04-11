@@ -73,7 +73,7 @@ var gtMapDataSources = {
 		ptype: "gxp_wmscsource"
 	},
 	local: {
-		url: "/geoserver/ows",
+		url: "/geoserver/MITCHELL/ows",
 		title: "Local GeoServer",
 		ptype: "gxp_wmscsource"
 	},
