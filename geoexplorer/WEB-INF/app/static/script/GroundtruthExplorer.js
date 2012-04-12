@@ -692,174 +692,6 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 										var e1=e0.items.items[0].body.id;
 										var e2=Ext.get(e1).dom;
 										
-										// Sending live queries based on the layout
-										if (configArray)
-										{
-											// This could be further refined by sending only the query corresponding to the open accordion part
-											for (var i=0; i< configArray.length; i++)
-											{
-												var g=0;
- 
-												// Live query using the script tag
-												var ds = new Ext.data.Store({
-													autoLoad:true,
-													proxy: new Ext.data.ScriptTagProxy({
-														url: gtGetLiveDataEndPoints[configArray[i].definition].urlLiveData
-													}),
-													reader: new Ext.data.JsonReader({	
-														root: 'rows',
-														totalProperty: 'total_rows',
-														id: 'id'	
-														}, 
-														[	{name: 'id', mapping: 'row.id'}
-												        ]),
-													baseParams: {
-													   	// Logged in role
-													   	role: gCurrentLoggedRole,
-													   	// Passing the value of the property defined as containing the common ID
-													   	id: record.data.content[configArray[i].idName],
-													   	// Passing the tab name
-													   	infoGroup: configArray[i].id,
-													   	// Passing the database type to query
-													   	mode: gtGetLiveDataEndPoints[configArray[i].definition].storeMode,
-													   	// Passing the database name to query
-													   	config: gtGetLiveDataEndPoints[configArray[i].definition].storeName,
-														// Passing the LGA code, so that the query can be narrowed down (unused)
-												   		lga: gtLGACode
-													},
-													listeners:
-													{
-														load: function(store, recs)
-														{
-															// Looping thru the records returned by the query
-															tab_array = new Array();
-															for (m = 0 ; m < recs.length; m++)
-															{
-																res_data = recs[m].json.row;
-																var item_array2 = new Array();
-																var has_gsv = false;
-
-																for (j in res_data)
-																{
-																	if (j!="target")
-																	{
-																		var val=res_data[j];
-																		if (val.search(/^http/)>-1)
-																		{
-																			if (val.search(/\.jpg/)>-1)
-																			{
-																				val="<a href='"+val+"' target='_blank'><img src='"+val+"' height='20' width='20' /></a>";
-																			}
-																			else
-																			{
-																				val="<a href='"+val+"' target='_blank'>link</a>";
-																			}
-																		}
-																		else
-																		{
-																			val=val.replace(/ 12:00 AM/g,"");
-																		}
-												
-																		if (j.search(/^gsv/)>-1)
-																		{
-																			// Not showing the cells - technical properties for Google Street View
-																			has_gsv = true;
-																		}
-																		else
-																		{																			// Formatting the cells for attribute display in a tidy table
-																			item_array2.push({html:"<div style='font-size:8pt;'><font color='#666666'>"+j+"</font></div>"});
-																			item_array2.push({html:"<div style='font-size:10pt;'>"+val+"</div>"});
-																		}
-																	}
-																}
-
-																// Adding a Google Street View link for selected datasets
-																if (has_gsv)
-																{
-																	var gsv_lat, gsv_lon, gsv_head=0;
-
-																	for(var k in res_data)
-																	{
-																		if (k=="gsv_lat")
-																		{
-																			gsv_lat=res_data[k];
-																		}
-																		if (k=="gsv_lon")
-																		{
-																			gsv_lon=res_data[k];
-																		}
-																		if (k=="gsv_head")
-																		{
-																			gsv_head=res_data[k];
-																		}												
-																	}
-
-																	if (gsv_lat && gsv_lon)
-																	{
-																		// Adjusted to the size of the column
-																		var size_thumb = 245;
-																		var gsvthumb = "http://maps.googleapis.com/maps/api/streetview?location="+gsv_lat+","+gsv_lon+"&fov=90&heading="+gsv_head+"&pitch=-10&sensor=false&size="+size_thumb+"x"+size_thumb;
-																		var gsvlink = "http://maps.google.com.au/maps?layer=c&cbll="+gsv_lat+","+gsv_lon+"&cbp=12,"+gsv_head+",,0,0";
-																		item_array2.push({html:"<div style='font-size:10pt;'><a href='"+gsvlink+"' target='_blank'><img src='"+gsvthumb+"'/></a></div>",height:size_thumb,colspan:2});											
-																	}
-																}
-
-																tab_el = {
-																	title	: m+1,
-																	layout	: 'table',
-																	defaults:{height:20},
-																	layoutConfig:{columns:2},
-																	items	: item_array2
-																};
-
-																tab_array.push(tab_el);
-															}
-															
-															// Identification of the div to render the attributes to, if there is anything to render
-															if (recs[0])
-															{
-																var targ = Ext.get(Ext.getCmp(recs[0].json.row["target"]).body.id).dom;																
-															
-																// The container depends on the number of records returned
-																if (tab_array.length==1)
-																{
-																	// Rendering as a table
-																	var win = new Ext.Panel({
-																		id:'tblayout-win'+g
-																		//,width:227
-																		,layout:'table'
-																		,layoutConfig:{columns:2}
-																		,border:false
-																		//,closable:false
-																		,defaults:{height:20}
-																		,renderTo: targ
-																		,items: tab_array[0].items
-																	});
-																}
-																else
-																{
-																	// Renderng as a tab panel of tables
-																	var win = new Ext.TabPanel({
-																		activeTab       : 0,
-																		id              : 'tblayout-win'+g,
-																		enableTabScroll : true,
-																		resizeTabs      : false,
-																		minTabWidth     : 15,																
-																		id:'tblayout-win'+g,
-																		border:false,
-																		renderTo: targ,
-																		items: tab_array
-																	});
-																}
-																win.doLayout();	
-															}															
-															g++;
-														}
-													}
-												});
-											}
-										}
-										
 										// Population of the direct attributes accordion panel
 										var lab;
 										var val;
@@ -919,51 +751,11 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 												}
 											}
 											
-											if (k.search(/^gsv/)>-1)
-											{
-												// Not showing the cells - technical properties for Google Street View
-												has_gsv = true;
-											}
-											else
-											{
-												// Formatting the cells for attribute display in a tidy table
-												item_array.push({html:"<div style='font-size:8pt;'><font color='#666666'>"+trim(lab)+"</font></div>"});
-												item_array.push({html:"<div style='font-size:10pt;'>"+trim(val)+"</div>"});
-											}
+											// Formatting the cells for attribute display in a tidy table
+											item_array.push({html:"<div style='font-size:8pt;'><font color='#666666'>"+trim(lab)+"</font></div>"});
+											item_array.push({html:"<div style='font-size:10pt;'>"+trim(val)+"</div>"});
 										}
-										
-										// Adding a Google Street View link for selected datasets
-										if (has_gsv)
-										{
-											var gsv_lat, gsv_lon, gsv_head=0;
-
-											for(var k in record.data.content)
-											{
-												if (k=="gsv_lat")
-												{
-													gsv_lat=record.data.content[k];
-												}
-												if (k=="gsv_lon")
-												{
-													gsv_lon=record.data.content[k];
-												}
-												if (k=="gsv_head")
-												{
-													gsv_head=record.data.content[k];
-												}												
-											}
-
-											if (gsv_lat && gsv_lon)
-											{
-												// Adjusted to the size of the column
-												var size_thumb = 245;
-												var gsvthumb = "http://maps.googleapis.com/maps/api/streetview?location="+gsv_lat+","+gsv_lon+"&fov=90&heading="+gsv_head+"&pitch=-10&sensor=false&size="+size_thumb+"x"+size_thumb;
-												var gsvlink = "http://maps.google.com.au/maps?layer=c&cbll="+gsv_lat+","+gsv_lon+"&cbp=12,"+gsv_head+",,0,0";
-											
-												item_array.push({html:"<div style='font-size:10pt;'><a href='"+gsvlink+"' target='_blank'><img src='"+gsvthumb+"'/></a></div>",height:size_thumb,colspan:2});											
-											}
-										}										
-																			
+																													
 										var win = new Ext.Panel({
 											id:'tblayout-win'
 											//,width:227
@@ -1012,6 +804,7 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 				listeners:{
 					scope: this,
 					expand:function(p){
+						// Updating the index of the currently opened tab
 						for(k in p.ownerCt.items.items)
 						{	
 							if (p.ownerCt.items.items[k].id==p.id)
@@ -1022,6 +815,203 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 								break;
 							}
 						}
+						
+						// Sending in the query to populate this specific tab (tab on demand)
+						// Could be further refined by keeping track of which tab has already been opened, so that we don't re-request the data
+						
+						// Current layer, as per content of the drop down
+						var cl = cb.getStore().data.items[cb.getStore().find("type",cb.getValue())].data.layer;
+						
+						if (gCurrentExpandedTabIdx[cl] != 0)
+						{
+							//alert("Requesting data on demand!");
+							var configArray = gLayoutsArr[cl];
+							if (configArray)
+							{
+								// This could be further refined by sending only the query corresponding to the open accordion part
+								for (var i=gCurrentExpandedTabIdx[cl]-1; i< gCurrentExpandedTabIdx[cl]; i++)
+								{
+									var g=0;
+									
+									// Finding the unique ID of the selected record, to pass to the live query
+									var selectedRecordIndex = cb.selectedIndex;	
+									if ((selectedRecordIndex==-1) || (selectedRecordIndex>=cb.store.data.items.length))
+									{
+										selectedRecordIndex=0;
+									}
+									var idFeature = cb.store.data.items[selectedRecordIndex].data.content[configArray[i].idName];
+
+									// Live query using the script tag
+									var ds = new Ext.data.Store({
+										autoLoad:true,
+										proxy: new Ext.data.ScriptTagProxy({
+											url: gtGetLiveDataEndPoints[configArray[i].definition].urlLiveData
+										}),
+										reader: new Ext.data.JsonReader({	
+											root: 'rows',
+											totalProperty: 'total_rows',
+											id: 'id'	
+											}, 
+											[	{name: 'id', mapping: 'row.id'}
+										]),
+										baseParams: {
+											// Logged in role
+											role: gCurrentLoggedRole,
+											// Passing the value of the property defined as containing the common ID
+											id: idFeature,
+											// Passing the tab name
+											infoGroup: configArray[i].id,
+											// Passing the database type to query
+											mode: gtGetLiveDataEndPoints[configArray[i].definition].storeMode,
+											// Passing the database name to query
+											config: gtGetLiveDataEndPoints[configArray[i].definition].storeName,
+											// Passing the LGA code, so that the query can be narrowed down (unused)
+											lga: gtLGACode
+										},
+										listeners:
+										{
+											load: function(store, recs)
+											{
+												// Looping thru the records returned by the query
+												tab_array = new Array();
+												for (m = 0 ; m < recs.length; m++)
+												{
+													res_data = recs[m].json.row;
+													var item_array2 = new Array();
+													var has_gsv = false;
+
+													for (j in res_data)
+													{
+														if (j!="target")
+														{
+															var val=res_data[j];
+															if (val.search(/^http/)>-1)
+															{
+																if (val.search(/\.jpg/)>-1)
+																{
+																	val="<a href='"+val+"' target='_blank'><img src='"+val+"' height='20' width='20' /></a>";
+																}
+																else
+																{
+																	val="<a href='"+val+"' target='_blank'>link</a>";
+																}
+															}
+															else
+															{
+																val=val.replace(/ 12:00 AM/g,"");
+															}
+
+															if (j.search(/^gsv/)>-1)
+															{
+																// Not showing the cells - technical properties for Google Street View
+																has_gsv = true;
+															}
+															else
+															{																			// Formatting the cells for attribute display in a tidy table
+																item_array2.push({html:"<div style='font-size:8pt;'><font color='#666666'>"+j+"</font></div>"});
+																item_array2.push({html:"<div style='font-size:10pt;'>"+val+"</div>"});
+															}
+														}
+													}
+
+													// Adding a Google Street View link for selected datasets
+													if (has_gsv)
+													{
+														var gsv_lat, gsv_lon, gsv_head=0;
+
+														for(var k in res_data)
+														{
+															if (k=="gsv_lat")
+															{
+																gsv_lat=res_data[k];
+															}
+															if (k=="gsv_lon")
+															{
+																gsv_lon=res_data[k];
+															}
+															if (k=="gsv_head")
+															{
+																gsv_head=res_data[k];
+															}												
+														}
+
+														if (gsv_lat && gsv_lon)
+														{
+															// Adjusted to the size of the column
+															var size_thumb = 245;
+															var gsvthumb = "http://maps.googleapis.com/maps/api/streetview?location="+gsv_lat+","+gsv_lon+"&fov=90&heading="+gsv_head+"&pitch=-10&sensor=false&size="+size_thumb+"x"+size_thumb;
+															var gsvlink = "http://maps.google.com.au/maps?layer=c&cbll="+gsv_lat+","+gsv_lon+"&cbp=12,"+gsv_head+",,0,0";
+															item_array2.push({html:"<div style='font-size:10pt;'><a href='"+gsvlink+"' target='_blank'><img src='"+gsvthumb+"'/></a></div>",height:size_thumb,colspan:2});											
+														}
+													}
+
+													tab_el = {
+														title	: m+1,
+														layout	: 'table',
+														defaults:{height:20},
+														layoutConfig:{columns:2},
+														items	: item_array2
+													};
+
+													tab_array.push(tab_el);
+												}
+
+												// Identification of the div to render the attributes to, if there is anything to render
+												if (recs[0])
+												{
+													var targ = Ext.get(Ext.getCmp(recs[0].json.row["target"]).body.id).dom;
+													
+													// If data already exists, we remove it for replacement with the latest data
+													if (targ.hasChildNodes())
+													{
+														targ.removeChild(targ.firstChild);
+													}
+
+													// The container depends on the number of records returned
+													if (tab_array.length==1)
+													{
+														// Rendering as a table
+														var win = new Ext.Panel({
+															id:'tblayout-win'+g
+															//,width:227
+															,layout:'table'
+															,layoutConfig:{columns:2}
+															,border:false
+															//,closable:false
+															,defaults:{height:20}
+															,renderTo: targ
+															,items: tab_array[0].items
+														});
+													}
+													else
+													{
+														// Renderng as a tab panel of tables
+														var win = new Ext.TabPanel({
+															activeTab       : 0,
+															id              : 'tblayout-win'+g,
+															enableTabScroll : true,
+															resizeTabs      : false,
+															minTabWidth     : 15,																
+															id:'tblayout-win'+g,
+															border:false,
+															renderTo: targ,
+															items: tab_array
+														});
+													}
+													win.doLayout();	
+												}															
+												g++;
+											}
+										}
+									});
+								}
+
+
+
+							}							
+							
+						}
+						
 					}
 				}
 			},
