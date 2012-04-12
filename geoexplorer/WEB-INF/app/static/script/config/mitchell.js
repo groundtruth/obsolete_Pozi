@@ -258,11 +258,16 @@ var gtLayers = [
 		name :"AERIAL_MITCHELL_2007JAN26_AIR_VIS_50CM_MGA55",
 		title:"Aerial Photo (CIP 2007)",
 		visibility:false,
-		opacity:0.9,
+		opacity:1,
 		group:"background",
 		selected:false,
 		format:"image/JPEG",
 		transparent:true
+	},{
+		source:"mapquest",
+		name: "osm",
+		visibility: false,
+		group:"background"
 	},{
 		source: "ol",
 		group: "background",
@@ -293,7 +298,7 @@ var gtLayerLocSel = new OpenLayers.Layer.Vector("Search Result", {
 		geometryName:  gtWFSgeometryName,
 		schema:        gtWFSEndPoint+"?service=WFS&version=1.1.0&request=DescribeFeatureType&TypeName="+"VICMAP:VMPROP_PROPERTY"
 	}),
-	filter: new OpenLayers.Filter.Comparison({type: OpenLayers.Filter.Comparison.EQUAL_TO,property: 'prop_propnum',value: -1}),
+	filter: new OpenLayers.Filter.Comparison({type: OpenLayers.Filter.Comparison.EQUAL_TO,property: 'pr_propnum',value: -1}),
 	projection: new OpenLayers.Projection("EPSG:4326")			
 });
 
