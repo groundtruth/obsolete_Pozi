@@ -46,7 +46,7 @@ function rs2json($rs)
 			$rowCounter++;
 		}
 
-        if ($rowCounter == 0) $output = '"row"';
+        if ($rowCounter == 0) $output = '[]';
         else $output = '[' . $rowOutput . ']';
 
 

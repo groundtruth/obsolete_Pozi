@@ -822,6 +822,7 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 						// Current layer, as per content of the drop down
 						var cl = cb.getStore().data.items[cb.getStore().find("type",cb.getValue())].data.layer;
 						
+						
 						if (gCurrentExpandedTabIdx[cl] != 0)
 						{
 							//alert("Requesting data on demand!");
@@ -832,6 +833,33 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 								for (var i=gCurrentExpandedTabIdx[cl]-1; i< gCurrentExpandedTabIdx[cl]; i++)
 								{
 									var g=0;
+									
+									// Adding a loading indicator for user feedback		
+									var targ2 = Ext.get(Ext.getCmp(configArray[i].id).body.id).dom;
+
+									// If data already exists, we remove it for replacement with the latest data
+									if (targ2.hasChildNodes())
+									{
+										targ2.removeChild(targ2.firstChild);
+									}
+
+									// Rendering as a table
+									var win2 = new Ext.Panel({
+										id:'tblayout-win-loading'
+										//,width:227
+										,layout:'hbox'
+										,layoutConfig: {
+											padding:'5',
+											pack:'center',
+											align:'middle'
+										}
+										,border:false
+										,defaults:{height:26}
+										,renderTo: targ2
+										,items: [
+											{html:'<img src="/externals/ext/resources/images/default/grid/loading.gif"/>',border:false,padding:'5'}
+										]
+									});
 									
 									// Finding the unique ID of the selected record, to pass to the live query
 									var selectedRecordIndex = cb.selectedIndex;	
@@ -959,14 +987,14 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 												// Identification of the div to render the attributes to, if there is anything to render
 												if (recs[0])
 												{
+													// The target div for placing this data
 													var targ = Ext.get(Ext.getCmp(recs[0].json.row["target"]).body.id).dom;
-													
 													// If data already exists, we remove it for replacement with the latest data
 													if (targ.hasChildNodes())
 													{
 														targ.removeChild(targ.firstChild);
-													}
-
+													}	
+													
 													// The container depends on the number of records returned
 													if (tab_array.length==1)
 													{
@@ -999,7 +1027,36 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 														});
 													}
 													win.doLayout();	
-												}															
+												}
+												else
+												{
+													// The target div for placing this data: the loading div's parent
+													var targ = Ext.get(Ext.getCmp('tblayout-win-loading').body.id).dom.parentNode;
+													// If data already exists, we remove it for replacement with the latest data
+													if (targ.hasChildNodes())
+													{
+														targ.removeChild(targ.firstChild);
+													}
+													
+													// Rendering as a table
+													var win3 = new Ext.Panel({
+														id:'tblayout-win-noresult'
+														//,width:227
+														,layout:'hbox'
+														,layoutConfig: {
+															padding:'5',
+															pack:'center',
+															align:'middle'
+														}
+														,border:false
+														,defaults:{height:26}
+														,renderTo: targ
+														,items: [
+															{html:'<p style="font-size:12px;">No result found</p>',border:false,padding:'5'}
+														]
+													});
+													win3.doLayout();
+												}
 												g++;
 											}
 										}
