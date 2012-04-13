@@ -795,12 +795,12 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 			layout:'accordion',
 			region: "center",
 			border: false,
-			collapsible: false,	     
+			collapsible: false,
+			autoScroll:true,
 			defaults: {
 				// applied to each contained panel
 				bodyStyle: " background-color: transparent ",
 				collapsed: true,
-				autoScroll:true,
 				listeners:{
 					scope: this,
 					expand:function(p){
