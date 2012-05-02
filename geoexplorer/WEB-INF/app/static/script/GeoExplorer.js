@@ -578,8 +578,16 @@ GeoExplorer.Composer = Ext.extend(GeoExplorer, {
 		});
 
 		function submitLogin() {
-			panel.buttons[
-			0].disable();
+			panel.buttons[0].disable();
+
+			// Prefixes the username with the workspace name
+			win.hide();
+			var typedUsername=panel.getForm().items.items[0].getValue();
+			if (typedUsername != "admin")
+			{
+				panel.getForm().items.items[0].setValue(gtWorkspaceName+"."+typedUsername);
+			}
+			//
 			panel.getForm().submit({
 				success: function (form, action) {
 					var cookie = action.response.getResponseHeader("Set-Cookie");
@@ -598,6 +606,10 @@ GeoExplorer.Composer = Ext.extend(GeoExplorer, {
 					window.location.reload();
 				},
 				failure: function (form, action) {
+					// Reset the username to what was initially typed, and show the login window
+					panel.getForm().items.items[0].setValue(typedUsername);
+					win.show();
+					//
 					this.authorizedRoles = [
 
 					];
