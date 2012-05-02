@@ -152,6 +152,43 @@ gxp.plugins.WMSCSource.prototype.createLayerRecord = function (config) {
         return record;
     };
 
+// Override of legend layer selection to exclude known layer groups
+gxp.plugins.Legend.prototype.addOutput = function (config) {
+        return gxp.plugins.Legend.superclass.addOutput.call(this, Ext.apply({
+            xtype: 'gx_legendpanel',
+            ascending: false,
+            border: false,
+            layerStore: this.target.mapPanel.layers,
+            filter: function(record)
+            {
+            	if (record.data.name)
+            	{
+            		if (record.data.name=="VicmapClassic" || record.data.name=="LabelClassic")
+            		{return false;}
+	            	else
+	            	{
+				if (record.data.group)
+				{
+					if (record.data.group=="background")
+					{return false;}
+					else
+					{return true;}
+				}
+				else
+				{return true;}
+	            	}
+            	}
+            	else
+            	{return true;}
+            },
+            defaults: {
+                cls: 'gxp-legend-item'
+            }
+        }, config));
+    };
+
+
+
 // Override of the GetFeatureInfo addActions handler
 gxp.plugins.WMSGetFeatureInfo.prototype.addActions = function() {
 		this.popupCache = {};
