@@ -1,4 +1,4 @@
-// Javascript configuration file for West Wimmera
+// Javascript configuration file for Buloke
 
 // Workspace containing the layers and corresponding namespace
 var gtWorkspaceName= "BULOKE";
@@ -24,7 +24,7 @@ var gtSearchPropertyEndPoint =  gtServicesHost + "/ws/rest/v3/ws_property_id_by_
 var gtSearchComboEndPoint = 	gtServicesHost + "/ws/rest/v3/ws_all_features_by_string_and_lga.php";
 
 var gtGetLiveDataEndPoints=[
-	{ urlLayout:'http://10.58.200.28/ws/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://10.58.200.28/ws/rest/v3/ws_get_live_data.php',	storeMode:'sqlite',	storeName:'buloke'},
+	{ urlLayout:'http://10.54.144.31/ws/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://10.54.144.31/ws/rest/v3/ws_get_live_data.php',	storeMode:'sqlite',	storeName:'buloke'},
 	{ urlLayout:'http://49.156.17.41/ws/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://49.156.17.41/ws/rest/v3/ws_get_live_data.php',	storeMode:'pgsql',	storeName:'vicmap'}
 ];
 
@@ -99,11 +99,25 @@ var gtMapDataSources = {
 		url: "http://images.land.vic.gov.au/ecwp/ecw_wms.dll",
 		title: "DSE Imagery Server"
 	}
+//	,dse_wms: {
+//		url: "http://49.156.18.242/geoserver/medford/wms",
+//		title: "DSE WMS Server"
+//	}
 };
     
 // Initial layers      
 var gtLayers = [
 	{
+//		source:"dse_wms",
+//		name :"medford:EL_CONTOUR",
+//		title:"Contours",
+//		visibility:false,
+//		opacity:1,
+//		selected:false,
+//		format:"image/png8",
+//		transparent:true,
+//		tiled:false	
+//	},{
 		source:"backend",
 		name:"VICMAP:VW_DSE_VMPLAN_ZONE",
 		title:"Planning Zones (Vicmap)",
@@ -219,7 +233,7 @@ var gtLayers = [
 		tiled:false
 	},{
 		source:"local",
-		name:gtWorkspaceName+":DOT_SCHOOLBUS_ROUTES_2012",
+		name:gtWorkspaceName+":DOT_SCHOOLBUS_ROUTES",
 		title:"School Bus Routes (DOT 2012)",
 		visibility:false,
 		opacity:0.5,

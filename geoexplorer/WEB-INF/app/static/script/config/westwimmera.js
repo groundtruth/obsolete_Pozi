@@ -70,14 +70,14 @@ var gtPrintTitle = "West Wimmera Shire Council";
 
 // Datasources
 var gtMapDataSources = {
-	backend: {
-		url: ["http://m1.pozi.com/geoserver/ows","http://m2.pozi.com/geoserver/ows","http://m3.pozi.com/geoserver/ows","http://m4.pozi.com/geoserver/ows"],
-		title: "Remote GeoServer",
-		ptype: "gxp_wmscsource"
-	},
 	local: {
 		url: "/geoserver/WESTWIMMERA/ows",
-		title: "Local GeoServer",
+		title: "West Wimmera Shire Council Layers",
+		ptype: "gxp_wmscsource"
+	},
+	backend: {
+		url: ["http://m1.pozi.com/geoserver/ows","http://m2.pozi.com/geoserver/ows","http://m3.pozi.com/geoserver/ows","http://m4.pozi.com/geoserver/ows"],
+		title: "Vicmap Layers",
 		ptype: "gxp_wmscsource"
 	},
 	mapquest: {
@@ -226,7 +226,7 @@ var gtLayers = [
 		name :"AERIAL_WIMMERA-CMA_2004NOV01_AIR_VIS_60CM_MGA54",
 		title:"Aerial Photo (WCMA 2004)",
 		visibility:false,
-		opacity:0.9,
+		opacity:1,
 		group:"background",
 		selected:false,
 		format:"image/JPEG",
@@ -279,13 +279,13 @@ var gtTools = [{
 			outputConfig: {
 				autoScroll: true
 			}
-//		}, {
-//			ptype: "gxp_addlayers",
-//			actionTarget: "tree.tbar",
-//			upload: true
-//		}, {
-//			ptype: "gxp_removelayer",
-//			actionTarget: ["tree.tbar", "layertree.contextMenu"]
+		}, {
+			ptype: "gxp_addlayers",
+			actionTarget: "tree.tbar",
+			upload: true
+		}, {
+			ptype: "gxp_removelayer",
+			actionTarget: ["layertree.contextMenu"]
 		}, {
 			ptype: "gxp_layerproperties",
 ///			actionTarget: ["tree.tbar", "layertree.contextMenu"]

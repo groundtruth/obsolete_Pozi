@@ -67,14 +67,14 @@ var gtPrintTitle = "Mitchell Shire Council";
 
 // Datasources
 var gtMapDataSources = {
-	backend: {
-		url: ["http://m1.pozi.com/geoserver/ows","http://m2.pozi.com/geoserver/ows","http://m3.pozi.com/geoserver/ows","http://m4.pozi.com/geoserver/ows"],
-		title: "Remote GeoServer",
-		ptype: "gxp_wmscsource"
-	},
 	local: {
 		url: "/geoserver/MITCHELL/ows",
-		title: "Local GeoServer",
+		title: "Mitchell Shire Council Layers",
+		ptype: "gxp_wmscsource"
+	},
+	backend: {
+		url: ["http://m1.pozi.com/geoserver/ows","http://m2.pozi.com/geoserver/ows","http://m3.pozi.com/geoserver/ows","http://m4.pozi.com/geoserver/ows"],
+		title: "Vicmap Layers",
 		ptype: "gxp_wmscsource"
 	},
 //	local_gwc: {
@@ -221,21 +221,21 @@ var gtLayers = [
 		tiled:false
 	},{
 		source:"backend",
-		name:"LabelClassic",
-		title:"Labels",
+		name:"VICMAP:VW_MITCHELL_MASK",
+		title:"Municipal Boundary",
 		visibility:true,
-		opacity:1,
-		selected:false,
+		opacity:0.6,
 		format:"image/png8",
 		styles:"",
 		transparent:true,
 		tiled:false
 	},{
 		source:"backend",
-		name:"VICMAP:VW_MITCHELL_MASK",
-		title:"Municipal Boundary",
+		name:"LabelClassic",
+		title:"Labels",
 		visibility:true,
-		opacity:0.6,
+		opacity:1,
+		selected:false,
 		format:"image/png8",
 		styles:"",
 		transparent:true,
@@ -254,6 +254,11 @@ var gtLayers = [
 		transparent:true,
 		cached:true
 	},{
+		source:"mapquest",
+		name: "osm",
+		visibility: false,
+		group:"background"
+	},{
 		source:"dse",
 		name :"AERIAL_MITCHELL_2007JAN26_AIR_VIS_50CM_MGA55",
 		title:"Aerial Photo (CIP 2007)",
@@ -264,10 +269,14 @@ var gtLayers = [
 		format:"image/JPEG",
 		transparent:true
 	},{
-		source:"mapquest",
-		name: "osm",
+		source: "ol",
+		group: "background",
 		visibility: false,
-		group:"background"
+		fixed: true,
+		type: "OpenLayers.Layer.OSM",
+		args: [
+			"Aerial Photo (Nearmap)", "https://mitchell:v55ngas6@www.nearmap.com/maps/nml=Vert&x=${x}&y=${y}&z=${z}", {numZoomLevels: 24},
+		]
 	},{
 		source: "ol",
 		group: "background",
@@ -316,13 +325,13 @@ var gtTools = [{
 			outputConfig: {
 				autoScroll: true
 			}
-//		}, {
-//			ptype: "gxp_addlayers",
-//			actionTarget: "tree.tbar",
-//			upload: true
-//		}, {
-//			ptype: "gxp_removelayer",
-//			actionTarget: ["tree.tbar", "layertree.contextMenu"]
+		}, {
+			ptype: "gxp_addlayers",
+			actionTarget: "tree.tbar",
+			upload: true
+		}, {
+			ptype: "gxp_removelayer",
+			actionTarget: ["layertree.contextMenu"]
 		}, {
 			ptype: "gxp_layerproperties",
 ///			actionTarget: ["tree.tbar", "layertree.contextMenu"]
