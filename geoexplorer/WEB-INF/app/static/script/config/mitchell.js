@@ -72,41 +72,32 @@ var gtMapDataSources = {
 		title: "Mitchell Shire Council Layers",
 		ptype: "gxp_wmscsource"
 	},
-	backend: {
-		url: ["http://m1.pozi.com/geoserver/ows","http://m2.pozi.com/geoserver/ows","http://m3.pozi.com/geoserver/ows","http://m4.pozi.com/geoserver/ows"],
-		title: "Vicmap Layers",
+	backend_cascaded: {
+		url: "http://basemap.pozi.com/geoserver/DSE/ows",
+		title: "DSE Vicmap Layers",
 		ptype: "gxp_wmscsource"
 	},
-//	local_gwc: {
-//		url: "/geoserver/gwc/service/wms",
-//		title: "GeoWebCache",
-//		ptype: "gxp_wmssource"
-//	},
+	dse_iws_cascaded: {
+		url: ["http://m1.pozi.com/geoserver/MITCHELL/ows","http://m2.pozi.com/geoserver/MITCHELL/ows","http://m3.pozi.com/geoserver/MITCHELL/ows","http://m4.pozi.com/geoserver/MITCHELL/ows"],
+		title: "DSE Image Web Server",
+		ptype: "gxp_wmscsource",
+		format: "image/JPEG",
+		group: "background"
+	},
 	mapquest: {
 		ptype: "gxp_mapquestsource"
 	},
 	osm: {
 		ptype: "gxp_osmsource"
 	},
-//	google: {
-//		ptype: "gxp_googlesource"
-//	},
-//	bing: {
-//		ptype: "gxp_bingsource"
-//	},
 	ol: {
 		ptype: "gxp_olsource"
 	},
-	dse: {
-		url: "http://images.land.vic.gov.au/ecwp/ecw_wms.dll",
-		title: "DSE Imagery Server"
+	backend: {
+		url: ["http://m1.pozi.com/geoserver/ows","http://m2.pozi.com/geoserver/ows","http://m3.pozi.com/geoserver/ows","http://m4.pozi.com/geoserver/ows"],
+		title: "Pozi Data Server",
+		ptype: "gxp_wmscsource"
 	}
-//	,
-//	localVicmap: {
-//		url: gtOWSEndPointVicmap,
-//		title: "Vicmap source",
-//		ptype: "gxp_wmscsource"
-//	}
 };
     
 // Initial layers      
@@ -241,7 +232,6 @@ var gtLayers = [
 		transparent:true,
 		tiled:false
 	},{
-//		source:"localVicmap",
 		source:"backend",
 		name:"VicmapClassic",
 		title:"Vicmap Classic",
@@ -259,8 +249,8 @@ var gtLayers = [
 		visibility: false,
 		group:"background"
 	},{
-		source:"dse",
-		name :"AERIAL_MITCHELL_2007JAN26_AIR_VIS_50CM_MGA55",
+		source:"dse_iws_cascaded",
+		name :gtWorkspaceName+":AERIAL_MITCHELL_2007JAN26_AIR_VIS_50CM_MGA55",
 		title:"Aerial Photo (CIP 2007)",
 		visibility:false,
 		opacity:1,
@@ -346,14 +336,14 @@ var gtTools = [{
 				index: 0
 			}
 		}, {
-			ptype: "gxp_measure",
+			ptype: "gxp_wmsgetfeatureinfo",
 			toggleGroup: this.toggleGroup,
 			actionTarget: {
 				target: "paneltbar",
 				index: 2
 			}
 		}, {
-			ptype: "gxp_wmsgetfeatureinfo",
+			ptype: "gxp_measure",
 			toggleGroup: this.toggleGroup,
 			actionTarget: {
 				target: "paneltbar",

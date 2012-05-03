@@ -75,10 +75,17 @@ var gtMapDataSources = {
 		title: "Buloke Shire Council Layers",
 		ptype: "gxp_wmscsource"
 	},
-	backend: {
-		url: ["http://m1.pozi.com/geoserver/ows","http://m2.pozi.com/geoserver/ows","http://m3.pozi.com/geoserver/ows","http://m4.pozi.com/geoserver/ows"],
-		title: "Vicmap Layers",
+	backend_cascaded: {
+		url: "http://basemap.pozi.com/geoserver/DSE/wms",
+		title: "DSE Vicmap Layers",
 		ptype: "gxp_wmscsource"
+	},
+	dse_iws_cascaded: {
+		url: ["http://m1.pozi.com/geoserver/BULOKE/ows","http://m2.pozi.com/geoserver/BULOKE/ows","http://m3.pozi.com/geoserver/BULOKE/ows","http://m4.pozi.com/geoserver/BULOKE/ows"],
+		title: "DSE Image Web Server",
+		ptype: "gxp_wmscsource",
+		format: "image/JPEG",
+		group: "background"
 	},
 	mapquest: {
 		ptype: "gxp_mapquestsource"
@@ -86,38 +93,19 @@ var gtMapDataSources = {
 	osm: {
 		ptype: "gxp_osmsource"
 	},
-//	google: {
-//		ptype: "gxp_googlesource"
-//	},
-//	bing: {
-//		ptype: "gxp_bingsource"
-//	},
 	ol: {
 		ptype: "gxp_olsource"
 	},
-	dse: {
-		url: "http://images.land.vic.gov.au/ecwp/ecw_wms.dll",
-		title: "DSE Imagery Server"
+	backend: {
+		url: ["http://m1.pozi.com/geoserver/ows","http://m2.pozi.com/geoserver/ows","http://m3.pozi.com/geoserver/ows","http://m4.pozi.com/geoserver/ows"],
+		title: "Pozi Data Server",
+		ptype: "gxp_wmscsource"
 	}
-//	,dse_wms: {
-//		url: "http://49.156.18.242/geoserver/medford/wms",
-//		title: "DSE WMS Server"
-//	}
 };
     
 // Initial layers      
 var gtLayers = [
 	{
-//		source:"dse_wms",
-//		name :"medford:EL_CONTOUR",
-//		title:"Contours",
-//		visibility:false,
-//		opacity:1,
-//		selected:false,
-//		format:"image/png8",
-//		transparent:true,
-//		tiled:false	
-//	},{
 		source:"backend",
 		name:"VICMAP:VW_DSE_VMPLAN_ZONE",
 		title:"Planning Zones (Vicmap)",
@@ -285,8 +273,12 @@ var gtLayers = [
 		transparent:true,
 		cached:true
 	},{
-		source:"dse",
-		name :"AERIAL_MALLEE_2009JAN14_AIR_VIS_50CM_MGA54",
+		source:"mapquest",
+		name: "osm",
+		visibility: false
+	},{
+		source:"dse_iws_cascaded",
+		name :gtWorkspaceName+":AERIAL_MALLEE_2009JAN14_AIR_VIS_50CM_MGA54",
 		title:"Aerial Photo (CIP 2009)",
 		visibility:false,
 		group:"background",
@@ -294,10 +286,6 @@ var gtLayers = [
 		selected:false,
 		format:"image/JPEG",
 		transparent:true
-	},{
-		source:"mapquest",
-		name: "osm",
-		visibility: false
 	},{
 		source: "ol",
 		group: "background",
@@ -367,14 +355,14 @@ var gtTools = [{
 				index: 0
 			}
 		}, {
-			ptype: "gxp_measure",
+			ptype: "gxp_wmsgetfeatureinfo",
 			toggleGroup: this.toggleGroup,
 			actionTarget: {
 				target: "paneltbar",
 				index: 2
 			}
 		}, {
-			ptype: "gxp_wmsgetfeatureinfo",
+			ptype: "gxp_measure",
 			toggleGroup: this.toggleGroup,
 			actionTarget: {
 				target: "paneltbar",

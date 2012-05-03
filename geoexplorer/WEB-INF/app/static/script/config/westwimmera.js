@@ -75,10 +75,17 @@ var gtMapDataSources = {
 		title: "West Wimmera Shire Council Layers",
 		ptype: "gxp_wmscsource"
 	},
-	backend: {
-		url: ["http://m1.pozi.com/geoserver/ows","http://m2.pozi.com/geoserver/ows","http://m3.pozi.com/geoserver/ows","http://m4.pozi.com/geoserver/ows"],
-		title: "Vicmap Layers",
+	backend_cascaded: {
+		url: "http://basemap.pozi.com/geoserver/DSE/wms",
+		title: "DSE Vicmap Layers",
 		ptype: "gxp_wmscsource"
+	},
+	dse_iws_cascaded: {
+		url: ["http://m1.pozi.com/geoserver/WESTWIMMERA/ows","http://m2.pozi.com/geoserver/WESTWIMMERA/ows","http://m3.pozi.com/geoserver/WESTWIMMERA/ows","http://m4.pozi.com/geoserver/WESTWIMMERA/ows"],
+		title: "DSE Image Web Server",
+		ptype: "gxp_wmscsource",
+		format: "image/JPEG",
+		group: "background"
 	},
 	mapquest: {
 		ptype: "gxp_mapquestsource"
@@ -86,18 +93,13 @@ var gtMapDataSources = {
 	osm: {
 		ptype: "gxp_osmsource"
 	},
-//	google: {
-//		ptype: "gxp_googlesource"
-//	},
-//	bing: {
-//		ptype: "gxp_bingsource"
-//	},
 	ol: {
 		ptype: "gxp_olsource"
 	},
-	dse: {
-		url: "http://images.land.vic.gov.au/ecwp/ecw_wms.dll",
-		title: "DSE Imagery Server"
+	backend: {
+		url: ["http://m1.pozi.com/geoserver/ows","http://m2.pozi.com/geoserver/ows","http://m3.pozi.com/geoserver/ows","http://m4.pozi.com/geoserver/ows"],
+		title: "Pozi Data Server",
+		ptype: "gxp_wmscsource"
 	}
 };
     
@@ -222,8 +224,8 @@ var gtLayers = [
 		name: "osm",
 		visibility: false
 	},{
-		source:"dse",
-		name :"AERIAL_WIMMERA-CMA_2004NOV01_AIR_VIS_60CM_MGA54",
+		source:"dse_iws_cascaded",
+		name :gtWorkspaceName+":AERIAL_WIMMERA-CMA_2004NOV01_AIR_VIS_60CM_MGA54",
 		title:"Aerial Photo (WCMA 2004)",
 		visibility:false,
 		opacity:1,
@@ -300,14 +302,14 @@ var gtTools = [{
 				index: 0
 			}
 		}, {
-			ptype: "gxp_measure",
+			ptype: "gxp_wmsgetfeatureinfo",
 			toggleGroup: this.toggleGroup,
 			actionTarget: {
 				target: "paneltbar",
 				index: 2
 			}
 		}, {
-			ptype: "gxp_wmsgetfeatureinfo",
+			ptype: "gxp_measure",
 			toggleGroup: this.toggleGroup,
 			actionTarget: {
 				target: "paneltbar",
