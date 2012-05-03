@@ -152,6 +152,91 @@ gxp.plugins.WMSCSource.prototype.createLayerRecord = function (config) {
         return record;
     };
 
+
+// Override for control of the additional parameters per source
+gxp.plugins.WMSSource.prototype.createLayerRecord = function (config) {
+	var record;
+	var index = this.store.findExact("name", config.name);
+	if (index > -1) {
+		var original = this.store.getAt(index);
+		var layer = original.getLayer();
+		var projection = this.getMapProjection();
+		var layerProjection = this.getProjection(original);
+		var projCode = projection.getCode();
+		var nativeExtent = original.get("bbox")[projCode];
+		var swapAxis = layer.params.VERSION >= "1.3" && !! layer.yx[projCode];
+		var maxExtent = (nativeExtent && OpenLayers.Bounds.fromArray(nativeExtent.bbox, swapAxis)) || OpenLayers.Bounds.fromArray(original.get("llbbox")).transform(new OpenLayers.Projection("EPSG:4326"), projection);
+		if (!(1 / maxExtent.getHeight() > 0) || !(1 / maxExtent.getWidth() > 0)) {
+			maxExtent = undefined;
+		}
+		// Apply store-wide config if none present in the layer config - format and group
+		if (!(config.format))
+		{
+			if (gtMapDataSources[config.source].format)
+			{
+				config.format=gtMapDataSources[config.source].format;
+			}
+		}
+		if (!(config.group))
+		{
+			if (gtMapDataSources[config.source].group)
+			{
+				config.group=gtMapDataSources[config.source].group;
+			}
+		}
+
+		var params = Ext.applyIf({
+			STYLES: config.styles,
+			FORMAT: config.format,
+			TRANSPARENT: config.transparent
+		}, layer.params);
+		// layer = new OpenLayers.Layer.WMS(config.title || layer.name, layer.url, params, {
+		layer = new OpenLayers.Layer.WMS(config.title || layer.name, this.url, params, {
+			attribution: layer.attribution,
+			maxExtent: maxExtent,
+			restrictedExtent: maxExtent,
+			singleTile: ("tiled" in config) ? !config.tiled : false,
+			ratio: config.ratio || 1,
+			visibility: ("visibility" in config) ? config.visibility : true,
+			opacity: ("opacity" in config) ? config.opacity : 1,
+			buffer: ("buffer" in config) ? config.buffer : 1,
+			projection: layerProjection
+		});
+		var data = Ext.applyIf({
+			title: layer.name,
+			group: config.group,
+			source: config.source,
+			properties: "gxp_wmslayerpanel",
+			fixed: config.fixed,
+			selected: "selected" in config ? config.selected : false,
+			layer: layer
+		}, original.data);
+		var fields = [{
+			name: "source",
+			type: "string"
+		}, {
+			name: "group",
+			type: "string"
+		}, {
+			name: "properties",
+			type: "string"
+		}, {
+			name: "fixed",
+			type: "boolean"
+		}, {
+			name: "selected",
+			type: "boolean"
+		}];
+		original.fields.each(function (field) {
+			fields.push(field);
+		});
+		var Record = GeoExt.data.LayerRecord.create(fields);
+		record = new Record(data, layer.id);
+	}
+	return record;
+};
+
+
 // Override of legend layer selection to exclude known layer groups
 gxp.plugins.Legend.prototype.addOutput = function (config) {
         return gxp.plugins.Legend.superclass.addOutput.call(this, Ext.apply({
@@ -163,7 +248,7 @@ gxp.plugins.Legend.prototype.addOutput = function (config) {
             {
             	if (record.data.name)
             	{
-            		if (record.data.name=="VicmapClassic" || record.data.name=="LabelClassic")
+            		if (record.data.name.startsWith("VicmapClassic") || record.data.name=="LabelClassic")
             		{return false;}
 	            	else
 	            	{
@@ -193,8 +278,9 @@ gxp.plugins.Legend.prototype.addOutput = function (config) {
 gxp.plugins.WMSGetFeatureInfo.prototype.addActions = function() {
 		this.popupCache = {};
 		var actions = gxp.plugins.WMSGetFeatureInfo.superclass.addActions.call(this, [{
-			tooltip: this.infoActionTip,
-			iconCls: "gxp-icon-getfeatureinfo",
+			// Masking the icon in the toolbar by removing its tooltip and its style
+			//tooltip: this.infoActionTip,
+			//iconCls: "gxp-icon-getfeatureinfo",
 			toggleGroup: this.toggleGroup,
 			// The info button does not need to be clickable
 			disabled: true,
