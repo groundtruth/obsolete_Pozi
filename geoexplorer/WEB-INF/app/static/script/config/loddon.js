@@ -25,7 +25,8 @@ var gtSearchComboEndPoint = 	gtServicesHost + "/ws/rest/v3/ws_all_features_by_st
 
 var gtGetLiveDataEndPoints=[
 	{ urlLayout:'http://10.58.200.28/ws/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://10.58.200.28/ws/rest/v3/ws_get_live_data.php',	storeMode:'sqlite',	storeName:'loddon'},
-	{ urlLayout:'http://49.156.17.41/ws/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://49.156.17.41/ws/rest/v3/ws_get_live_data.php',	storeMode:'pgsql',	storeName:'vicmap'}
+	{ urlLayout:'http://49.156.17.41/ws/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://49.156.17.41/ws/rest/v3/ws_get_live_data.php',	storeMode:'pgsql',	storeName:'vicmap'},
+	{ urlLayout:'http://www.pozi.com/ws/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://www.pozi.com/ws/rest/v3/ws_get_live_data.php',	storeMode:'pgsql',	storeName:'loddongis'}
 ];
 
 // External resources
@@ -78,12 +79,14 @@ var gtMapDataSources = {
 	local: {
 		url: "/geoserver/LODDON/ows",
 		title: "Loddon Shire Council Layers",
-		ptype: "gxp_wmscsource"
+		ptype: "gxp_wmscsource",
+		tiled: false
 	},
 	backend_cascaded: {
 		url: "http://basemap.pozi.com/geoserver/DSE/wms",
 		title: "DSE Vicmap Layers",
-		ptype: "gxp_wmscsource"
+		ptype: "gxp_wmscsource",
+		tiled: false
 	},
 	dse_iws_cascaded: {
 		url: ["http://m1.pozi.com/geoserver/LODDON/ows","http://m2.pozi.com/geoserver/LODDON/ows","http://m3.pozi.com/geoserver/LODDON/ows","http://m4.pozi.com/geoserver/LODDON/ows"],
