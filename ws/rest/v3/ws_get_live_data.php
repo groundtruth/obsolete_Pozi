@@ -100,7 +100,13 @@ try {
 
 		// Replacing all instances of %1% in the query with a specific ID
 		$sql = str_replace("%1%",$idp,$query_to_exec);
-		//echo $sql;
+		if (isset($_REQUEST['debug']))
+		{
+			echo $connection_str."\n";
+			echo $username_conn."\n";
+			echo $password_conn."\n";
+			echo $sql."\n";
+		}
 		$recordSet2 = $conn2->prepare($sql);
 		$recordSet2->execute();
 
