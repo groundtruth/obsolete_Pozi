@@ -114,7 +114,7 @@ var clear_highlight = function(){
 	var e1=Ext.getCmp('gtAccordion').items.items[0].body.id;
 	var e2=Ext.get(e1).dom;
 	e2.innerHTML="";
-}
+};
 
 Ext.namespace("gxp.plugins");
 
@@ -169,19 +169,26 @@ gxp.plugins.WMSSource.prototype.createLayerRecord = function (config) {
 		if (!(1 / maxExtent.getHeight() > 0) || !(1 / maxExtent.getWidth() > 0)) {
 			maxExtent = undefined;
 		}
-		// Apply store-wide config if none present in the layer config - format and group
-		if (!(config.format))
+		// Apply store-wide config if none present in the layer config - format, group and tiling
+		if (!('format' in config))
 		{
-			if (gtMapDataSources[config.source].format)
+			if ('format' in gtMapDataSources[config.source])
 			{
 				config.format=gtMapDataSources[config.source].format;
 			}
 		}
-		if (!(config.group))
+		if (!('group' in config))
 		{
-			if (gtMapDataSources[config.source].group)
+			if ('group' in gtMapDataSources[config.source])
 			{
 				config.group=gtMapDataSources[config.source].group;
+			}
+		}
+		if (!('tiled' in config))
+		{
+			if ('tiled' in gtMapDataSources[config.source])
+			{
+				config.tiled=gtMapDataSources[config.source].tiled;
 			}
 		}
 
