@@ -191,6 +191,13 @@ gxp.plugins.WMSSource.prototype.createLayerRecord = function (config) {
 				config.tiled=gtMapDataSources[config.source].tiled;
 			}
 		}
+		if (!('transition' in config))
+		{
+			if ('transition' in gtMapDataSources[config.source])
+			{
+				config.transition=gtMapDataSources[config.source].transition;
+			}
+		}
 
 		var params = Ext.applyIf({
 			STYLES: config.styles,
@@ -203,6 +210,7 @@ gxp.plugins.WMSSource.prototype.createLayerRecord = function (config) {
 			maxExtent: maxExtent,
 			restrictedExtent: maxExtent,
 			singleTile: ("tiled" in config) ? !config.tiled : false,
+			transitionEffect: ("transition" in config) ? config.transition : '',
 			ratio: config.ratio || 1,
 			visibility: ("visibility" in config) ? config.visibility : true,
 			opacity: ("opacity" in config) ? config.opacity : 1,
@@ -327,7 +335,7 @@ gxp.plugins.WMSGetFeatureInfo.prototype.addActions = function() {
 			// Set the transition effect to "resize" for all layers and the legend URL to accommodate Apache
 			for(var l in app.mapPanel.map.layers)
 			{
-				app.mapPanel.map.layers[l].transitionEffect="resize";
+				//app.mapPanel.map.layers[l].transitionEffect="resize";
 				if (app.mapPanel.layers.data.items[l].data)
 					{
 					if (app.mapPanel.layers.data.items[l].data.styles)
