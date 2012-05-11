@@ -85,7 +85,8 @@ var gtMapDataSources = {
 		title: "DSE Image Web Server",
 		ptype: "gxp_wmscsource",
 		format: "image/JPEG",
-		group: "background"
+		group: "background",
+		transition:'resize'
 	},
 	mapquest: {
 		ptype: "gxp_mapquestsource"
@@ -99,7 +100,8 @@ var gtMapDataSources = {
 	backend: {
 		url: ["http://m1.pozi.com/geoserver/ows","http://m2.pozi.com/geoserver/ows","http://m3.pozi.com/geoserver/ows","http://m4.pozi.com/geoserver/ows"],
 		title: "Pozi Data Server",
-		ptype: "gxp_wmscsource"
+		ptype: "gxp_wmscsource",
+		transition:'resize'
 	}
 };
     
@@ -249,7 +251,8 @@ var gtLayers = [
 		styles:"",
 		transparent:true,
 		cached:false,
-		tiled:false
+		tiled:false,
+		transition:''
 	},{
 		source:"backend",
 		name:"VICMAP:VW_BULOKE_MASK",
