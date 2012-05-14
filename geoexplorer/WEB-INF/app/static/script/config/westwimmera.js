@@ -153,7 +153,7 @@ var gtLayers = [
 		title:"Property (Vicmap)",
 		visibility:true,
 		opacity:0.25,
-		format:"image/png8",
+		format:"image/GIF",
 		styles:"",
 		transparent:true,
 		tiled: false
@@ -190,7 +190,7 @@ var gtLayers = [
 	},{
 		source:"backend",
 		name:"VICMAP:VW_WEST_WIMMERA_MASK",
-		title:"Shire",
+		title:"Municipal Boundary",
 		visibility:true,
 		opacity:0.6,
 		format:"image/png8",

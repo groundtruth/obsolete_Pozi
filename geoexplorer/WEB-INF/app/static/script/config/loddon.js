@@ -141,7 +141,7 @@ var gtLayers = [
 		title:"Property (Vicmap)",
 		visibility:true,
 		opacity:0.25,
-		format:"image/png8",
+		format:"image/GIF",
 		styles:"",
 		transparent:true,
 		tiled:false

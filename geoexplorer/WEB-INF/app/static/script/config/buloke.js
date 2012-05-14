@@ -133,7 +133,7 @@ var gtLayers = [
 		title:"Property (Vicmap)",
 		visibility:true,
 		opacity:0.25,
-		format:"image/png8",
+		format:"image/GIF",
 		styles:"",
 		transparent:true,
 		tiled:false
@@ -242,6 +242,16 @@ var gtLayers = [
 		tiled:false
 	},{
 		source:"backend",
+		name:"VICMAP:VW_BULOKE_MASK",
+		title:"Municipal Boundary",
+		visibility:true,
+		opacity:0.6,
+		format:"image/png8",
+		styles:"",
+		transparent:true,
+		tiled:false
+	},{
+		source:"backend",
 		name:"LabelClassic",
 		title:"Labels",
 		visibility:true,
@@ -253,16 +263,6 @@ var gtLayers = [
 		cached:false,
 		tiled:false,
 		transition:''
-	},{
-		source:"backend",
-		name:"VICMAP:VW_BULOKE_MASK",
-		title:"Municipal Boundary",
-		visibility:true,
-		opacity:0.6,
-		format:"image/png8",
-		styles:"",
-		transparent:true,
-		tiled:false
 	},{
 		source:"backend",
 		name:"VicmapClassic",
