@@ -170,32 +170,35 @@ gxp.plugins.WMSSource.prototype.createLayerRecord = function (config) {
 			maxExtent = undefined;
 		}
 		// Apply store-wide config if none present in the layer config - format, group and tiling
-		if (!('format' in config))
+		if (config && gtMapDataSources[config.source])
 		{
-			if ('format' in gtMapDataSources[config.source])
+			if (!('format' in config))
 			{
-				config.format=gtMapDataSources[config.source].format;
+				if ('format' in gtMapDataSources[config.source])
+				{
+					config.format=gtMapDataSources[config.source].format;
+				}
 			}
-		}
-		if (!('group' in config))
-		{
-			if ('group' in gtMapDataSources[config.source])
+			if (!('group' in config))
 			{
-				config.group=gtMapDataSources[config.source].group;
+				if ('group' in gtMapDataSources[config.source])
+				{
+					config.group=gtMapDataSources[config.source].group;
+				}
 			}
-		}
-		if (!('tiled' in config))
-		{
-			if ('tiled' in gtMapDataSources[config.source])
+			if (!('tiled' in config))
 			{
-				config.tiled=gtMapDataSources[config.source].tiled;
+				if ('tiled' in gtMapDataSources[config.source])
+				{
+					config.tiled=gtMapDataSources[config.source].tiled;
+				}
 			}
-		}
-		if (!('transition' in config))
-		{
-			if ('transition' in gtMapDataSources[config.source])
+			if (!('transition' in config))
 			{
-				config.transition=gtMapDataSources[config.source].transition;
+				if ('transition' in gtMapDataSources[config.source])
+				{
+					config.transition=gtMapDataSources[config.source].transition;
+				}
 			}
 		}
 
@@ -287,6 +290,34 @@ gxp.plugins.Legend.prototype.addOutput = function (config) {
         }, config));
     };
 
+
+// Overrride to fix the bug on the WMS layer panel when the store is multi-source (URLs)
+gxp.WMSLayerPanel.prototype.initComponent = function () {
+	this.addEvents("change");
+	this.items = [this.createAboutPanel(), this.createDisplayPanel()];
+	if (this.layerRecord.get("layer").params.TILED != null) {
+		this.items.push(this.createCachePanel());
+	}
+	if (this.layerRecord.get("styles")) {
+		var first_url;
+		if (typeof this.layerRecord.get("layer").url == "object")
+		{
+			first_url = this.layerRecord.get("layer").url[0];
+		}
+		else
+		{
+			first_url = this.layerRecord.get("layer").url;
+		}
+		var url = first_url.split("?").shift().replace(/\/(wms|ows)\/?$/, "/rest");
+		if (this.sameOriginStyling) {
+			this.editableStyles = url.charAt(0) === "/";
+		} else {
+			this.editableStyles = true;
+		}
+		this.items.push(this.createStylesPanel(url));
+	}
+	gxp.WMSLayerPanel.superclass.initComponent.call(this);
+};
 
 
 // Override of the GetFeatureInfo addActions handler
