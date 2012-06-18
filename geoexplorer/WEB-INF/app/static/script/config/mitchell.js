@@ -9,10 +9,6 @@ var gtFeatureNS = "http://www.pozi.com/vicmap";
 // Database config for the master search table
 var gtDatabaseConfig = "vicmap";
 
-// Aerial imagery credentials
-gtAerialUsername = "sweepingplains";
-gtAerialPassword = "sunburntcountry";
-
 //  Services
 var gtServicesHost = "http://49.156.17.41";
 ///var gtServicesHost = "http://localhost";
@@ -24,7 +20,7 @@ var gtSearchPropertyEndPoint =  gtServicesHost + "/ws/rest/v3/ws_property_id_by_
 var gtSearchComboEndPoint = 	gtServicesHost + "/ws/rest/v3/ws_all_features_by_string_and_lga.php";
 
 var gtGetLiveDataEndPoints=[
-	{ urlLayout:'http://localhost/ws_apache/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://localhost/ws_apache/rest/v3/ws_get_live_data.php',	storeMode:'sqlite',	storeName:'mitchell'},
+	{ urlLayout:'http://172.20.10.19:9090/ws/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://172.20.10.19:9090/ws/rest/v3/ws_get_live_data.php',	storeMode:'sqlite',	storeName:'mitchell'},
 	{ urlLayout:'http://49.156.17.41/ws/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://49.156.17.41/ws/rest/v3/ws_get_live_data.php',	storeMode:'pgsql',	storeName:'vicmap'}
 ];
 
@@ -70,7 +66,8 @@ var gtMapDataSources = {
 	local: {
 		url: "/geoserver/MITCHELL/ows",
 		title: "Mitchell Shire Council Layers",
-		ptype: "gxp_wmscsource"
+		ptype: "gxp_wmscsource",
+		tiled: false
 	},
 	backend_cascaded: {
 		url: "http://basemap.pozi.com/geoserver/DSE/ows",
@@ -154,7 +151,7 @@ var gtLayers = [
 		transparent:true
 	},{
 		source:"local",
-		name:gtWorkspaceName+":MSC_LEISURE_CENTRE",
+		name:gtWorkspaceName+":MSC_LEISURE_CENTRE2",
 		title:"Leisure Centres",
 		visibility:false,
 		opacity:0.75,
@@ -164,7 +161,7 @@ var gtLayers = [
 		tiled:false
 	},{
 		source:"local",
-		name:gtWorkspaceName+":MSC_SPORTS_RESERVE",
+		name:gtWorkspaceName+":MSC_SPORTS_RESERVE2",
 		title:"Sports Reserves",
 		visibility:false,
 		opacity:0.75,
@@ -174,7 +171,7 @@ var gtLayers = [
 		tiled:false
 	},{
 		source:"local",
-		name:gtWorkspaceName+":MSC_CUSTOMER_SERVICE_CENTRE",
+		name:gtWorkspaceName+":MSC_CUSTOMER_SERVICE_CENTRE2",
 		title:"Customer Service Centres",
 		visibility:false,
 		opacity:0.75,
@@ -184,7 +181,7 @@ var gtLayers = [
 		tiled:false
 	},{
 		source:"local",
-		name:gtWorkspaceName+":MSC_LIBRARY",
+		name:gtWorkspaceName+":MSC_LIBRARY2",
 		title:"Libraries",
 		visibility:false,
 		opacity:0.75,
@@ -194,7 +191,7 @@ var gtLayers = [
 		tiled:false
 	},{
 		source:"local",
-		name:gtWorkspaceName+":MSC_KINDERGARTEN",
+		name:gtWorkspaceName+":MSC_KINDERGARTEN2",
 		title:"Kindergartens",
 		visibility:false,
 		opacity:0.75,
@@ -288,7 +285,7 @@ var gtWFSsrsName = "EPSG:4326";
 var gtWFSgeometryName = "the_geom";
 
 // Definition of the WFS layer - arbitrarily defining a WFS layer to be able to add it to the map (so that it's ready to be used when the app has loaded)
-var gtLayerLocSel = new OpenLayers.Layer.Vector("Search Result", {
+var gtLayerLocSel = new OpenLayers.Layer.Vector("Selection", {
 	styleMap: gtStyleMap,
 	strategies: [new OpenLayers.Strategy.BBOX({ratio:100})],
         protocol: new OpenLayers.Protocol.WFS({
@@ -329,9 +326,10 @@ var gtTools = [{
 			ptype: "gxp_layerproperties",
 ///			actionTarget: ["tree.tbar", "layertree.contextMenu"]
 			actionTarget: ["layertree.contextMenu"]
-//		}, {
-//			ptype: "gxp_styler",
-//			actionTarget: ["tree.tbar", "layertree.contextMenu"]
+		}, {
+			ptype: "gxp_styler",
+///			actionTarget: ["tree.tbar", "layertree.contextMenu"]
+			actionTarget: ["layertree.contextMenu"]
 		}, {
 			ptype: "gxp_zoomtolayerextent",
 			actionTarget: {
@@ -360,19 +358,19 @@ var gtTools = [{
 //				index: 2
 //			}
 //		}, {
-//			ptype: "gxp_featuremanager",
-//			id: "featuremanager",
-//			maxFeatures: 20
-//		}, {
-//			ptype: "gxp_featureeditor",
-//			featureManager: "featuremanager",
-//			autoLoadFeatures: true,
-//			toggleGroup: this.toggleGroup,
-//			actionTarget: {
-//				target: "paneltbar",
-//				index: 6
-//			}
-//		}, {
+			ptype: "gxp_featuremanager",
+			id: "featuremanager",
+			maxFeatures: 20
+		}, {
+			ptype: "gxp_featureeditor",
+			featureManager: "featuremanager",
+			autoLoadFeatures: true,
+			toggleGroup: this.toggleGroup,
+			actionTarget: {
+				target: "paneltbar",
+				index: 6
+			}
+		}, {
 
 //			ptype: "gxp_zoom",
 //			actionTarget: {
@@ -416,17 +414,19 @@ var gtTools = [{
 
 	var gtCreateTools = function () {
 		var tools = GeoExplorer.Composer.superclass.createTools.apply(this, arguments);
-///		if (this.authorizedRoles.length === 0) {
-///			this.loginButton = new Ext.Button({
-///				iconCls: 'login',
-///				text: this.loginText,
-///				handler: this.showLoginDialog,
-///				scope: this
-///			});
-///			tools.push(['->', this.loginButton]);
-///		} else {
-///
-///		}
+		tools.unshift("");
+		tools.unshift("");
+		if (this.authorizedRoles.length === 0) {
+			this.loginButton = new Ext.Button({
+				iconCls: 'login',
+				text: this.loginText,
+				handler: this.showLoginDialog,
+				scope: this
+			});
+			tools.push(['->', this.loginButton]);
+		} else {
+
+		}
 		tools.unshift("");
 //		tools.unshift(new Ext.Button({
 //			tooltip: this.exportMapText,

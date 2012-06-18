@@ -1,9 +1,9 @@
-// Javascript configuration file for West Wimmera
+// Javascript configuration file for Mitchell
 
 // Workspace containing the layers and corresponding namespace
-var gtWorkspaceName= "WESTWIMMERA";
-// This is a multi-database setup so we need to specify the LGA
-var gtLGACode = "371";
+var gtWorkspaceName= "MITCHELL"; 
+// In a multi-council database setup, use 346
+var gtLGACode = "346";
 var gtFeatureNS = "http://www.pozi.com/vicmap";
 
 // Database config for the master search table
@@ -18,189 +18,110 @@ var gtOWSEndPoint = 		gtServicesHost + "/geoserver/ows";
 var gtWFSEndPoint = 		gtServicesHost + "/geoserver/wfs";
 var gtSearchPropertyEndPoint =  gtServicesHost + "/ws/rest/v3/ws_property_id_by_propnum.php";
 var gtSearchComboEndPoint = 	gtServicesHost + "/ws/rest/v3/ws_all_features_by_string_and_lga.php";
+// Doing away with the search box:
+var gtHideSearch=true;
+// Collapsing layer tree on initial display
+var gtCollapseLayerTree=true;
+// Doing away with the top part
+var gtHideGlobalNorthRegion=true;
 
 var gtGetLiveDataEndPoints=[
-	{ urlLayout:'http://192.168.10.12/ws/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://192.168.10.12/ws/rest/v3/ws_get_live_data.php',	storeMode:'sqlite',	storeName:'westwimmera'},
-	{ urlLayout:'http://49.156.17.41/ws/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://49.156.17.41/ws/rest/v3/ws_get_live_data.php',	storeMode:'pgsql',	storeName:'vicmap'}
+	{ urlLayout:'http://103.29.64.29/ws/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://103.29.64.29/ws/rest/v3/ws_get_live_data.php',	storeMode:'pgsql',	storeName:'creeklinkgis'}
 ];
 
 // External resources
-//var gtPoziLogoSrc = gtServicesHost+"/"+"theme/app/img/pozi-logo.png";
-//var gtPoziLogoWidth = 165; 
-var gtLogoClientSrc = "http://www.pozi.com/"+"theme/app/img/westwimmera_logo.gif";
-var gtLogoClientWidth=167;
+//var gtLogoClientSrc = "http://www.pozi.com/"+"theme/app/img/mitchell_banner.jpg";
+var gtLogoClientSrc = "http://www.pozi.com/"+"theme/app/img/creeklink-logo.png";
+var gtLogoClientWidth=173;
 
 // Map resources
-// Center determined by: select ST_AsText(ST_Transform(ST_SetSRID(ST_Centroid(the_geom),4283),900913)) from dse_vmadmin_lga where lga_name='WEST WIMMERA'
-var gtMapCenter = [15727146, -4393955];
-var gtMapZoom = 9;
+// Center determined by: select ST_AsText(ST_Transform(ST_SetSRID(ST_Centroid(the_geom),4283),900913)) from dse_vmadmin_lga where lga_name='MITCHELL'
+var gtMapCenter = [16024006, -4632500];
+var gtMapZoom = 12;
 // When zooming after a search
 var gtZoomMax = 18;
 // Constraint on the general max zoom level of the map
-var gtMaxZoomLevel = 20;
+var gtMaxZoomLevel = 21;
 var gtQuickZoomDatastore = [
-['141.079','-36.971','141.090','-36.965','Apsley'],
-['141.416','-37.282','141.423','-37.276','Chetwynd'],
-['141.212','-37.374','141.218','-37.367','Dergholm'],
-['141.276','-37.043','141.306','-37.019','Edenhope'],
-['141.469','-36.724','141.479','-36.715','Goroke'],
-['141.588','-37.170','141.595','-37.163','Harrow'],
-['141.233','-36.383','141.251','-36.370','Kaniva'],
-['141.127','-36.363','141.129','-36.362','Lillimur'],
-['141.339','-36.357','141.348','-36.353','Miram'],
-['140.981','-36.379','140.993','-36.372','Serviceton']
-];
+	['144.936',	'-37.484',	'144.989',	'-37.467', 'Beveridge'	],
+	['145.025',	'-37.229',	'145.069',	'-37.195', 'Broadford'	],
+	['144.931',	'-37.325',	'144.967',	'-37.281', 'Kilmore'	],
+	['144.845',	'-37.148',	'144.876',	'-37.111', 'Pyalong'	],
+	['145.12',	'-37.04',	'145.168',	'-37.006', 'Seymour'	],
+	['145.085',	'-37.109',	'145.112',	'-37.084', 'Tallarook'	],
+	['144.793',	'-37.049',	'144.803',	'-37.038', 'Tooborac'	],
+	['144.953',	'-37.431',	'145.021',	'-37.379', 'Wallan'	],
+	['145.018',	'-37.381',	'145.045',	'-37.349', 'Wandong'	],
+	['145.064',	'-37.303',	'145.069',	'-37.297', 'Waterford Park']];
 
 		
 // UI labels
 var gtDetailsTitle='Details';
 var gtInfoTitle = 'Info';
-var gtEmptyTextQuickZoom = 'Zoom to town';
+var gtEmptyTextQuickZoom = 'Zoom to creek';
 var gtEmptyTextSearch = 'Find properties, roads, features, etc...';
 var gtLoadingText = 'Searching...';
 var gtEmptyTextSelectFeature = 'Selected features ...';
 var gtClearButton='clear';
 var gtPropNum;
 var gtLegendHeight = 400;
-var gtPrintTitle = "West Wimmera Shire Council";
+var gtPrintTitle = "Creek-link";
 
 // Datasources
 var gtMapDataSources = {
 	local: {
-		url: "/geoserver/WESTWIMMERA/ows",
-		title: "West Wimmera Shire Council Layers",
+		url: "http://www.pozi.com/geoserver/CREEKLINK/ows",
+		title: "CreekLink Layers",
 		ptype: "gxp_wmscsource",
 		tiled: false
 	},
-	backend_cascaded: {
-		url: "http://basemap.pozi.com/geoserver/DSE/wms",
-		title: "DSE Vicmap Layers",
-		ptype: "gxp_wmscsource"
-	},
-	dse_iws_cascaded: {
-		url: ["http://m1.pozi.com/geoserver/WESTWIMMERA/ows","http://m2.pozi.com/geoserver/WESTWIMMERA/ows","http://m3.pozi.com/geoserver/WESTWIMMERA/ows","http://m4.pozi.com/geoserver/WESTWIMMERA/ows"],
-		title: "DSE Image Web Server",
-		ptype: "gxp_wmscsource",
-		format: "image/JPEG",
-		group: "background",
-		transition:'resize'
-	},
+//	google: {
+//	    ptype: "gxp_googlesource"
+//	},
+//	bing: {
+//	    ptype: "gxp_bingsource"
+//	},
+//	ol: {
+//		ptype: "gxp_olsource"
+//	},
 	mapquest: {
 		ptype: "gxp_mapquestsource"
-	},
-	osm: {
-		ptype: "gxp_osmsource"
-	},
-	ol: {
-		ptype: "gxp_olsource"
 	},
 	backend: {
 		url: ["http://m1.pozi.com/geoserver/ows","http://m2.pozi.com/geoserver/ows","http://m3.pozi.com/geoserver/ows","http://m4.pozi.com/geoserver/ows"],
 		title: "Pozi Data Server",
 		ptype: "gxp_wmscsource",
 		transition:'resize'
+	},
+	cl: {
+		url: "http://103.29.64.29/geoserver/ows",
+		title: "New Pozi Data Server",
+		ptype: "gxp_wmscsource",
+		transition:'resize'
+	},
+	ol: {
+		ptype: "gxp_olsource"
 	}
 };
     
 // Initial layers      
 var gtLayers = [
 	{
-		source:"backend",
-		name:"VICMAP:VW_DSE_VMPLAN_ZONE",
-		title:"Planning Zones (Vicmap)",
-		visibility:false,
-		opacity:0.6,
-		format:"image/png8",
-		styles:"",
-		transparent:true,
-		tiled: false
-	},{
-		source:"backend",
-		name:"VICMAP:VW_DSE_VMPLAN_OVERLAY",
-		title:"Planning Overlays (Vicmap)",
-		visibility:false,
-		opacity:0.6,
-		format:"image/png8",
-		styles:"",
-		transparent:true,
-		tiled: false
-	},{
-		source:"local",
-		name:gtWorkspaceName+":AAV_CULTURAL_SENSITIVITY",
-		title:"Cultural Sensitivity (AAV, 12/2011)",
-		visibility:false,
-		opacity:0.5,
-		format:"image/png8",
-		styles:"",
-		transparent:true,
-		tiled: false
-	},{
-		source:"local",
-		name:gtWorkspaceName+":WWSC_MAINTENANCE_ZONE",
-		title:"Maintenance Zones",
-		visibility:false,
-		opacity:0.8,
-		format:"image/png8",
-		styles:"",
-		transparent:true,
-		tiled:false
-	},{
-		source:"backend",
-		name:"VICMAP:VICMAP_PROPERTY_ADDRESS",
-		title:"Property (Vicmap)",
+//		source:"backend",
+//		name:"VICMAP:VICMAP_PROPERTY_ADDRESS",
+//		title:"Property (Vicmap)",
+//		visibility:true,
+//		opacity:0.25,
+//		format:"image/GIF",
+//		styles:"",
+//		transparent:true,
+//		tiled:false
+//	},{
+		source:"cl",
+		name:"CREEKLINK:CREEK",
+		title:"Creeks",
 		visibility:true,
-		opacity:0.25,
-		format:"image/GIF",
-		styles:"",
-		transparent:true,
-		tiled: false
-	},{
-		source:"backend",
-		name:"VICMAP:VMPROP_PARCEL",
-		title:"Parcel (Vicmap)",
-		visibility:false,
-		opacity:0.75,
-		format:"image/png8",
-		styles:"parcel_label",
-		transparent:true,
-		tiled:false
-	},{
-		source:"local",
-		name:gtWorkspaceName+":WWSC_ROAD_DETAIL",
-		title:"Road Details (Moloney)",
-		visibility:false,
-		opacity:0.8,
-		format:"image/png8",
-		styles:"",
-		transparent:true,
-		tiled:false
-	},{
-		source:"backend",
-		name:"VICMAP:VW_TRANSFER_STATION",
-		title:"Transfer Stations",
-		visibility:false,
 		opacity:0.85,
-		format:"image/png8",
-		styles:"",
-		transparent:true,
-		tiled:false
-	},{
-		source:"backend",
-		name:"VICMAP:VW_WEST_WIMMERA_MASK",
-		title:"Municipal Boundary",
-		visibility:true,
-		opacity:0.6,
-		format:"image/png8",
-		styles:"",
-		transparent:true,
-		tiled:false
-	},{
-		source:"backend",
-		name:"LabelClassic",
-		title:"Labels",
-		visibility:true,
-		opacity:1,
-		selected:false,
 		format:"image/png8",
 		styles:"",
 		transparent:true,
@@ -208,38 +129,64 @@ var gtLayers = [
 		transition:''
 	},{
 		source:"backend",
-		name:"VicmapClassic",
-		title:"Vicmap Classic",
+		name:"VICMAP:VMPROP_PARCEL_OPTI",
+		title:"Parcels (Vicmap)",
 		visibility:true,
-		opacity:1,
-		group:"background",
-		selected:false,
+		opacity:0.5,
+		format:"image/png8",
+		styles:"creek_parcel",
+		transparent:true,
+		tiled:false,
+		transition:''
+	},{
+		source:"cl",
+		name:"creek_segments",
+		title:"Creek Tiles",
+		visibility:true,
+		opacity:0.66,
 		format:"image/png8",
 		styles:"",
 		transparent:true,
-		tiled: true,
-		cached:true
+		tiled:false,
+		transition:null
+//	},{
+//	    source: "google",
+//	    name: "HYBRID",
+//		visibility: true
 	},{
-		source:"mapquest",
-		name: "osm",
+	    source: "mapquest",
+	    name: "osm",
 		visibility: false
-	},{
-		source:"dse_iws_cascaded",
-		name :gtWorkspaceName+":AERIAL_WIMMERA-CMA_2004NOV01_AIR_VIS_60CM_MGA54",
-		title:"Aerial Photo (WCMA 2004)",
-		visibility:false,
-		opacity:1,
-		group:"background",
-		selected:false,
-		format:"image/JPEG",
-		transparent:true
+
+//	},{
+//	    source: "bing",
+//	    title: "Bing Road Map",
+//	    name: "Road"
+
+//	},{
+//		source:"backend",
+//		name:"VicmapClassic",
+//		title:"Vicmap Classic",
+//		visibility:true,
+//		opacity:1,
+//		group:"background",
+//		selected:false,
+//		format:"image/png8",
+//		styles:"",
+//		transparent:true,
+//		cached:true
+//	},{
+//		source:"mapquest",
+//		name: "osm",
+//		visibility: false,
+//		group:"background"
 	},{
 		source: "ol",
 		group: "background",
 		fixed: true,
 		type: "OpenLayers.Layer",
 		args: [
-			"None", {visibility: false}
+			"None", {visibility: true}
 		]
 	}];
 
@@ -282,10 +229,10 @@ var gtTools = [{
 				autoScroll: true
 			}
 		}, {
-			ptype: "gxp_addlayers",
-			actionTarget: "tree.tbar",
-			upload: true
-		}, {
+//			ptype: "gxp_addlayers",
+//			actionTarget: "tree.tbar",
+//			upload: true
+//		}, {
 			ptype: "gxp_removelayer",
 			actionTarget: ["layertree.contextMenu"]
 		}, {
@@ -323,19 +270,20 @@ var gtTools = [{
 //				index: 2
 //			}
 //		}, {
-			ptype: "gxp_featuremanager",
-			id: "featuremanager",
-			maxFeatures: 20
-		}, {
-			ptype: "gxp_featureeditor",
-			featureManager: "featuremanager",
-			autoLoadFeatures: true,
-			toggleGroup: this.toggleGroup,
-			actionTarget: {
-				target: "paneltbar",
-				index: 6
-			}
-		}, {
+//			ptype: "gxp_featuremanager",
+//			id: "featuremanager",
+//			maxFeatures: 20
+//		}, {
+//			ptype: "gxp_featureeditor",
+//			featureManager: "featuremanager",
+//			autoLoadFeatures: true,
+//			toggleGroup: this.toggleGroup,
+//			actionTarget: {
+//				target: "paneltbar",
+//				index: 6
+//			}
+//		}, {
+
 //			ptype: "gxp_zoom",
 //			actionTarget: {
 //				target: "paneltbar",
@@ -378,8 +326,6 @@ var gtTools = [{
 
 	var gtCreateTools = function () {
 		var tools = GeoExplorer.Composer.superclass.createTools.apply(this, arguments);
-		tools.unshift("");
-		tools.unshift("");
 		if (this.authorizedRoles.length === 0) {
 			this.loginButton = new Ext.Button({
 				iconCls: 'login',
@@ -445,8 +391,8 @@ var poziLinkClickHandler = function () {
 	
 var gtInitialDisclaimerFlag=false;
 var gtDisclaimer="disclaimer.html";
-var gtRedirectIfDeclined="http://www.westwimmera.vic.gov.au/";
-var gtLinkToCouncilWebsite="http://www.westwimmera.vic.gov.au/";
-var gtBannerLineColor="#D0D2B9";
-var gtBannerRightCornerLine1="West Wimmera Shire Council";
+var gtRedirectIfDeclined="http://www.mitchellshire.vic.gov.au/";
+var gtLinkToCouncilWebsite="http://www.mitchellshire.vic.gov.au/";
+var gtBannerLineColor="#596C13";
+var gtBannerRightCornerLine1="Creek-link";
 var gtBannerRightCornerLine2="Victoria, Australia";

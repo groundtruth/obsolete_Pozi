@@ -9,10 +9,6 @@ var gtFeatureNS = "http://www.pozi.com/vicmap";
 // Database config for the master search table
 var gtDatabaseConfig = "vicmap";
 
-// Aerial imagery credentials
-gtAerialUsername = "gtruth";
-gtAerialPassword = "buloke";
-
 //  Services
 var gtServicesHost = "http://49.156.17.41";
 ///var gtServicesHost = "http://localhost";
@@ -73,7 +69,8 @@ var gtMapDataSources = {
 	local: {
 		url: "/geoserver/BULOKE/ows",
 		title: "Buloke Shire Council Layers",
-		ptype: "gxp_wmscsource"
+		ptype: "gxp_wmscsource",
+		tiled: false
 	},
 	backend_cascaded: {
 		url: "http://basemap.pozi.com/geoserver/DSE/wms",
@@ -253,7 +250,7 @@ var gtWFSsrsName = "EPSG:4326";
 var gtWFSgeometryName = "the_geom";
 
 // Definition of the WFS layer - arbitrarily defining a WFS layer to be able to add it to the map (so that it's ready to be used when the app has loaded)
-var gtLayerLocSel = new OpenLayers.Layer.Vector("Search Result", {
+var gtLayerLocSel = new OpenLayers.Layer.Vector("Selection", {
 	styleMap: gtStyleMap,
 	strategies: [new OpenLayers.Strategy.BBOX({ratio:100})],
         protocol: new OpenLayers.Protocol.WFS({
