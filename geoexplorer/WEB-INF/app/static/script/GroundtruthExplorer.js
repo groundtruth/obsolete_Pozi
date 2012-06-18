@@ -513,6 +513,124 @@ gxp.plugins.WMSGetFeatureInfo.prototype.addActions = function() {
 		return actions;
 	};
 
+
+// Override to allow the upload shapefile button on workspaced endpoints
+gxp.plugins.AddLayers.prototype.createUploadButton = function () {
+        var button;
+        var uploadConfig = this.initialConfig.upload;
+        var url;
+        if (uploadConfig) {
+            if (typeof uploadConfig === "boolean") {
+                uploadConfig = {};
+            }
+            button = new Ext.Button({
+                xtype: "button",
+                text: this.uploadText,
+                iconCls: "gxp-icon-filebrowse",
+                hidden: true,
+                handler: function () {
+                    var panel = new gxp.LayerUploadPanel(Ext.apply({
+                        url: url,
+                        width: 350,
+                        border: false,
+                        bodyStyle: "padding: 10px 10px 0 10px;",
+                        frame: true,
+                        labelWidth: 65,
+                        defaults: {
+                            anchor: "95%",
+                            allowBlank: false,
+                            msgTarget: "side"
+                        },
+                        listeners: {
+                            uploadcomplete: function (panel, detail) {
+                                var layers = detail.layers;
+                                var names = {};
+                                for (var i = 0, len = layers.length; i < len; ++i) {
+                                    names[layers[i].name] = true;
+                                }
+                                this.selectedSource.store.load({
+                                    callback: function (records, options, success) {
+                                        var gridPanel = this.capGrid.items.get(0);
+                                        var sel = gridPanel.getSelectionModel();
+                                        sel.clearSelections();
+                                        var newRecords = [];
+                                        var last = 0;
+                                        this.selectedSource.store.each(function (record, index) {
+                                            if (record.get("name") in names) {
+                                                last = index;
+                                                newRecords.push(record);
+                                            }
+                                        });
+                                        sel.selectRecords(newRecords);
+                                        window.setTimeout(function () {
+                                            gridPanel.getView().focusRow(last);
+                                        }, 100);
+                                    },
+                                    scope: this
+                                });
+                                win.close();
+                            },
+                            scope: this
+                        }
+                    }, uploadConfig));
+                    var win = new Ext.Window({
+                        title: this.uploadText,
+                        modal: true,
+                        resizable: false,
+                        items: [panel]
+                    });
+                    win.show();
+                },
+                scope: this
+            });
+            var urlCache = {};
+
+            function getStatus(url, callback, scope) {
+                if (url in urlCache) {
+                    window.setTimeout(function () {
+                        callback.call(scope, urlCache[url]);
+                    }, 0);
+                } else {
+                    Ext.Ajax.request({
+                        url: url,
+                        disableCaching: false,
+                        callback: function (options, success, response) {
+                            var status = response.status;
+                            urlCache[url] = status;
+                            callback.call(scope, status);
+                        }
+                    });
+                }
+            }
+            this.on({
+                sourceselected: function (tool, source) {
+                    button.hide();
+                    var show = false;
+                    if (this.isEligibleForUpload(source)) {
+                        var parts = source.url.split("/");
+                        parts.pop();
+			   if (parts[parts.length-1] != "geoserver")
+			   {
+				// Popping the workspace out of the array
+				parts.pop();
+			   }
+                        parts.push("rest");
+                        url = parts.join("/");
+                        if (this.target.isAuthenticated()) {
+                            getStatus(url + "/upload", function (status) {
+                                var available = (status === 405);
+                                var authorized = this.target.isAuthorized();
+                                button.setVisible(authorized && available);
+                            }, this);
+                        }
+                    }
+                },
+                scope: this
+            });
+        }
+        return button;
+    };
+
 // Handler called when:
 // - a record is selected in the search drop down list
 // - a property number is passed in the URL and has returned a valid property record
@@ -613,18 +731,18 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 	 	// When DOM is ready
 		this.on("ready", function() {
 		
-			for(var l in app.mapPanel.map.layers)
-			{
-				if (!isNaN(l))
-				{
-					// Additional WMS parameters - users don't have to enter credentials and allows printing of the imagery			
-					if (app.mapPanel.map.layers[l].name.substring(0,12)==="Aerial Photo")
-					{
-						app.mapPanel.map.layers[l].params["USERNAME"]=gtAerialUsername;
-						app.mapPanel.map.layers[l].params["PASSWORD"]=gtAerialPassword;
-					}
-				}
-			}
+//			for(var l in app.mapPanel.map.layers)
+//			{
+//				if (!isNaN(l))
+//				{
+//					// Additional WMS parameters - users don't have to enter credentials and allows printing of the imagery			
+//					if (app.mapPanel.map.layers[l].name.substring(0,12)==="Aerial Photo")
+//					{
+//						app.mapPanel.map.layers[l].params["USERNAME"]=gtAerialUsername;
+//						app.mapPanel.map.layers[l].params["PASSWORD"]=gtAerialPassword;
+//					}
+//				}
+//			}
 		
 			// Adding the WFS layer to the map
 			app.mapPanel.map.addLayers([glayerLocSel]);
@@ -789,6 +907,7 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 			split: true,
 			collapsible: true,
 			collapseMode: "mini",
+			collapsed: (typeof gtCollapseLayerTree ==='undefined'?false:true),
 			autoScroll:true,
 			header: false,
 			items: [{
@@ -990,7 +1109,6 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 						
 						// Current layer, as per content of the drop down
 						var cl = cb.getStore().data.items[cb.getStore().find("type",cb.getValue())].data.layer;
-						
 						
 						if (gCurrentExpandedTabIdx[cl] != 0)
 						{
@@ -1397,9 +1515,10 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 				border:false
         		}
 			,
+			(typeof gtHideSearch ==='undefined'?
 			new Ext.Panel({
 				region: "center",
-       	             	width: 500,
+       	             		width: 500,
 				padding: "34px",
 				border: false,
 				bodyStyle: " background-color: white ; ",
@@ -1424,7 +1543,16 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 							    scope:this}
 					})
 				]
-			}),
+			})
+			:
+			{
+				columnWidth: 0,
+				html:"",
+	                	height: 100,
+				border:false
+			}			
+			)
+			,
 			{
 				columnWidth: 0.5,
 				html:"",
@@ -1455,6 +1583,15 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
                 eastPanel
             ]}
         ];
+
+	if (typeof gtHideGlobalNorthRegion ==='undefined')
+	{
+		
+	}
+	else
+	{
+	this.portalItems=[this.portalItems[1]];
+	}
       
  	GeoExplorer.superclass.initPortal.apply(this, arguments);
     },
