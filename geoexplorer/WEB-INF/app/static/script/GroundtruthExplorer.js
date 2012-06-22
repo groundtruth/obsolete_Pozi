@@ -450,6 +450,11 @@ gxp.plugins.WMSGetFeatureInfo.prototype.addActions = function() {
 									var typ=x.data.title;
 									// Layer name (without namespace), to enable additional accordion panels
 									var lay=x.data.layer.params.LAYERS.split(":")[1];
+									// Catering for layer groups (they don't have a workspace name as a prefix)
+									if (!lay)
+									{
+										lay=x.data.layer.params.LAYERS;
+									}
 									// Attempt to format it nicely (removing the parenthesis content)
 									var simpleTitle=x.data.title.match(/(.*) ?\(.*\)/);
 									if (simpleTitle)
@@ -731,19 +736,6 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 	 	// When DOM is ready
 		this.on("ready", function() {
 		
-//			for(var l in app.mapPanel.map.layers)
-//			{
-//				if (!isNaN(l))
-//				{
-//					// Additional WMS parameters - users don't have to enter credentials and allows printing of the imagery			
-//					if (app.mapPanel.map.layers[l].name.substring(0,12)==="Aerial Photo")
-//					{
-//						app.mapPanel.map.layers[l].params["USERNAME"]=gtAerialUsername;
-//						app.mapPanel.map.layers[l].params["PASSWORD"]=gtAerialPassword;
-//					}
-//				}
-//			}
-		
 			// Adding the WFS layer to the map
 			app.mapPanel.map.addLayers([glayerLocSel]);
 	
@@ -767,13 +759,6 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 						alert("No property found for number: "+initPropertyNum+".");
 					}
 				};
-				
-				// AJAX request for info on the property passed in the URL
-				//var request = OpenLayers.Request.GET({
-				//    url: gtSearchPropertyEndPoint,
-				//    params: {query: initPropertyNum,config:gtDatabaseConfig},
-				//    callback: prop_by_prop_num_handler
-				//});
 
 				var ds = new Ext.data.JsonStore({
 					autoLoad: true, //autoload the data
@@ -790,7 +775,6 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 						{name: "idval"	, mapping:"row.idval"},
 						{name: "ld"	, mapping:"row.ld"}
 					],
-			//		proxy: new Ext.data.HttpProxy({
 					proxy: new Ext.data.ScriptTagProxy({
 						url: gtSearchPropertyEndPoint
 					}),
@@ -801,12 +785,12 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 
 
 		        }
-		        else
-		        {
-				// Refresh the WFS layer now (no object highlighted)
-		        	//glayerLocSel.refresh({force:true});
-		        	// Trialing to not have that done when the application loads -- it would happen on a first pan or search result
-		        }
+			else
+			{
+				// Fixes the issue with the first getFeatureInfo/selection flicking
+				glayerLocSel.refresh({force:true});
+			}
+
 			// Bringing the disclaimer in - if selected by council
 			if (gtInitialDisclaimerFlag)
 			{
@@ -1156,201 +1140,226 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 									}
 									var idFeature = cb.store.data.items[selectedRecordIndex].data.content[configArray[i].idName];
 
-									// Live query using the script tag
-									var ds = new Ext.data.Store({
-										autoLoad:true,
-										proxy: new Ext.data.ScriptTagProxy({
-											url: gtGetLiveDataEndPoints[configArray[i].definition].urlLiveData
-										}),
-										reader: new Ext.data.JsonReader({	
-											root: 'rows',
-											totalProperty: 'total_rows',
-											id: 'id'	
-											}, 
-											[	{name: 'id', mapping: 'row.id'}
-										]),
-										baseParams: {
-											// Logged in role
-											role: gCurrentLoggedRole,
-											// Passing the value of the property defined as containing the common ID
-											id: idFeature,
-											// Passing the tab name
-											infoGroup: configArray[i].id,
-											// Passing the database type to query
-											mode: gtGetLiveDataEndPoints[configArray[i].definition].storeMode,
-											// Passing the database name to query
-											config: gtGetLiveDataEndPoints[configArray[i].definition].storeName,
-											// Passing the LGA code, so that the query can be narrowed down (unused)
-											lga: gtLGACode
-										},
-										listeners:
-										{
-											load: function(store, recs)
+									if (configArray[i].id.substring(0,1)!='X')
+									{
+										// Live query using the script tag
+										var ds = new Ext.data.Store({
+											autoLoad:true,
+											proxy: new Ext.data.ScriptTagProxy({
+												url: gtGetLiveDataEndPoints[configArray[i].definition].urlLiveData
+											}),
+											reader: new Ext.data.JsonReader({	
+												root: 'rows',
+												totalProperty: 'total_rows',
+												id: 'id'	
+												}, 
+												[	{name: 'id', mapping: 'row.id'}
+											]),
+											baseParams: {
+												// Logged in role
+												role: gCurrentLoggedRole,
+												// Passing the value of the property defined as containing the common ID
+												id: idFeature,
+												// Passing the tab name
+												infoGroup: configArray[i].id,
+												// Passing the database type to query
+												mode: gtGetLiveDataEndPoints[configArray[i].definition].storeMode,
+												// Passing the database name to query
+												config: gtGetLiveDataEndPoints[configArray[i].definition].storeName,
+												// Passing the LGA code, so that the query can be narrowed down (unused)
+												lga: gtLGACode
+											},
+											listeners:
 											{
-												// Looping thru the records returned by the query
-												tab_array = new Array();
-												for (m = 0 ; m < recs.length; m++)
+												load: function(store, recs)
 												{
-													res_data = recs[m].json.row;
-													var item_array2 = new Array();
-													var has_gsv = false;
-
-													for (j in res_data)
+													// Looping thru the records returned by the query
+													tab_array = new Array();
+													for (m = 0 ; m < recs.length; m++)
 													{
-														if (j!="target")
+														res_data = recs[m].json.row;
+														var item_array2 = new Array();
+														var has_gsv = false;		
+
+														for (j in res_data)
 														{
-															var val=res_data[j];
-															if (val.search(/^http/)>-1)
+															if (j!="target")
 															{
-																if (val.search(/\.jpg/)>-1)
+																var val=res_data[j];
+																if (val.search(/^http/)>-1)
 																{
-																	val="<a href='"+val+"' target='_blank'><img src='"+val+"' height='20' width='20' /></a>";
+																	if (val.search(/\.jpg/)>-1)
+																	{
+																		val="<a href='"+val+"' target='_blank'><img src='"+val+"' height='20' width='20' /></a>";
+																	}
+																	else
+																	{
+																		val="<a href='"+val+"' target='_blank'>link</a>";
+																	}
 																}
 																else
 																{
-																	val="<a href='"+val+"' target='_blank'>link</a>";
+																	val=val.replace(/ 12:00 AM/g,"");
+																}	
+
+																if (j.search(/^gsv/)>-1)
+																{
+																	// Not showing the cells - technical properties for Google Street View
+																	has_gsv = true;
+																}
+																else
+																{																			// Formatting the cells for attribute display in a tidy table
+																	item_array2.push({html:"<div style='font-size:8pt;'><font color='#666666'>"+j+"</font></div>"});
+																	item_array2.push({html:"<div style='font-size:10pt;'>"+val+"</div>"});
 																}
 															}
-															else
-															{
-																val=val.replace(/ 12:00 AM/g,"");
-															}
-
-															if (j.search(/^gsv/)>-1)
-															{
-																// Not showing the cells - technical properties for Google Street View
-																has_gsv = true;
-															}
-															else
-															{																			// Formatting the cells for attribute display in a tidy table
-																item_array2.push({html:"<div style='font-size:8pt;'><font color='#666666'>"+j+"</font></div>"});
-																item_array2.push({html:"<div style='font-size:10pt;'>"+val+"</div>"});
-															}
 														}
-													}
 
-													// Adding a Google Street View link for selected datasets
-													if (has_gsv)
-													{
-														var gsv_lat, gsv_lon, gsv_head=0;
-
-														for(var k in res_data)
+														// Adding a Google Street View link for selected datasets
+														if (has_gsv)
 														{
-															if (k=="gsv_lat")
+															var gsv_lat, gsv_lon, gsv_head=0;
+
+															for(var k in res_data)
 															{
-																gsv_lat=res_data[k];
+																if (k=="gsv_lat")
+																{
+																	gsv_lat=res_data[k];
+																}
+																if (k=="gsv_lon")
+																{
+																	gsv_lon=res_data[k];
+																}
+																if (k=="gsv_head")
+																{
+																	gsv_head=res_data[k];
+																}												
 															}
-															if (k=="gsv_lon")
+
+															if (gsv_lat && gsv_lon)
 															{
-																gsv_lon=res_data[k];
+																// Adjusted to the size of the column
+																var size_thumb = 245;
+																var gsvthumb = "http://maps.googleapis.com/maps/api/streetview?location="+gsv_lat+","+gsv_lon+"&fov=90&heading="+gsv_head+"&pitch=-10&sensor=false&size="+size_thumb+"x"+size_thumb;
+																var gsvlink = "http://maps.google.com.au/maps?layer=c&cbll="+gsv_lat+","+gsv_lon+"&cbp=12,"+gsv_head+",,0,0";
+																item_array2.push({html:"<div style='font-size:10pt;'><a href='"+gsvlink+"' target='_blank'><img src='"+gsvthumb+"'/></a></div>",height:size_thumb,colspan:2});											
 															}
-															if (k=="gsv_head")
-															{
-																gsv_head=res_data[k];
-															}												
 														}
 
-														if (gsv_lat && gsv_lon)
-														{
-															// Adjusted to the size of the column
-															var size_thumb = 245;
-															var gsvthumb = "http://maps.googleapis.com/maps/api/streetview?location="+gsv_lat+","+gsv_lon+"&fov=90&heading="+gsv_head+"&pitch=-10&sensor=false&size="+size_thumb+"x"+size_thumb;
-															var gsvlink = "http://maps.google.com.au/maps?layer=c&cbll="+gsv_lat+","+gsv_lon+"&cbp=12,"+gsv_head+",,0,0";
-															item_array2.push({html:"<div style='font-size:10pt;'><a href='"+gsvlink+"' target='_blank'><img src='"+gsvthumb+"'/></a></div>",height:size_thumb,colspan:2});											
-														}
-													}
+														tab_el = {
+															title	: m+1,
+															layout	: 'table',
+															defaults:{height:20},
+															layoutConfig:{columns:2},
+															items	: item_array2
+														};
 
-													tab_el = {
-														title	: m+1,
-														layout	: 'table',
-														defaults:{height:20},
-														layoutConfig:{columns:2},
-														items	: item_array2
-													};
-
-													tab_array.push(tab_el);
-												}
-
-												// Identification of the div to render the attributes to, if there is anything to render
-												if (recs[0])
-												{
-													// The target div for placing this data
-													var targ = Ext.get(Ext.getCmp(recs[0].json.row["target"]).body.id).dom;
-													// If data already exists, we remove it for replacement with the latest data
-													if (targ.hasChildNodes())
-													{
-														targ.removeChild(targ.firstChild);
+														tab_array.push(tab_el);
 													}	
-													
-													// The container depends on the number of records returned
-													if (tab_array.length==1)
+
+													// Identification of the div to render the attributes to, if there is anything to render
+													if (recs[0])
 													{
-														// Rendering as a table
-														var win = new Ext.Panel({
-															id:'tblayout-win'+g
-															//,width:227
-															,layout:'table'
-															,layoutConfig:{columns:2}
-															,border:false
-															//,closable:false
-															,defaults:{height:20}
-															,renderTo: targ
-															,items: tab_array[0].items
-														});
+														// The target div for placing this data
+														var targ = Ext.get(Ext.getCmp(recs[0].json.row["target"]).body.id).dom;
+														// If data already exists, we remove it for replacement with the latest data
+														if (targ.hasChildNodes())
+														{
+															targ.removeChild(targ.firstChild);
+														}	
+													
+														// The container depends on the number of records returned
+														if (tab_array.length==1)
+														{
+															// Rendering as a table
+															var win = new Ext.Panel({
+																id:'tblayout-win'+g
+																//,width:227
+																,layout:'table'
+																,layoutConfig:{columns:2}
+																,border:false
+																//,closable:false
+																,defaults:{height:20}
+																,renderTo: targ
+																,items: tab_array[0].items
+															});
+														}
+														else
+														{
+															// Renderng as a tab panel of tables
+															var win = new Ext.TabPanel({
+																activeTab       : 0,
+																id              : 'tblayout-win'+g,
+																enableTabScroll : true,
+																resizeTabs      : false,
+																minTabWidth     : 15,																
+																border:false,
+																renderTo: targ,
+																items: tab_array
+															});
+														}
+														win.doLayout();	
 													}
 													else
 													{
-														// Renderng as a tab panel of tables
-														var win = new Ext.TabPanel({
-															activeTab       : 0,
-															id              : 'tblayout-win'+g,
-															enableTabScroll : true,
-															resizeTabs      : false,
-															minTabWidth     : 15,																
-															id:'tblayout-win'+g,
-															border:false,
-															renderTo: targ,
-															items: tab_array
-														});
-													}
-													win.doLayout();	
-												}
-												else
-												{
-													// The target div for placing this data: the loading div's parent
-													var targ = Ext.get(Ext.getCmp('tblayout-win-loading').body.id).dom.parentNode;
-													// If data already exists, we remove it for replacement with the latest data
-													if (targ.hasChildNodes())
-													{
-														targ.removeChild(targ.firstChild);
-													}
-													
-													// Rendering as a table
-													var win3 = new Ext.Panel({
-														id:'tblayout-win-noresult'
-														//,width:227
-														,layout:'hbox'
-														,layoutConfig: {
-															padding:'5',
-															pack:'center',
-															align:'middle'
+														// The target div for placing this data: the loading div's parent
+														var targ = Ext.get(Ext.getCmp('tblayout-win-loading').body.id).dom.parentNode;
+														// If data already exists, we remove it for replacement with the latest data
+														if (targ.hasChildNodes())
+														{
+															targ.removeChild(targ.firstChild);
 														}
-														,border:false
-														,defaults:{height:26}
-														,renderTo: targ
-														,items: [
-															{html:'<p style="font-size:12px;">No result found</p>',border:false,padding:'5'}
-														]
-													});
-													win3.doLayout();
+													
+														// Rendering as a table
+														var win3 = new Ext.Panel({
+															id:'tblayout-win-noresult'
+															//,width:227
+															,layout:'hbox'
+															,layoutConfig: {
+																padding:'5',
+																pack:'center',
+																align:'middle'
+															}
+															,border:false
+															,defaults:{height:26}
+															,renderTo: targ
+															,items: [
+																{html:'<p style="font-size:12px;">No result found</p>',border:false,padding:'5'}
+															]
+														});
+														win3.doLayout();
+													}
+													g++;
 												}
-												g++;
 											}
+										});
+									}
+									else
+									{
+										// Rendering a generic tab based on its HTML definition
+										// The target div for placing this data: the loading div's parent
+										var targ3 = Ext.get(Ext.getCmp('tblayout-win-loading').body.id).dom.parentNode.parentElement.parentElement;
+										// If data already exists, we remove it for replacement with the latest data
+										if (targ3.hasChildNodes())
+										{
+											targ3.removeChild(targ3.firstChild);
 										}
-									});
+									
+										// Rendering as a table
+										var win4 = new Ext.Panel({
+											id:'tblayout-win-generic'
+											//,width:227
+											,layout:'fit'
+											,border:false
+//											,defaults:{height:100%}
+											,renderTo: targ3
+											,items: [
+												{html:configArray[i].html}
+											]
+										});
+										win4.doLayout();
+									}
 								}
-
-
 
 							}							
 							
