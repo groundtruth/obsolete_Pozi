@@ -39,7 +39,7 @@ try {
 	}
 	elseif ($mode == 'sqlite')
 	{
-		$sql = sanitizeSQL("select layer_name as key_arr,\"[\"||group_concat(ext_group_definition,\",\")||\"]\" as val_arr from gt_service_routing where role='".$rol."' or role='*' group by layer_name");
+		$sql = sanitizeSQL("select layer_name as key_arr,\"[\"||group_concat(ext_group_definition,\",\")||\"]\" as val_arr from (select * from gt_service_routing order by id) where role='".$rol."' or role='*' group by layer_name");
 
 		// SQLite connection (using PDO) - relies on the SQLite file to be in the same directory as this script
 		if (file_exists($config.".sqlite"))
