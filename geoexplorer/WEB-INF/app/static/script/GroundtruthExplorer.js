@@ -308,7 +308,7 @@ gxp.WMSLayerPanel.prototype.initComponent = function () {
 		{
 			first_url = this.layerRecord.get("layer").url;
 		}
-		var url = first_url.split("?").shift().replace(/\/(wms|ows)\/?$/, "/rest");
+		var url = first_url.split("?").shift().replace(/\/geoserver\/.*\/(wms|ows)\/?$/, "/geoserver/rest");
 		if (this.sameOriginStyling) {
 			this.editableStyles = url.charAt(0) === "/";
 		} else {
@@ -1350,11 +1350,12 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 											id:'tblayout-win-generic'
 											//,width:227
 											,layout:'fit'
+											,idFeature:idFeature
 											,border:false
 //											,defaults:{height:100%}
 											,renderTo: targ3
 											,items: [
-												{html:configArray[i].html}
+												{html:configArray[i].html_to_render}
 											]
 										});
 										win4.doLayout();
@@ -1364,7 +1365,7 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 							}							
 							
 						}
-						
+	
 					}
 				}
 			},
