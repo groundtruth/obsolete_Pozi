@@ -1621,26 +1621,32 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
  
 	// additional tools:
 	var addTool1 = "->";
-	var addTool2 = new Ext.form.ComboBox({
-      	    	tpl: '<tpl for="."><div ext:qtip="{label}" class="x-combo-list-item">{label}</div></tpl>',
-      	    	store: zoomstore,
-      	    	displayField:'label',
-      	    	typeAhead: true,
-      	    	mode: 'local',
-		editable: false,
-      	    	forceSelection: true,
-      	    	triggerAction: 'all',
-      	    	width:125,
-      	    	emptyText:gtEmptyTextQuickZoom,
-      	    	listeners: {'select': function (combo,record){
-      	    				var projsrc = new OpenLayers.Projection("EPSG:4326");
-      	    				var projdest = new OpenLayers.Projection("EPSG:900913");
-      	    				var bd = new OpenLayers.Bounds(record.data.xmin,record.data.ymin,record.data.xmax,record.data.ymax);
-      	    				var bd2 = bd.transform(projsrc, projdest);
-      	    				this.mapPanel.map.zoomToExtent(bd2);},
-      			    scope:this}
-      		}	     
-	     );
+	var addTool2 = "->";
+
+	// Not displaying the zoom to combo if the underlying store is empty
+	if (zoomstore.data.length>0)
+	{
+		var addTool2 = new Ext.form.ComboBox({
+      		    	tpl: '<tpl for="."><div ext:qtip="{label}" class="x-combo-list-item">{label}</div></tpl>',
+	      	    	store: zoomstore,
+	      	    	displayField:'label',
+	      	    	typeAhead: true,
+	      	    	mode: 'local',
+			editable: false,
+	      	    	forceSelection: true,
+	      	    	triggerAction: 'all',
+	      	    	width:125,
+	      	    	emptyText:gtEmptyTextQuickZoom,
+	      	    	listeners: {'select': function (combo,record){
+	      	    				var projsrc = new OpenLayers.Projection("EPSG:4326");
+	      	    				var projdest = new OpenLayers.Projection("EPSG:900913");
+	      	    				var bd = new OpenLayers.Bounds(record.data.xmin,record.data.ymin,record.data.xmax,record.data.ymax);
+	      	    				var bd2 = bd.transform(projsrc, projdest);
+	      	    				this.mapPanel.map.zoomToExtent(bd2);},
+	      			    scope:this}
+	      		}	     
+		     );
+	}
 	// Adding these tools to the base tools 
 	///var mybaseTools = GroundtruthExplorer.superclass.createTools.apply(this, arguments);
 	var mybaseTools = gtCreateTools.apply(this, arguments);
