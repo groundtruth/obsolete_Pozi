@@ -229,6 +229,13 @@ gxp.plugins.WMSSource.prototype.createLayerRecord = function (config) {
 			selected: "selected" in config ? config.selected : false,
 			layer: layer
 		}, original.data);
+
+		// Overwriting the queryable attribute if present in config
+		if ('queryable' in config)
+		{
+			data.queryable = config.queryable;
+		}
+
 		var fields = [{
 			name: "source",
 			type: "string"
