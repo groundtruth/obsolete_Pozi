@@ -303,7 +303,7 @@ var gtLayers = [
 		tiled:false
 	},{
 		source:"local",
-		name:gtWorkspaceName+":VW_LODDON_ASSETS_ROAD",
+		name:gtWorkspaceName+":LSC_ASSETS_ROAD",
 		title:"Road Moloney",
 		visibility:false,
 		opacity:1,
