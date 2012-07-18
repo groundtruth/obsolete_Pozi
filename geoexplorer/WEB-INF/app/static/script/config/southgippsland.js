@@ -1,9 +1,9 @@
-// Javascript configuration file for Mitchell
+// Javascript configuration file for Yarriambiack
 
 // Workspace containing the layers and corresponding namespace
-var gtWorkspaceName= "MITCHELL"; 
-// In a multi-council database setup, use 346
-var gtLGACode = "346";
+var gtWorkspaceName= "SOUTHGIPPSLAND";
+// This is a multi-database setup so we need to specify the LGA
+var gtLGACode = "361";
 var gtFeatureNS = "http://www.pozi.com/vicmap";
 
 // Database config for the master search table
@@ -18,98 +18,194 @@ var gtOWSEndPoint = 		gtServicesHost + "/geoserver/ows";
 var gtWFSEndPoint = 		gtServicesHost + "/geoserver/wfs";
 var gtSearchPropertyEndPoint =  gtServicesHost + "/ws/rest/v3/ws_property_id_by_propnum.php";
 var gtSearchComboEndPoint = 	gtServicesHost + "/ws/rest/v3/ws_all_features_by_string_and_lga.php";
-// Doing away with the search box:
-var gtHideSearch=true;
-// Collapsing layer tree on initial display
-var gtCollapseLayerTree=true;
-// Doing away with the top part
-var gtHideGlobalNorthRegion=true;
 
 var gtGetLiveDataEndPoints=[
-	{ urlLayout:'http://103.29.64.29/ws/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://103.29.64.29/ws/rest/v3/ws_get_live_data.php',	storeMode:'pgsql',	storeName:'creeklinkgis'}
+	{ urlLayout:'http://192.168.10.12/ws/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://192.168.10.12/ws/rest/v3/ws_get_live_data.php',	storeMode:'sqlite',	storeName:'southgippsland'},
+	{ urlLayout:'http://49.156.17.41/ws/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://49.156.17.41/ws/rest/v3/ws_get_live_data.php',	storeMode:'pgsql',	storeName:'vicmap'}
 ];
 
 // External resources
-//var gtLogoClientSrc = "http://www.pozi.com/"+"theme/app/img/mitchell_banner.jpg";
-var gtLogoClientSrc = "http://www.pozi.com/"+"theme/app/img/creeklink-logo.png";
-var gtLogoClientWidth=173;
+//var gtPoziLogoSrc = gtServicesHost+"/"+"theme/app/img/pozi-logo.png";
+//var gtPoziLogoWidth = 165; 
+var gtLogoClientSrc = "http://www.southgippsland.vic.gov.au/Page/images/FooterLogo.gif";
+var gtLogoClientWidth=88;
 
 // Map resources
-// Center determined by: select ST_AsText(ST_Transform(ST_SetSRID(ST_Centroid(the_geom),4283),900913)) from dse_vmadmin_lga where lga_name='MITCHELL'
-var gtMapCenter = [16024006, -4632500];
-var gtMapZoom = 12;
+// Center determined by: select ST_AsText(ST_Transform(ST_SetSRID(ST_Centroid(the_geom),4283),900913)) from dse_vmadmin_lga where lga_name='WEST WIMMERA'
+var gtMapCenter = [16261275, -4677627];
+var gtMapZoom = 10;
 // When zooming after a search
 var gtZoomMax = 18;
 // Constraint on the general max zoom level of the map
-var gtMaxZoomLevel = 21;
-var gtQuickZoomDatastore = [];
+var gtMaxZoomLevel = 20;
+var gtQuickZoomDatastore = [
+['146.078','-38.703','146.089','-38.688','Fish Creek'],
+['146.191','-38.664','146.213','-38.645','Foster'],
+['145.809','-38.444','145.841','-38.423','Korumburra'],
+['145.931','-38.491','145.967','-38.466','Leongatha'],
+['145.702','-38.373','145.710','-38.366','Loch'],
+['146.008','-38.584','146.024','-38.574','Meeniyan'],
+['146.147','-38.407','146.172','-38.389','Mirboo North'],
+['145.665','-38.340','145.679','-38.332','Nyora'],
+['145.753','-38.347','145.775','-38.338','Poowong'],
+['146.113','-38.834','146.135','-38.823','Sandy Point'],
+['145.802','-38.710','145.872','-38.691','Tarwin Lower'],
+['146.319','-38.668','146.335','-38.660','Toora'],
+['145.784','-38.710','145.833','-38.670','Venus Bay']
+];
 		
 // UI labels
 var gtDetailsTitle='Details';
 var gtInfoTitle = 'Info';
-var gtEmptyTextQuickZoom = 'Zoom to creek';
+var gtEmptyTextQuickZoom = 'Zoom to town';
 var gtEmptyTextSearch = 'Find properties, roads, features, etc...';
 var gtLoadingText = 'Searching...';
 var gtEmptyTextSelectFeature = 'Selected features ...';
 var gtClearButton='clear';
 var gtPropNum;
 var gtLegendHeight = 400;
-var gtPrintTitle = "Creek-link";
+var gtPrintTitle = "South Gippsland Shire Council";
 
 // Datasources
 var gtMapDataSources = {
 	local: {
-		url: "http://www.pozi.com/geoserver/CREEKLINK/ows",
-		title: "CreekLink Layers",
+		url: "/geoserver/SOUTHGIPPSLAND/ows",
+		title: "South Gippsland Shire Council Layers",
 		ptype: "gxp_wmscsource",
 		tiled: false
 	},
+	backend_cascaded: {
+		url: "http://basemap.pozi.com/geoserver/DSE/wms",
+		title: "DSE Vicmap Layers",
+		ptype: "gxp_wmscsource"
+	},
+//	dse_iws_cascaded: {
+//		url: ["http://m1.pozi.com/geoserver/WESTWIMMERA/ows","http://m2.pozi.com/geoserver/WESTWIMMERA/ows","http://m3.pozi.com/geoserver/WESTWIMMERA/ows","http://m4.pozi.com/geoserver/WESTWIMMERA/ows"],
+//		title: "DSE Image Web Server",
+//		ptype: "gxp_wmscsource",
+//		format: "image/JPEG",
+//		group: "background",
+//		transition:'resize'
+//	},
 	mapquest: {
 		ptype: "gxp_mapquestsource"
+	},
+//	bing: {
+//		ptype: "gxp_bingsource"
+//	},
+//	osm: {
+//		ptype: "gxp_osmsource"
+//	},
+	ol: {
+		ptype: "gxp_olsource"
 	},
 	backend: {
 		url: ["http://m1.pozi.com/geoserver/ows","http://m2.pozi.com/geoserver/ows","http://m3.pozi.com/geoserver/ows","http://m4.pozi.com/geoserver/ows"],
 		title: "Pozi Data Server",
 		ptype: "gxp_wmscsource",
 		transition:'resize'
-	},
-	cl: {
-		url: "http://103.29.64.29/geoserver/ows",
-		title: "New Pozi Data Server",
-		ptype: "gxp_wmscsource",
-		transition:'resize'
-	},
-	google: {
-	    ptype: "gxp_googlesource"
-	},
-	bing: {
-	    ptype: "gxp_bingsource"
-	},
-	ol: {
-		ptype: "gxp_olsource"
 	}
 };
     
 // Initial layers      
 var gtLayers = [
 	{
-		source:"cl",
-		name:"CREEKLINK:CREEK",
-		title:"Creeks",
+		source:"backend",
+		name:"VICMAP:VW_DSE_VMPLAN_ZONE",
+		title:"Planning Zones (Vicmap)",
+		visibility:false,
+		opacity:0.6,
+		format:"image/png8",
+		styles:"",
+		transparent:true,
+		tiled: false
+	},{
+		source:"backend",
+		name:"VICMAP:VW_DSE_VMPLAN_OVERLAY",
+		title:"Planning Overlays (Vicmap)",
+		visibility:false,
+		opacity:0.6,
+		format:"image/png8",
+		styles:"",
+		transparent:true,
+		tiled: false
+	},{
+		source:"local",
+		name:"SOUTHGIPPSLAND:SGSC_WASTE_PROPERTY",
+		title:"Waste Collection - Properties (>1:100k)",
+		visibility:false,
+		opacity:0.5,
+		format:"image/png8",
+		styles:"",
+		transparent:true,
+		tiled:false
+	},{
+		source:"backend",
+		name:"VICMAP:VICMAP_PROPERTY_ADDRESS",
+		title:"Property (Vicmap)",
 		visibility:true,
+		opacity:0.25,
+		format:"image/GIF",
+		styles:"",
+		transparent:true,
+		tiled: false
+	},{
+		source:"backend",
+		name:"VICMAP:VMPROP_PARCEL",
+		title:"Parcel (Vicmap)",
+		visibility:false,
+		opacity:0.75,
+		format:"image/png8",
+		styles:"parcel_label",
+		transparent:true,
+		tiled:false
+	},{
+		source:"local",
+		name:"SOUTHGIPPSLAND:SGSC_WASTE_ROUTE",
+		title:"Waste Collection - Routes",
+		visibility:false,
+		opacity:0.6,
+		format:"image/png8",
+		styles:"",
+		transparent:true,
+		tiled:false
+	},{
+		source:"local",
+		name:"SOUTHGIPPSLAND:SGSC_CW_HERITAGE",
+		title:"Commonwealth Heritage",
+		visibility:false,
+		opacity:1,
+		format:"image/png8",
+		styles:"",
+		transparent:true,
+		tiled:false
+	},{
+		source:"backend",
+		name:"VICMAP:VW_TRANSFER_STATION",
+		title:"Transfer Stations",
+		visibility:false,
 		opacity:0.85,
 		format:"image/png8",
 		styles:"",
 		transparent:true,
-		tiled:false,
-		transition:''
+		tiled:false
 	},{
 		source:"backend",
-		name:"VICMAP:VMPROP_PROPERTY_OPTI",
-		title:"Properties (Vicmap)",
-		visibility:false,
+		name:"VICMAP:VW_SOUTHGIPPSLAND_MASK",
+		title:"Municipal Boundary",
+		visibility:true,
+		opacity:0.6,
+		format:"image/png8",
+		styles:"",
+		transparent:true,
+		tiled:false
+	},{
+		source:"backend",
+		name:"LabelClassic",
+		title:"Labels",
+		visibility:true,
 		opacity:1,
-		queryable: false,
+		selected:false,
 		format:"image/png8",
 		styles:"",
 		transparent:true,
@@ -117,39 +213,26 @@ var gtLayers = [
 		transition:''
 	},{
 		source:"backend",
-		name:"VICMAP:VMPROP_PARCEL_OPTI",
-		title:"Parcels (Vicmap)",
+		name:"VicmapClassic",
+		title:"Vicmap Classic",
 		visibility:true,
-		opacity:0.15,
-		queryable: false,
-		format:"image/png8",
-		styles:"creek_parcel",
-		transparent:true,
-		tiled:false,
-		transition:''
-	},{
-		source:"cl",
-		name:"creek_segments",
-		title:"Creek Tiles",
-		visibility:true,
-		opacity:0.66,
+		opacity:1,
+		group:"background",
+		selected:false,
 		format:"image/png8",
 		styles:"",
 		transparent:true,
-		tiled:false,
-		transition:null
+		tiled: true,
+		cached:true
 	},{
-	    source: "google",
-	    name: "HYBRID",
-		visibility: true
-	},{
-	    source: "bing",
-	    title: "Bing Aerial Imagery",
-	    name: "Aerial"
-	},{
-		source: "mapquest",
+		source:"mapquest",
 		name: "osm",
-		visibility: true
+		visibility: false
+///	},{ // Bing bug - getFeatureInfo triggered at each pan
+///		source:"bing",
+///		name: "Aerial",
+///		title: "Bing Aerial Imagery",
+///		visibility: false
 	},{
 		source: "ol",
 		group: "background",
@@ -199,10 +282,10 @@ var gtTools = [{
 				autoScroll: true
 			}
 		}, {
-//			ptype: "gxp_addlayers",
-//			actionTarget: "tree.tbar",
-//			upload: true
-//		}, {
+			ptype: "gxp_addlayers",
+			actionTarget: "tree.tbar",
+			upload: true
+		}, {
 			ptype: "gxp_removelayer",
 			actionTarget: ["layertree.contextMenu"]
 		}, {
@@ -240,20 +323,19 @@ var gtTools = [{
 //				index: 2
 //			}
 //		}, {
-//			ptype: "gxp_featuremanager",
-//			id: "featuremanager",
-//			maxFeatures: 20
-//		}, {
-//			ptype: "gxp_featureeditor",
-//			featureManager: "featuremanager",
-//			autoLoadFeatures: true,
-//			toggleGroup: this.toggleGroup,
-//			actionTarget: {
-//				target: "paneltbar",
-//				index: 6
-//			}
-//		}, {
-
+///			ptype: "gxp_featuremanager",
+///			id: "featuremanager",
+///			maxFeatures: 20
+///		}, {
+///			ptype: "gxp_featureeditor",
+///			featureManager: "featuremanager",
+///			autoLoadFeatures: true,
+///			toggleGroup: this.toggleGroup,
+///			actionTarget: {
+///				target: "paneltbar",
+///				index: 6
+///			}
+///		}, {
 //			ptype: "gxp_zoom",
 //			actionTarget: {
 //				target: "paneltbar",
@@ -296,18 +378,20 @@ var gtTools = [{
 
 	var gtCreateTools = function () {
 		var tools = GeoExplorer.Composer.superclass.createTools.apply(this, arguments);
-		if (this.authorizedRoles.length === 0) {
-			this.loginButton = new Ext.Button({
-				iconCls: 'login',
-				text: this.loginText,
-				handler: this.showLoginDialog,
-				scope: this
-			});
-			tools.push(['->', this.loginButton]);
-		} else {
-
-		}
 		tools.unshift("");
+		tools.unshift("");
+///		if (this.authorizedRoles.length === 0) {
+///			this.loginButton = new Ext.Button({
+///				iconCls: 'login',
+///				text: this.loginText,
+///				handler: this.showLoginDialog,
+///				scope: this
+///			});
+///			tools.push(['->', this.loginButton]);
+///		} else {
+///
+///		}
+///		tools.unshift("");
 //		tools.unshift(new Ext.Button({
 //			tooltip: this.exportMapText,
 //			needsAuthorization: true,
@@ -361,8 +445,8 @@ var poziLinkClickHandler = function () {
 	
 var gtInitialDisclaimerFlag=false;
 var gtDisclaimer="disclaimer.html";
-var gtRedirectIfDeclined="http://www.mitchellshire.vic.gov.au/";
-var gtLinkToCouncilWebsite="http://www.mitchellshire.vic.gov.au/";
-var gtBannerLineColor="#596C13";
-var gtBannerRightCornerLine1="Creek-link";
+var gtRedirectIfDeclined="http://www.yarriambiack.vic.gov.au/";
+var gtLinkToCouncilWebsite="http://www.southgippsland.vic.gov.au/";
+var gtBannerLineColor="#1B7175";
+var gtBannerRightCornerLine1="South Gippsland Shire Council";
 var gtBannerRightCornerLine2="Victoria, Australia";
