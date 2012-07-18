@@ -979,7 +979,7 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 										
 										for(var k in record.data.content)
 										{
-											if (k=="the_geom")
+											if (k=="the_geom" || k=="SHAPE")
 											{
 												lab="spatial type";
 												var featureToRead = record.data.content[k];
