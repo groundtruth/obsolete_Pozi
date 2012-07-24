@@ -68,12 +68,12 @@ var gtPrintTitle = "Yarriambiack Shire Council";
 
 // Datasources
 var gtMapDataSources = {
-//	local: {
-//		url: "/geoserver/WESTWIMMERA/ows",
-//		title: "West Wimmera Shire Council Layers",
-//		ptype: "gxp_wmscsource",
-//		tiled: false
-//	},
+	local: {
+		url: "/geoserver/YARRIAMBIACK/ows",
+		title: "Yarriambiack Shire Council Layers",
+		ptype: "gxp_wmscsource",
+		tiled: false
+	},
 	backend_cascaded: {
 		url: "http://basemap.pozi.com/geoserver/DSE/wms",
 		title: "DSE Vicmap Layers",
@@ -154,7 +154,48 @@ var gtLayers = [
 		name:"VICMAP:VW_TRANSFER_STATION",
 		title:"Transfer Stations",
 		visibility:false,
-		opacity:0.85,
+		opacity:1,
+		format:"image/png8",
+		styles:"",
+		transparent:true,
+		tiled:false,
+		transition:''
+	},{
+		source:"local",
+		name:"YARRIAMBIACK:YSC_UG_DRAINAGE_PIPE",
+		title:"Underground Drainage Pipes",
+		visibility:false,
+		opacity:1,
+		format:"image/png8",
+		styles:"",
+		transparent:true,
+		tiled:false
+	},{
+		source:"local",
+		name:"YARRIAMBIACK:YSC_PIT",
+		title:"Pits",
+		visibility:false,
+		opacity:1,
+		format:"image/png8",
+		styles:"",
+		transparent:true,
+		tiled:false
+	},{
+		source:"local",
+		name:"YARRIAMBIACK:YSC_PUBLIC_LIGHTING",
+		title:"Public Lighting",
+		visibility:false,
+		opacity:1,
+		format:"image/png8",
+		styles:"",
+		transparent:true,
+		tiled:false
+	},{
+		source:"local",
+		name:"YARRIAMBIACK:YSC_URBAN_HYDRANT",
+		title:"Urban Hydrants",
+		visibility:false,
+		opacity:1,
 		format:"image/png8",
 		styles:"",
 		transparent:true,

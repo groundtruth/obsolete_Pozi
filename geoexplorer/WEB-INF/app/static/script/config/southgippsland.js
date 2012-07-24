@@ -27,11 +27,11 @@ var gtGetLiveDataEndPoints=[
 // External resources
 //var gtPoziLogoSrc = gtServicesHost+"/"+"theme/app/img/pozi-logo.png";
 //var gtPoziLogoWidth = 165; 
-var gtLogoClientSrc = "http://www.southgippsland.vic.gov.au/Page/images/FooterLogo.gif";
-var gtLogoClientWidth=88;
+var gtLogoClientSrc = "http://www.pozi.com/"+"theme/app/img/southgippsland_logo.png";
+var gtLogoClientWidth=145;
 
 // Map resources
-// Center determined by: select ST_AsText(ST_Transform(ST_SetSRID(ST_Centroid(the_geom),4283),900913)) from dse_vmadmin_lga where lga_name='WEST WIMMERA'
+// Center determined by: select ST_AsText(ST_Transform(ST_SetSRID(ST_Centroid(the_geom),4283),900913)) from dse_vmadmin_lga where lga_name='SOUTH GIPPSLAND'
 var gtMapCenter = [16261275, -4677627];
 var gtMapZoom = 10;
 // When zooming after a search
@@ -49,7 +49,7 @@ var gtQuickZoomDatastore = [
 ['145.665','-38.340','145.679','-38.332','Nyora'],
 ['145.753','-38.347','145.775','-38.338','Poowong'],
 ['146.113','-38.834','146.135','-38.823','Sandy Point'],
-['145.802','-38.710','145.872','-38.691','Tarwin Lower'],
+['145.862','-38.705','145.872','-38.697','Tarwin Lower'],
 ['146.319','-38.668','146.335','-38.660','Toora'],
 ['145.784','-38.710','145.833','-38.670','Venus Bay']
 ];
@@ -87,15 +87,15 @@ var gtMapDataSources = {
 //		group: "background",
 //		transition:'resize'
 //	},
-	mapquest: {
-		ptype: "gxp_mapquestsource"
-	},
+//	mapquest: {
+//		ptype: "gxp_mapquestsource"
+//	},
 //	bing: {
 //		ptype: "gxp_bingsource"
 //	},
-//	osm: {
-//		ptype: "gxp_osmsource"
-//	},
+	osm: {
+		ptype: "gxp_osmsource"
+	},
 	ol: {
 		ptype: "gxp_olsource"
 	},
@@ -132,9 +132,19 @@ var gtLayers = [
 	},{
 		source:"local",
 		name:"SOUTHGIPPSLAND:SGSC_WASTE_PROPERTY",
-		title:"Waste Collection - Properties (>1:100k)",
+		title:"Waste Collection - Properties (>1:150k)",
 		visibility:false,
 		opacity:0.5,
+		format:"image/png8",
+		styles:"",
+		transparent:true,
+		tiled:false
+	},{
+		source:"local",
+		name:"SOUTHGIPPSLAND:SGSC_WASTE_ROUTE",
+		title:"Waste Collection - Routes",
+		visibility:false,
+		opacity:0.6,
 		format:"image/png8",
 		styles:"",
 		transparent:true,
@@ -157,16 +167,6 @@ var gtLayers = [
 		opacity:0.75,
 		format:"image/png8",
 		styles:"parcel_label",
-		transparent:true,
-		tiled:false
-	},{
-		source:"local",
-		name:"SOUTHGIPPSLAND:SGSC_WASTE_ROUTE",
-		title:"Waste Collection - Routes",
-		visibility:false,
-		opacity:0.6,
-		format:"image/png8",
-		styles:"",
 		transparent:true,
 		tiled:false
 	},{
@@ -224,10 +224,10 @@ var gtLayers = [
 		transparent:true,
 		tiled: true,
 		cached:true
-	},{
-		source:"mapquest",
-		name: "osm",
-		visibility: false
+//	},{
+//		source:"mapquest",
+//		name: "osm",
+//		visibility: false
 ///	},{ // Bing bug - getFeatureInfo triggered at each pan
 ///		source:"bing",
 ///		name: "Aerial",
