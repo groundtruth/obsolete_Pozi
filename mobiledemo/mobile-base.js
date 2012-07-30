@@ -104,12 +104,18 @@ var init = function () {
             selectControl
         ],
         layers: [
+	     new OpenLayers.Layer.WMS("Labels",
+	                        ["http://m1.pozi.com/geoserver/wms","http://m2.pozi.com/geoserver/wms","http://m3.pozi.com/geoserver/wms","http://m4.pozi.com/geoserver/wms"],
+                    		{layers: 'LabelClassic',format: 'image/png8',transparent:'true'},
+				{isBaseLayer:false,singleTile: true, ratio: 1.5}
+                    ),
             new OpenLayers.Layer.WMS("Vicmap Classic",
-	                        "http://www.pozi.com/geoserver/wms",
-                    {layers: 'VicmapClassicMoyne'}
+	                        ["http://m1.pozi.com/geoserver/gwc/service/wms","http://m2.pozi.com/geoserver/gwc/service/wms","http://m3.pozi.com/geoserver/gwc/service/wms","http://m4.pozi.com/geoserver/gwc/service/wms"],
+                    {layers: 'VicmapClassic',format: 'image/png8'}
 // singletile could reduce traffic but bigger files, except if ratio is really large
 //                    ,{ singleTile: true, ratio: 1.2 } 
 //,{attribution:"+"}
+			,{transitionEffect: 'resize'}
                     ),
             new OpenLayers.Layer.OSM("OpenStreetMap", null, {
                 transitionEffect: 'resize'
@@ -141,8 +147,13 @@ var init = function () {
  //           sprintersLayer,
  		fhLayer
         ],
-        center: new OpenLayers.LonLat(15896865, -4590599),
-        zoom: 15
+
+//	"POLYGON((16059187.5080248 -4407176.09889032,16059187.5080248 -4403175.64345396,16063198.5841623 -4403175.64345396,16063198.5841623 -4407176.09889032,16059187.5080248 -4407176.09889032))"
+// "POINT(16158587.1091789 -4555473.11697607)"
+//        center: new OpenLayers.LonLat(16061192, -4405175),	
+// "POINT(16061635.8271216 -4405394.3784876)"
+	 center: new OpenLayers.LonLat(16061635, -4405394),
+        zoom: 17
     });
     
 	map.events.register('moveend', this, function() {
@@ -226,12 +237,14 @@ var init = function () {
         
 	Ext.Ajax.request({
 	  loadMask: true,
+//	  url: '/geoexplorer/proxy?url='+encodeURIComponent('http://49.156.17.41/ws/rest/v3/ws_fire_hazard_geojson.php'),
 	  url: '/ws/rest/v3/ws_fire_hazard_geojson.php',
 	  params: {
 	  		lat:ll_wgs84.lat,
 	  		lon:ll_wgs84.lon,
 	  		limit:limit_feature,
-			config:'moynegis'
+			config:'vicmap',
+			lga:'325'
 	  	},
 	  success: function(resp) {
 		// resp is the XmlHttpRequest object

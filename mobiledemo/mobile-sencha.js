@@ -21,7 +21,7 @@ App.SearchFormPopupPanel = Ext.extend(Ext.Panel, {
     scroll: false,
     layout: 'fit',
     fullscreen: Ext.is.Phone ? true : undefined,
-    url: '/ws/rest/v3/ws_all_features_by_string.php',
+    url: '/ws/rest/v3/ws_all_features_by_string_and_lga.php',
     errorText: 'Sorry, we had problems communicating with Pozi search. Please try again.',
     errorTitle: 'Communication error',
     maxResults: 6,
@@ -32,7 +32,7 @@ App.SearchFormPopupPanel = Ext.extend(Ext.Panel, {
 			autoLoad: false, //autoload the data
 			root: 'rows',
 			// Pb passing the config parameter to the Web service - for now database.inc (from ws) hardcodes the database to connect to
-			baseParams: { config: 'mitchellgis'},
+			//baseParams: { config: 'mitchellgis'},
 			fields: [{name: "label"	, mapping:"row.label"},
 				{name: "xmini"	, mapping:"row.xmini"},
 				{name: "ymini"	, mapping:"row.ymini"},
@@ -44,8 +44,8 @@ App.SearchFormPopupPanel = Ext.extend(Ext.Panel, {
 	 			{name: "idval"	, mapping:"row.idval"},
 	 			{name: "ld"	, mapping:"row.ld"}
 	 		],
-			proxy: {
-				type: 'scripttag',
+			  proxy: new Ext.data.ScriptTagProxy({
+				url: this.url,
 				timeout: 5000,
 				listeners: {
 					exception: function(){
@@ -54,12 +54,10 @@ App.SearchFormPopupPanel = Ext.extend(Ext.Panel, {
 					},
 					scope: this
 				},
-				url: this.url,
-				reader: {
-					type: 'json',
-					root: 'rows'
+				reader:{
+					root:'rows'
 				}
-			}
+			  })
 	});
     },
     
@@ -68,7 +66,8 @@ App.SearchFormPopupPanel = Ext.extend(Ext.Panel, {
         this.store.load({
             params: {
                 query: q,
-                config: 'moynegis'
+                lga: '325',
+                config: 'vicmap'
             }
         });
     },
@@ -269,15 +268,14 @@ App.CaptureFormPopupPanel = Ext.extend(Ext.Panel, {
 	//                { label : '45 Royal Parade', prop_num : '456456'},
 	//                { label : 'Long Road', prop_num : '789789'}
 	//           ],
-			proxy: {
-				type: 'rest',
-				url : '/ws/rest/v3/ws_closest_properties.php',
-				reader: {
-					type: 'json',
-					root: 'rows',
+			  proxy: new Ext.data.ScriptTagProxy({
+				url: 'http://49.156.17.41/ws/rest/v3/ws_closest_properties.php',
+				timeout: 5000,
+				reader:{
+					root:'rows',
 					totalCount : 'total_rows'
 				}
-			},
+			  }),
 			// Max number of records returned
 			pageSize: 10,	
 			model : 'PropertyAddress',
@@ -350,7 +348,12 @@ App.CaptureFormPopupPanel = Ext.extend(Ext.Panel, {
 				{  
 					xtype:'hiddenfield',
 					name:'config',
-					value: 'moynegis'
+					value: 'vicmap'
+				},
+				{  
+					xtype:'hiddenfield',
+					name:'lga',
+					value: '325'
 				}
 		                ]
 			}],
@@ -445,7 +448,7 @@ App.CaptureFormPopupPanel = Ext.extend(Ext.Panel, {
 					// Populate the combo on show
 					var latlon = map.getCenter();
 					latlon.transform(sm, gg);
-					propertyAddressStore.load({params:{longitude:latlon.lon,latitude:latlon.lat,config:'moynegis'}});
+					propertyAddressStore.load({params:{longitude:latlon.lon,latitude:latlon.lat,config:'vicmap'}});
 
 				}				
 			}
@@ -570,8 +573,8 @@ App.CaptureUpdateFormPopupPanel = Ext.extend(Ext.Panel, {
 				{  
 					xtype:'hiddenfield',
 					name:'config',
-					value: 'moynegis'				}
-
+					value: 'vicmap'
+				}
 		                ]
 			}],
             
@@ -603,7 +606,7 @@ App.CaptureUpdateFormPopupPanel = Ext.extend(Ext.Panel, {
 								  url: '/ws/rest/v3/ws_delete_property_fire_hazard.php',
 								  params: {
 										haz_id: clickedFeature.data.id,
-										config: 'moynegis'
+										config: 'vicmap'
 									},
 									method: 'POST',
 								  success: on_capture_success,
