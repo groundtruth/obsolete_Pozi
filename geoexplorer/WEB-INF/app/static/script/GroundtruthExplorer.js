@@ -683,44 +683,7 @@ var search_record_select_handler = function (combo,record){
 	gtyp=record.data.ld;
 	glab=record.data.label;
 							
-	glayerLocSel.events.on({
-		featuresadded: function(event) {
-			if (gfromWFS=="Y")
-			{
-				var typ=gtyp;
-				var lab=glab;
-										
-				var row_array = [];
-				var cont;
-				gComboDataArray=[];
-										
-				for (var k=0;k<this.features.length;k++)
-				{
-					// We capture the attributes brought back by the WFS call
-					cont=this.features[k].data;
-					// Capturing the feature as well (it contains the geometry)
-					cont["the_geom_WFS"]=this.features[k];										
 
-					// Building a record and inserting it into an array											
-					row_array = new Array(k,typ,lab,cont,null,null,this.features[k].layer.protocol.featureType); 
-					gComboDataArray.push(row_array);
-				}
-				
-				// Clearing existing value from the drop-down list
-				var cb = Ext.getCmp('gtInfoCombobox');
-				cb.clearValue();
-				
-				// If there is a record (and there should be at least one - by construction of the search table)
-				if (gComboDataArray.length)
-				{							
-					if (cb.disabled) {cb.enable();}
-					gCombostore.removeAll();
-					gCombostore.loadData(gComboDataArray);
-					gComboDataArray=[];
-				}									
-			}
-		}
-	});
 
 	// Refreshing the WFS layer so that the highlight appears and triggers the featuresadded event handler above
 	glayerLocSel.refresh({force:true});
@@ -737,15 +700,54 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 	 
 		// Assigning the parameter, dummy WFS layer to a global variable		
 		glayerLocSel = gtLayerLocSel;
+
 		// Keeping the format in another variable to cater for a bug after print preview
 		gFormat = glayerLocSel.protocol.format;
 	 
 	 	// When DOM is ready
 		this.on("ready", function() {
+			// Defining the behavior of the vector layer when features are added
+			glayerLocSel.events.on({
+				"featuresadded": function(event) {
+					//alert("Adding features");
+					if (gfromWFS=="Y")
+					{
+						var row_array = [];
+						var cont;
+						gComboDataArray=[];
+										
+						for (var k=0;k<event.features.length;k++)
+						{
+							// We capture the attributes brought back by the WFS call
+							cont=event.features[k].data;
+							// Capturing the feature as well (it contains the geometry)
+							cont["the_geom_WFS"]=event.features[k];											
+
+							// Building a record and inserting it into an array											
+							row_array = new Array(k,gtyp,glab,cont,null,null,event.features[k].layer.protocol.featureType); 
+							gComboDataArray.push(row_array);
+						}
+				
+						// Clearing existing value from the drop-down list
+						var cb = Ext.getCmp('gtInfoCombobox');
+						cb.clearValue();
+				
+						// If there is a record (and there should be at least one - by construction of the search table)
+						if (gComboDataArray.length)
+						{							
+							if (cb.disabled) {cb.enable();}
+							gCombostore.removeAll();
+							gCombostore.loadData(gComboDataArray);
+							gComboDataArray=[];
+						}									
+					}
+				},
+				scope:this
+			});
 		
 			// Adding the WFS layer to the map
 			app.mapPanel.map.addLayers([glayerLocSel]);
-	
+
 			// If a property number has been passed
 		        if (initPropertyNum)
 		        {
@@ -839,7 +841,8 @@ var GroundtruthExplorer = Ext.extend(GeoExplorer.Composer, {
 			var ds;
 			for (urlIdx in gtGetLiveDataEndPoints)
 			{
-				if (urlIdx != "remove")
+				if (gtGetLiveDataEndPoints.hasOwnProperty(urlIdx))
+				//if (urlIdx != "remove")
 				{
 					ds = new Ext.data.Store({
 						autoLoad:true,
