@@ -33,7 +33,7 @@ try {
 
 	if ($mode == 'pgsql')
 	{
-		$sql = sanitizeSQL("select gs1.layer_name as key_arr,'['||array_to_string(array(select gs2.ext_group_definition from gt_service_routing gs2 where (gs2.role='".$rol."' or role='*') and gs2.layer_name=gs1.layer_name),',')||']' as val_arr from (select layer_name from gt_service_routing where role='".$rol."' or role='*' group by layer_name) gs1");
+		$sql = sanitizeSQL("select gs1.layer_name as key_arr,'['||array_to_string(array(select gs2.ext_group_definition from gt_service_routing gs2 where (gs2.role='".$rol."' or role='*') and gs2.layer_name=gs1.layer_name order by id),',')||']' as val_arr from (select layer_name from gt_service_routing where role='".$rol."' or role='*' group by layer_name) gs1");
 		$pgconn = pgConnection();
 		$conn = $pgconn;
 	}
