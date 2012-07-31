@@ -95,6 +95,9 @@ var gtMapDataSources = {
 	mapquest: {
 		ptype: "gxp_mapquestsource"
 	},
+//	google: {
+//		ptype: "gxp_googlesource"
+//	},
 	osm: {
 		ptype: "gxp_osmsource"
 	},
@@ -133,22 +136,22 @@ var gtLayers = [
 		tiled: false
 	},{
 		source:"backend",
-		name:"VICMAP:VICMAP_PROPERTY_ADDRESS",
-		title:"Property (Vicmap)",
-		visibility:true,
-		opacity:0.25,
-		format:"image/GIF",
-		styles:"",
-		transparent:true,
-		tiled:false
-	},{
-		source:"backend",
 		name:"VICMAP:VMPROP_PARCEL",
 		title:"Parcel (Vicmap)",
 		visibility:false,
 		opacity:0.75,
 		format:"image/png8",
 		styles:"parcel_label",
+		transparent:true,
+		tiled:false
+	},{
+		source:"backend",
+		name:"VICMAP:VICMAP_PROPERTY_ADDRESS",
+		title:"Property (Vicmap)",
+		visibility:true,
+		opacity:0.25,
+		format:"image/GIF",
+		styles:"",
 		transparent:true,
 		tiled:false
 	},{
@@ -356,6 +359,10 @@ var gtLayers = [
 		styles:"",
 		transparent:true,
 		cached:true
+//	},{
+//	    source: "google",
+//	    name: "SATELLITE",
+//		visibility: true
 	},{
 		source:"mapquest",
 		name: "osm",
