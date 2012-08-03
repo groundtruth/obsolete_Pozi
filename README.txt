@@ -7,4 +7,4 @@ The end points added / updated to transform a GeoExplorer into a Pozi installati
 - src: source code for GXP-built poziexplorer (to supercede geoexplorer customisations in the near future)
 - ws: web services
 
-Groundtruth 2011
+Groundtruth 2012
