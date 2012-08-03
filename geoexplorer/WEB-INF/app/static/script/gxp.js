@@ -7748,7 +7748,12 @@ gxp.plugins.AddLayers = Ext.extend(gxp.plugins.Tool, {
         return button;
     },
     isEligibleForUpload: function (source) {
-        return (source.url && (this.relativeUploadOnly ? (source.url.charAt(0) === "/") : true) && (this.nonUploadSources || []).indexOf(source.id) === -1);
+	var sourceUrl;
+	if (typeof source.url == "object")
+	{sourceUrl = source.url[0];}
+	else
+	{sourceUrl = source.url;}
+        return (sourceUrl && (this.relativeUploadOnly ? (sourceUrl.charAt(0) === "/") : true) && (this.nonUploadSources || []).indexOf(source.id) === -1);
     },
     createExpander: function () {
         return new Ext.grid.RowExpander({
