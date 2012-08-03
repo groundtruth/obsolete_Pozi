@@ -10,17 +10,117 @@
     <!-- Le styles -->
     <link href="http://www.pozi.com/bootstrap/css/bootstrap.css" rel="stylesheet">
     <style>
-      body {
-        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
-      }
-
-	.container-bg {
+    body 
+    {
+    	padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+    }
+	.modal1
+	{
+  		position: fixed;
+  		top: 40%;
+  		left: 63%;
+ 		z-index: 2000;
+ 		width: 175px;
+ 		margin: -250px 0 0 -280px;
+  		overflow: auto;
+ 		background-color: #ffffff;
+  		border: 1px solid #999;
+  		border: 1px solid rgba(0, 0, 0, 0.3);
+  		*border: 1px solid #999;
+  		-webkit-border-radius: 6px;
+     	-moz-border-radius: 6px;
+        border-radius: 6px;
+  		-webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+     	-moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+  		-webkit-background-clip: padding-box;
+     	-moz-background-clip: padding-box;
+        background-clip: padding-box;
+	}
+	.modal2
+	{
+  		position: fixed;
+  		top: 40%;
+  		left: 58%;
+ 		z-index: 2000;
+ 		width: 320px;
+ 		margin: -250px 0 0 -280px;
+  		overflow: auto;
+ 		background-color: #ffffff;
+  		border: 1px solid #999;
+  		border: 1px solid rgba(0, 0, 0, 0.3);
+  		*border: 1px solid #999;
+  		-webkit-border-radius: 6px;
+     	-moz-border-radius: 6px;
+        border-radius: 6px;
+  		-webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+     	-moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+  		-webkit-background-clip: padding-box;
+     	-moz-background-clip: padding-box;
+        background-clip: padding-box;
+	}
+	.modal3
+	{
+  		position: fixed;
+  		top: 40%;
+  		left: 58%;
+ 		z-index: 2000;
+ 		width: 310px;
+ 		margin: -250px 0 0 -280px;
+  		overflow: auto;
+ 		background-color: #ffffff;
+  		border: 1px solid #999;
+  		border: 1px solid rgba(0, 0, 0, 0.3);
+  		*border: 1px solid #999;
+  		-webkit-border-radius: 6px;
+     	-moz-border-radius: 6px;
+        border-radius: 6px;
+  		-webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+     	-moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+  		-webkit-background-clip: padding-box;
+     	-moz-background-clip: padding-box;
+        background-clip: padding-box;
+	}
+	.modal4
+	{
+  		position: fixed;
+  		top: 40%;
+  		left: 35%;
+ 		z-index: 2000;
+ 		width: 1000px;
+ 		margin: -250px 0 0 -280px;
+  		overflow: auto;
+ 		background-color: #ffffff;
+  		border: 1px solid #999;
+  		border: 1px solid rgba(0, 0, 0, 0.3);
+  		*border: 1px solid #999;
+  		-webkit-border-radius: 6px;
+     	-moz-border-radius: 6px;
+        border-radius: 6px;
+  		-webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+     	-moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+  		-webkit-background-clip: padding-box;
+     	-moz-background-clip: padding-box;
+        background-clip: padding-box;
+	}
+	.modal-body
+	{
+  		max-height: 800px;
+  		padding: 15px;
+  		overflow-y: auto;
+	}
+	.container-bg 
+	{
 		background: url(resources/img/creek-opti.jpg) no-repeat center center fixed; 
 		-webkit-background-size: cover;
 		-moz-background-size: cover;
 		-o-background-size: cover;
 		background-size: cover;
 	}
+	
     </style>
     <link href="http://www.pozi.com/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
 
@@ -56,17 +156,132 @@
 
 		<!-- Main hero unit for a primary marketing message or call to action -->
 		<div class="hero-unit">
-			<h2>Hello, help!</h2>
-			<p>This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-			<p><a class="btn btn-primary btn-large">Learn more &raquo;</a></p>
+			<h2>User Guide</h2>
+			<p>Wlecome to your user guide, a step by step manual of your site.</p>
 		</div>
-
-	</div> <!-- /container -->
+		
+	<div class="well">
+		<div class="container-fluid">
+  			<div class="row-fluid">
+    			<div class="span1">
+    				<a href="#" class="thumbnail">
+      					<img src="http://localhost:8080/creeklink/resources/img/zoom-bar.png" data-toggle="modal" href="#modal1"/>
+    				</a>
+						<div class="modal1 hide" id="modal1">
+  							<div class="modal-header">
+    						<button type="button" class="close" data-dismiss="modal">×</button>
+    						<h3>ZOOM BAR</h3>
+  						</div>
+  							<div class="modal-body">
+							<img src="http://localhost:8080/creeklink/resources/img/zoom-bar.png"/>
+  						</div>
+  							<div class="modal-footer">
+							<a href="#" class="btn" data-dismiss="modal">Close</a>
+  						</div>
+					</div>
+				</div>
+				<div class="span8"><h3>ZOOM BAR</h3><br/><p>Activate and control the zoom bar using the scroll or - and +.  
+					You may also wish to zoom by double clicking your mouse..</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="well">
+		<div class="container-fluid">
+  			<div class="row-fluid">
+    			<div class="span2">
+					<a href="#" class="thumbnail">
+						<img src="http://localhost:8080/creeklink/resources/img/legend.png" data-toggle="modal" href="#modal2"/>
+					</a>
+						<div class="modal2 hide" id="modal2">
+  							<div class="modal-header">
+    						<button type="button" class="close" data-dismiss="modal">×</button>
+    						<h3>LEGEND</h3>
+  						</div>
+  							<div class="modal-body">
+							<img src="http://localhost:8080/creeklink/resources/img/legend.png"/>
+  						</div>
+  							<div class="modal-footer">
+							<a href="#" class="btn" data-dismiss="modal">Close</a>
+  						</div>
+					</div>
+				</div>
+				<div class="span9"><h3>LEGEND</h3><br/><p>EMPTY - No interest shown by land owner.</p>
+				<p>INTERESTED - Interest expressed by land owner.</p>
+				<p>STOCK EXCLUDED - Creek is not accessible to stock, typically via fencing work.</p>
+				<p>NATIVE VEGETATION WITH STOCK ACCESS - Pre-existing or planted native vegetation preset.  Access to stock permitted...</p>
+				<p>NATIVE VEGETATION WITH STOCK ACCESS - Pre-existing or planted native vegetation preset.  Access to stock not permitted...</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="well">
+		<div class="container-fluid">
+  			<div class="row-fluid">
+    			<div class="span2">
+					<a href="#" class="thumbnail">
+						<img src="http://localhost:8080/creeklink/resources/img/details.png" data-toggle="modal" href="#modal3"/>
+					</a>					
+						<div class="modal3 hide" id="modal3">
+  							<div class="modal-header">
+    						<button type="button" class="close" data-dismiss="modal">×</button>
+    						<h3>DETAILS</h3>
+  						</div>
+  							<div class="modal-body">
+							<img src="http://localhost:8080/creeklink/resources/img/details.png"/>
+  						</div>
+  							<div class="modal-footer">
+							<a href="#" class="btn" data-dismiss="modal">Close</a>
+  						</div>
+					</div>
+				</div>
+				<div class="span8"><h3>DETAILS</h3><br/><p>The details bar appears on the top right corner of the page when a creek section is highlighted (clicked upon).</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="well">
+		<div class="container-fluid">
+  			<div class="row-fluid">
+    			<div class="span4">    			
+					<a href="#" class="thumbnail">
+						<img src="http://localhost:8080/creeklink/resources/img/zoom.jpg" data-toggle="modal" href="#modal4"/>
+					</a>					
+						<div class="modal4 hide" id="modal4">
+  							<div class="modal-header">
+    						<button type="button" class="close" data-dismiss="modal">×</button>
+    						<h3>MAP</h3>
+  						</div>
+  							<div class="modal-body">
+							<img src="http://localhost:8080/creeklink/resources/img/zoom.jpg"/>
+  						</div>
+  							<div class="modal-footer">
+							<a href="#" class="btn" data-dismiss="modal">Close</a>
+  						</div>
+					</div>
+				</div>
+				<div class="span8"><h3>MAP</h3><br/><p>The highlighted (clicked on) section is coloured in purple.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+   
+</div> <!-- /container -->
 
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>	
 	<script src="http://www.pozi.com/bootstrap/js/bootstrap-dropdown.js"></script>
+	<script src="/bootstrap/js/bootstrap-modal.js"></script>
+	<script src="/bootstrap/js/bootstrap-tooltip.js"></script>
+	<script src="/bootstrap/js/bootstrap-popover.js"></script>
+	<script type="text/javascript">$(document).ready(function()
+	{
+		$('#example').popover();
+	});</script>
   </body>
 </html>
