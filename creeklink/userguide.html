@@ -13,7 +13,27 @@
     body 
     {
     	padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
-    }
+    }    
+   	.navbar .container 
+   	{
+  		width: auto;
+  		text-align: right;
+	}
+	.nav 
+	{
+  		margin-left: 0;
+  		list-style: none;
+  		font-size: large;
+	}
+	.navbar .nav > li > a 
+	{
+		float: none;
+		padding: 16px 10px 5px;
+		line-height: 19px;
+		color: #999;
+		text-decoration: none;
+		text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+	}
     .modal1
 	{
   		position: fixed;
@@ -137,17 +157,15 @@
 		<div class="navbar-inner">
 			<div class="container">
 				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</a>
-				<a class="brand" href="index.html"><img src="http://localhost:8080/creeklink/resources/img/icon.png"/></a>
-				<div class="nav-collapse">
+				</a>	
+				<div>
+				<a href="index.html"><img class="brand" src="resources/img/icon.png"/></a>
 					<ul class="nav">
 						<li><a href="about.html">About</a></li>
 						<li><a href="contact.html">Contact</a></li>
 						<li class="active"><a href="#">User Guide</a></li>
 					</ul>
-					<h3><i>Helping local communities map native vegetation along their waterways</i></h3>
+					<h4><i>Helping local communities map native vegetation along their waterways</i></h4>
 				</div><!--/.nav-collapse -->
 			</div>
 		</div>
@@ -168,7 +186,7 @@
   			<div class="row-fluid">
     			<div class="span4">    			
 					<a href="#" class="thumbnail">
-						<img src="http://localhost:8080/creeklink/resources/img/zoom.jpg" data-toggle="modal" href="#modal1"/>
+						<img src="resources/img/zoom.jpg" data-toggle="modal" href="#modal1"/>
 					</a>					
 						<div class="modal1 hide" id="modal1">
   							<div class="modal-header">
@@ -176,7 +194,7 @@
     						<h3>MAP</h3>
   						</div>
   							<div class="modal-body">
-							<img src="http://localhost:8080/creeklink/resources/img/zoom.jpg"/>
+							<img src="resources/img/zoom.jpg"/>
   						</div>
   							<div class="modal-footer">
 							<a href="#" class="btn" data-dismiss="modal">Close</a>
@@ -224,7 +242,7 @@
   			<div class="row-fluid">
     			<div class="span1">
     				<a href="#" class="thumbnail">
-      					<img src="http://localhost:8080/creeklink/resources/img/zoom-bar.png" data-toggle="modal" href="#modal2"/>
+      					<img src="resources/img/zoom-bar.png" data-toggle="modal" href="#modal2"/>
     				</a>
 						<div class="modal2 hide" id="modal2">
   							<div class="modal-header">
@@ -232,7 +250,7 @@
     						<h3>ZOOM BAR</h3>
   						</div>
   							<div class="modal-body">
-							<img src="http://localhost:8080/creeklink/resources/img/zoom-bar.png"/>
+							<img src="resources/img/zoom-bar.png"/>
   						</div>
   							<div class="modal-footer">
 							<a href="#" class="btn" data-dismiss="modal">Close</a>
@@ -251,7 +269,7 @@
   			<div class="row-fluid">
     			<div class="span2">
 					<a href="#" class="thumbnail">
-						<img src="http://localhost:8080/creeklink/resources/img/legend.png" data-toggle="modal" href="#modal3"/>
+						<img src="resources/img/legend.png" data-toggle="modal" href="#modal3"/>
 					</a>
 						<div class="modal3 hide" id="modal3">
   							<div class="modal-header">
@@ -259,7 +277,7 @@
     						<h3>LEGEND</h3>
   						</div>
   							<div class="modal-body">
-							<img src="http://localhost:8080/creeklink/resources/img/legend.png"/>
+							<img src="resources/img/legend.png"/>
   						</div>
   							<div class="modal-footer">
 							<a href="#" class="btn" data-dismiss="modal">Close</a>
@@ -281,7 +299,7 @@
   			<div class="row-fluid">
     			<div class="span2">
 					<a href="#" class="thumbnail">
-						<img src="http://localhost:8080/creeklink/resources/img/details.png" data-toggle="modal" href="#modal4"/>
+						<img src="resources/img/details.png" data-toggle="modal" href="#modal4"/>
 					</a>					
 						<div class="modal4 hide" id="modal4">
   							<div class="modal-header">
@@ -289,7 +307,7 @@
     						<h3>DETAILS</h3>
   						</div>
   							<div class="modal-body">
-							<img src="http://localhost:8080/creeklink/resources/img/details.png"/>
+							<img src="resources/img/details.png"/>
   						</div>
   							<div class="modal-footer">
 							<a href="#" class="btn" data-dismiss="modal">Close</a>
