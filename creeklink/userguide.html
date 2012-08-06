@@ -14,7 +14,30 @@
     {
     	padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
     }
-	.modal1
+    .modal1
+	{
+  		position: fixed;
+  		top: 40%;
+  		left: 34%;
+ 		z-index: 2000;
+ 		width: 1000px;
+ 		margin: -250px 0 0 -280px;
+  		overflow: auto;
+ 		background-color: #ffffff;
+  		border: 1px solid #999;
+  		border: 1px solid rgba(0, 0, 0, 0.3);
+  		*border: 1px solid #999;
+  		-webkit-border-radius: 6px;
+     	-moz-border-radius: 6px;
+        border-radius: 6px;
+  		-webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+     	-moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+  		-webkit-background-clip: padding-box;
+     	-moz-background-clip: padding-box;
+        background-clip: padding-box;
+	}
+	.modal2
 	{
   		position: fixed;
   		top: 40%;
@@ -37,7 +60,7 @@
      	-moz-background-clip: padding-box;
         background-clip: padding-box;
 	}
-	.modal2
+	.modal3
 	{
   		position: fixed;
   		top: 40%;
@@ -60,36 +83,13 @@
      	-moz-background-clip: padding-box;
         background-clip: padding-box;
 	}
-	.modal3
+	.modal4
 	{
   		position: fixed;
   		top: 40%;
   		left: 58%;
  		z-index: 2000;
  		width: 310px;
- 		margin: -250px 0 0 -280px;
-  		overflow: auto;
- 		background-color: #ffffff;
-  		border: 1px solid #999;
-  		border: 1px solid rgba(0, 0, 0, 0.3);
-  		*border: 1px solid #999;
-  		-webkit-border-radius: 6px;
-     	-moz-border-radius: 6px;
-        border-radius: 6px;
-  		-webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-     	-moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-        box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-  		-webkit-background-clip: padding-box;
-     	-moz-background-clip: padding-box;
-        background-clip: padding-box;
-	}
-	.modal4
-	{
-  		position: fixed;
-  		top: 40%;
-  		left: 35%;
- 		z-index: 2000;
- 		width: 1000px;
  		margin: -250px 0 0 -280px;
   		overflow: auto;
  		background-color: #ffffff;
@@ -140,13 +140,14 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</a>
-				<a class="brand" href="index.html">Creek-link</a>
+				<a class="brand" href="index.html"><img src="http://localhost:8080/creeklink/resources/img/icon.png"/></a>
 				<div class="nav-collapse">
 					<ul class="nav">
 						<li><a href="about.html">About</a></li>
 						<li><a href="contact.html">Contact</a></li>
 						<li class="active"><a href="#">User Guide</a></li>
 					</ul>
+					<h3><i>Helping local communities map native vegetation along their waterways</i></h3>
 				</div><!--/.nav-collapse -->
 			</div>
 		</div>
@@ -157,17 +158,75 @@
 		<!-- Main hero unit for a primary marketing message or call to action -->
 		<div class="hero-unit">
 			<h2>User Guide</h2>
-			<p>Wlecome to your user guide, a step by step manual of your site.</p>
-		</div>
+			<br/>
+			<p>Welcome to your user guide, a step by step manual of your site.</p><p><b><i>Note: </b>
+				Pictures expand upon clicking</i></p>
+		</div>		
 		
+	<div class="well">
+		<div class="container-fluid">
+  			<div class="row-fluid">
+    			<div class="span4">    			
+					<a href="#" class="thumbnail">
+						<img src="http://localhost:8080/creeklink/resources/img/zoom.jpg" data-toggle="modal" href="#modal1"/>
+					</a>					
+						<div class="modal1 hide" id="modal1">
+  							<div class="modal-header">
+    						<button type="button" class="close" data-dismiss="modal">×</button>
+    						<h3>MAP</h3>
+  						</div>
+  							<div class="modal-body">
+							<img src="http://localhost:8080/creeklink/resources/img/zoom.jpg"/>
+  						</div>
+  							<div class="modal-footer">
+							<a href="#" class="btn" data-dismiss="modal">Close</a>
+  						</div>
+					</div>
+				</div>
+				<div class="span8">
+					<h3>MAP</h3>
+					<br/>
+					<p>• From the home page click on the “Area of 
+						Interest” that is relevant to you eg: East Otway Landcare.</p>
+					<p>• A Google map will be loaded on which you will see a simple graphic overlay which looks like 
+						a segmented snake or snakes running along the named waterways in your Landcare area.</p>
+					<p>• Each of the segments or “Tiles” that you can see relate to a title boundary and will be either
+						blank or will contain one of 3 colours; Green, Yellow or Red.</p>
+					<p><b><i>Dark Green</i></b> occurs where approximately 80% or more of the vegetation is
+						native vegetation exists along waterways</p>
+					<p><b><i>Light Green</i></b> occurs where there is native vegetation but stock have not been
+						excluded from the waterway</p>
+					<p><b><i>Yellow<i></b> occurs where stock has been excluded from waterways and
+						there is no significant amount of native vegetation</p>
+					<p><b><i>Red</i></b> occurs where landholders have expressed an interest in
+						undertaking future revegetation works.The highlighted (clicked on) section is coloured in purple.</p>
+					<p>If there is no colour in a given Tile then typicallay none of the options listed above apply to that 
+						particular tile. (However it is also possible that if a Tile is blank then the landholder may have 
+						requested that information relating to their land titles not be shown on the web site.</p>
+					<p>• Users can also click on any Tile and obtain additional information relating to that section of waterway. 
+						Additional available though clicking on the tile include the name of the creek, the name of the local 
+						landcare group, the contact details for that local group, the day vegetation was planted and more.</p>
+					<p><b>Please Note:</b> The reliability of information available on a given Landcare area map is the responsibility 
+						of the group nominated in the Management Group field within the Details Box. If members of the public have 
+						queries or comments relating to specific Landcare areas it is suggested they use the group's contact 
+						details which are attached to the group's name.</p>
+						<p><b><i>Landcare Managers</i></b> are members of local Landcare groups that have been 
+						nominated by to update the data relevant to their groups.</p>
+						<p>Landcare Managers are provided with a password which they can use to access the section of the web site 
+						where data is updated. The manager's password is accessed from the map page of their relevant group.</p>
+				</div>
+			</div>
+		</div>
+	</div>	
+	
 	<div class="well">
 		<div class="container-fluid">
   			<div class="row-fluid">
     			<div class="span1">
     				<a href="#" class="thumbnail">
-      					<img src="http://localhost:8080/creeklink/resources/img/zoom-bar.png" data-toggle="modal" href="#modal1"/>
+      					<img src="http://localhost:8080/creeklink/resources/img/zoom-bar.png" data-toggle="modal" href="#modal2"/>
     				</a>
-						<div class="modal1 hide" id="modal1">
+						<div class="modal2 hide" id="modal2">
   							<div class="modal-header">
     						<button type="button" class="close" data-dismiss="modal">×</button>
     						<h3>ZOOM BAR</h3>
@@ -192,9 +251,9 @@
   			<div class="row-fluid">
     			<div class="span2">
 					<a href="#" class="thumbnail">
-						<img src="http://localhost:8080/creeklink/resources/img/legend.png" data-toggle="modal" href="#modal2"/>
+						<img src="http://localhost:8080/creeklink/resources/img/legend.png" data-toggle="modal" href="#modal3"/>
 					</a>
-						<div class="modal2 hide" id="modal2">
+						<div class="modal3 hide" id="modal3">
   							<div class="modal-header">
     						<button type="button" class="close" data-dismiss="modal">×</button>
     						<h3>LEGEND</h3>
@@ -207,11 +266,11 @@
   						</div>
 					</div>
 				</div>
-				<div class="span9"><h3>LEGEND</h3><br/><p>EMPTY - No interest shown by land owner.</p>
+				<div class="span10"><h3>LEGEND</h3><br/><p>EMPTY - No interest shown by land owner.</p>
 				<p>INTERESTED - Interest expressed by land owner.</p>
-				<p>STOCK EXCLUDED - Creek is not accessible to stock, typically via fencing work.</p>
-				<p>NATIVE VEGETATION WITH STOCK ACCESS - Pre-existing or planted native vegetation preset.  Access to stock permitted...</p>
-				<p>NATIVE VEGETATION WITH STOCK ACCESS - Pre-existing or planted native vegetation preset.  Access to stock not permitted...</p>
+				<p>STOCK EXCLUDED - Waterways are not accessible to stock, typically via fencing work.</p>
+				<p>NATIVE VEGETATION WITH STOCK ACCESS - Pre-existing or planted native vegetation exists along waterways.  Access to stock permitted...</p>
+				<p>NATIVE VEGETATION WITH STOCK EXCLUDED - Pre-existing or planted native vegetation exists along waterways.  Access to stock not permitted...</p>
 				</div>
 			</div>
 		</div>
@@ -222,9 +281,9 @@
   			<div class="row-fluid">
     			<div class="span2">
 					<a href="#" class="thumbnail">
-						<img src="http://localhost:8080/creeklink/resources/img/details.png" data-toggle="modal" href="#modal3"/>
+						<img src="http://localhost:8080/creeklink/resources/img/details.png" data-toggle="modal" href="#modal4"/>
 					</a>					
-						<div class="modal3 hide" id="modal3">
+						<div class="modal4 hide" id="modal4">
   							<div class="modal-header">
     						<button type="button" class="close" data-dismiss="modal">×</button>
     						<h3>DETAILS</h3>
@@ -238,32 +297,6 @@
 					</div>
 				</div>
 				<div class="span8"><h3>DETAILS</h3><br/><p>The details bar appears on the top right corner of the page when a creek section is highlighted (clicked upon).</p>
-				</div>
-			</div>
-		</div>
-	</div>
-	
-	<div class="well">
-		<div class="container-fluid">
-  			<div class="row-fluid">
-    			<div class="span4">    			
-					<a href="#" class="thumbnail">
-						<img src="http://localhost:8080/creeklink/resources/img/zoom.jpg" data-toggle="modal" href="#modal4"/>
-					</a>					
-						<div class="modal4 hide" id="modal4">
-  							<div class="modal-header">
-    						<button type="button" class="close" data-dismiss="modal">×</button>
-    						<h3>MAP</h3>
-  						</div>
-  							<div class="modal-body">
-							<img src="http://localhost:8080/creeklink/resources/img/zoom.jpg"/>
-  						</div>
-  							<div class="modal-footer">
-							<a href="#" class="btn" data-dismiss="modal">Close</a>
-  						</div>
-					</div>
-				</div>
-				<div class="span8"><h3>MAP</h3><br/><p>The highlighted (clicked on) section is coloured in purple.</p>
 				</div>
 			</div>
 		</div>
