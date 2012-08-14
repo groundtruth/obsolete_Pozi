@@ -74,14 +74,14 @@ var gtMapDataSources = {
 		title: "DSE Vicmap Layers",
 		ptype: "gxp_wmscsource"
 	},
-//	dse_iws_cascaded: {
-//		url: ["http://m1.pozi.com/geoserver/WESTWIMMERA/ows","http://m2.pozi.com/geoserver/WESTWIMMERA/ows","http://m3.pozi.com/geoserver/WESTWIMMERA/ows","http://m4.pozi.com/geoserver/WESTWIMMERA/ows"],
-//		title: "DSE Image Web Server",
-//		ptype: "gxp_wmscsource",
-//		format: "image/JPEG",
-//		group: "background",
-//		transition:'resize'
-//	},
+	dse_iws_cascaded: {
+		url: ["http://m1.pozi.com/geoserver/ALPINE/ows","http://m2.pozi.com/geoserver/ALPINE/ows","http://m3.pozi.com/geoserver/ALPINE/ows","http://m4.pozi.com/geoserver/ALPINE/ows"],
+		title: "DSE Image Web Server",
+		ptype: "gxp_wmscsource",
+		format: "image/JPEG",
+		group: "background",
+		transition:'resize'
+	},
 	mapquest: {
 		ptype: "gxp_mapquestsource"
 	},
@@ -198,6 +198,16 @@ var gtLayers = [
 ///		name: "Aerial",
 ///		title: "Bing Aerial Imagery",
 ///		visibility: false
+        },{
+                source:"dse_iws_cascaded",
+                name :gtWorkspaceName+":TOWNS_BRIGHT_2009NOV14_AIR_VIS_15CM_MGA55",
+                title:"Aerial Photo (Bright 14/11/2009)",
+                visibility:false,
+                opacity:1,
+                group:"background",
+                selected:false,
+                format:"image/JPEG",
+                transparent:true
 	},{
 		source: "ol",
 		group: "background",
