@@ -135,6 +135,16 @@ var gtLayers = [
 		transparent:true,
 		tiled: false
 	},{
+		source:"local",
+		name:gtWorkspaceName+":LSC_ASSETS_PATROL_AREA",
+		title:"Patrol Areas",
+		visibility:false,
+		opacity:1,
+		format:"image/png8",
+		styles:"",
+		transparent:true,
+		tiled:false
+	},{
 		source:"backend",
 		name:"VICMAP:VMPROP_PARCEL",
 		title:"Parcel (Vicmap)",
