@@ -36,7 +36,8 @@ catch (Exception $e) {
 
 # Performs the query and returns XML or JSON
 try {
-	$sql = sanitizeSQL("SELECT p.ezi_address as label,p.prop_propnum as prop_num FROM vw_dse_property_address As p WHERE ST_DWithin(p.the_geom, ST_Transform(ST_SetSRID(ST_Point(".$longitude.",".$latitude."),4326),4283), 0.001) AND p.prop_propnum<>'NCPR' ORDER BY ST_Distance(p.the_geom,ST_Transform(ST_SetSRID(ST_Point(".$longitude.", ".$latitude."),4326),4283)) limit ".$limit);
+//	$sql = sanitizeSQL("SELECT p.ezi_address as label,p.prop_propnum as prop_num FROM vw_dse_property_address As p WHERE ST_DWithin(p.the_geom, ST_Transform(ST_SetSRID(ST_Point(".$longitude.",".$latitude."),4326),4283), 0.001) AND p.prop_propnum<>'NCPR' ORDER BY ST_Distance(p.the_geom,ST_Transform(ST_SetSRID(ST_Point(".$longitude.", ".$latitude."),4326),4283)) limit ".$limit);
+	$sql = sanitizeSQL("SELECT p.ezi_add as label,p.pr_propnum as prop_num FROM dse_property_address As p WHERE ST_DWithin(p.the_geom, ST_Transform(ST_SetSRID(ST_Point(".$longitude.",".$latitude."),4326),4283), 0.001) AND p.pr_propnum<>'NCPR' ORDER BY ST_Distance(p.the_geom,ST_Transform(ST_SetSRID(ST_Point(".$longitude.", ".$latitude."),4326),4283)) limit ".$limit);
 	$pgconn = pgConnection();
 
     /*** fetch into an PDOStatement object ***/

@@ -20,7 +20,6 @@ $err_email = "hs.enot@gmail.com";
 try {
 	$haz_id = $_REQUEST['haz_id'];
 	$comments = $_REQUEST['comments'];
-
 	# Hazard type default to 1
 	if (!isset($_REQUEST['haz_type']))
 		{$haz_type=1;}

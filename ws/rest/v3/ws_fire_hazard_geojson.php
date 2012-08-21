@@ -36,6 +36,7 @@ try {
 		{$limit='10';}
 	else
 		{$limit = $_REQUEST['limit'];}
+	$lga = $_REQUEST['lga'];
 //	$format = 'geojson';
 }
 catch (Exception $e) {
@@ -44,7 +45,8 @@ catch (Exception $e) {
 
 # Performs the query and returns XML or JSON
 try {
-	$sql = sanitizeSQL("SELECT t.id,t.prop_num,a.ezi_address as add_label,comments,t.ts,t.haz_type,t.haz_status,ST_AsGeoJSON(ST_Transform(t.the_geom,900913),6) as the_geom FROM (select * from msc_capture m ORDER BY ST_Distance(m.the_geom,ST_SetSRID(ST_Point(".$longitude.",".$latitude."),4326)) limit ".$limit.") t, vw_dse_property_address a WHERE t.prop_num=a.prop_propnum");
+//	$sql = sanitizeSQL("SELECT t.id,t.prop_num,a.ezi_address as add_label,comments,t.ts,t.haz_type,t.haz_status,ST_AsGeoJSON(ST_Transform(t.the_geom,900913),6) as the_geom FROM (select * from msc_capture m ORDER BY ST_Distance(m.the_geom,ST_SetSRID(ST_Point(".$longitude.",".$latitude."),4326)) limit ".$limit.") t, vw_dse_property_address a WHERE t.prop_num=a.prop_propnum");
+	$sql = sanitizeSQL("SELECT t.id,t.prop_num,a.ezi_add as add_label,comments,t.ts,t.haz_type,t.haz_status,ST_AsGeoJSON(ST_Transform(t.the_geom,900913),6) as the_geom FROM (select * from msc_capture m ORDER BY ST_Distance(m.the_geom,ST_SetSRID(ST_Point(".$longitude.",".$latitude."),4326)) limit ".$limit.") t, dse_property_address a WHERE t.prop_num=a.pr_propnum and a.lga_code='".$lga."'");
 //	echo $sql;
 	$pgconn = pgConnection();
 
@@ -55,7 +57,6 @@ try {
 	require_once("../inc/geojson.pdo.inc.php");
 	header("Content-Type: application/json");
 	echo rs2geojson($recordSet);
-
 }
 catch (Exception $e) {
 	trigger_error("Caught Exception: " . $e->getMessage(), E_USER_ERROR);
