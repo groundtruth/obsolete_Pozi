@@ -33,7 +33,7 @@ var gtLogoClientWidth=230;
 // Map resources
 // Center determined by: select ST_AsText(ST_Transform(ST_SetSRID(ST_Centroid(the_geom),4283),900913)) from dse_vmadmin_lga where lga_name='MURRINDINDI'
 var gtMapCenter = [16211482, -4482549];
-var gtMapZoom = 11;
+var gtMapZoom = 10;
 // When zooming after a search
 var gtZoomMax = 18;
 // Constraint on the general max zoom level of the map
