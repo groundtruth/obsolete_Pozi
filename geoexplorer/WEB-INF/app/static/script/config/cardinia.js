@@ -422,6 +422,6 @@ var gtInitialDisclaimerFlag=false;
 var gtDisclaimer="disclaimer.html";
 var gtRedirectIfDeclined="http://www.yarriambiack.vic.gov.au/";
 var gtLinkToCouncilWebsite="http://www.cardinia.vic.gov.au/";
-var gtBannerLineColor="#FEC422";
+var gtBannerLineColor="#4D92C9";
 var gtBannerRightCornerLine1="Cardinia Shire Council";
 var gtBannerRightCornerLine2="Victoria, Australia";
