@@ -65,12 +65,12 @@ var gtPrintTitle = "Indigo Shire Council";
 
 // Datasources
 var gtMapDataSources = {
-//	local: {
-//		url: "/geoserver/INDIGO/ows",
-//		title: "Indigo Shire Council Layers",
-//		ptype: "gxp_wmscsource",
-//		tiled: false
-//	},
+	local: {
+		url: "/geoserver/INDIGO/ows",
+		title: "Indigo Shire Council Layers",
+		ptype: "gxp_wmscsource",
+		tiled: false
+	},
 	backend_cascaded: {
 		url: "http://basemap.pozi.com/geoserver/DSE/wms",
 		title: "DSE Vicmap Layers",
@@ -144,6 +144,26 @@ var gtLayers = [
 		opacity:0.75,
 		format:"image/png8",
 		styles:"parcel_label",
+		transparent:true,
+		tiled:false
+	},{
+		source:"local",
+		name:"INDIGO:ISC_ASSETS_FOOTPATH",
+		title:"Footpaths (Assets)",
+		visibility:false,
+		opacity:0.85,
+		format:"image/png8",
+		styles:"",
+		transparent:true,
+		tiled:false
+	},{
+		source:"local",
+		name:"INDIGO:ISC_ASSETS_BRIDGE",
+		title:"Bridges (Assets)",
+		visibility:false,
+		opacity:0.85,
+		format:"image/png8",
+		styles:"",
 		transparent:true,
 		tiled:false
 	},{
