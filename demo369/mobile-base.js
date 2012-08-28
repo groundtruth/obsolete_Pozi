@@ -19,7 +19,17 @@ var init = function () {
 			externalGraphic: "img/drainageGrid-${i_status}.png",
 			graphicOpacity: 1.0,
 			graphicWith: 32,
-			graphicHeight: 32
+			graphicHeight: 32,
+			// Labelling of features - missing the halo though ..
+                    label : "${a_id}",
+                    fontColor: "red",
+			fontWeight: "900",
+                    fontSize: "14px",
+                    fontFamily: "Arial",
+                    labelAlign: "cm",
+                    labelOutlineColor: "white",
+ 			labelYOffset: "-22",
+                    labelOutlineWidth: 3
 		})
 	});
 
