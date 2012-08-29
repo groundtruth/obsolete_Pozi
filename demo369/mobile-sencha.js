@@ -241,7 +241,13 @@ App.CaptureFormPopupPanel = Ext.extend(Ext.Panel, {
 			idProperty:'id',
 			fields: [
 				{name: 'id',     type: 'string', mapping: 'row.id'},
-				{name: 'desc',    type: 'string', mapping: 'row.desc'}
+				{name: 'desc',    type: 'string', mapping: 'row.desc'},
+			       {
+					name : 'iddesc',
+					convert : function(v, rec) {          
+						return rec.data.id+' - '+rec.data.desc;
+					}
+				}
 			]
 		});
 
@@ -328,7 +334,7 @@ App.CaptureFormPopupPanel = Ext.extend(Ext.Panel, {
 					name:'drainage_pit',
 					id:'drainage_pit',
 					valueField : 'id',
-					displayField : 'desc',
+					displayField : 'iddesc',
 					store : drainagePitStore,
 					// By construction, this field will always be populated - so we technically don't have to mark it as required
 					 required: true
@@ -432,7 +438,12 @@ App.CaptureFormPopupPanel = Ext.extend(Ext.Panel, {
 						var interv = parseInt(Ext.getCmp('check_again_interval').getValue());
 						checkAgainDate.setMonth(checkAgainDate.getMonth() + interv);	
 
-						var day = checkAgainDate.getDate();
+						var day_num = checkAgainDate.getDate();
+						var day = '' + day_num;
+						if (day_num<10)
+						{
+							day = '0'+day_num;
+						}
 						var month_num = checkAgainDate.getMonth() + 1;
 						var month = ''+month_num;
 						if (month_num<10)
