@@ -26,6 +26,7 @@ try {
 	$infogroup = $_REQUEST['infoGroup'];
 	$config = $_REQUEST['config'];
 	$mode= $_REQUEST['mode'];
+	$lga=$_REQUEST['lga'];
 	$format = 'json';
 }
 catch (Exception $e) {
@@ -100,6 +101,8 @@ try {
 
 		// Replacing all instances of %1% in the query with a specific ID
 		$sql = str_replace("%1%",$idp,$query_to_exec);
+		$sql = str_replace("%2%",$lga,$sql);
+
 		if (isset($_REQUEST['debug']))
 		{
 			echo $connection_str."\n";
