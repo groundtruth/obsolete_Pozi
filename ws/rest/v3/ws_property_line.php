@@ -30,7 +30,7 @@
 	}
 
 	// open the file in a binary mode
-	$url = "http://basemap.pozi.com/geoserver/VICMAP/wms?service=WMS&version=1.1.0&request=GetMap&layers=VICMAP:VW_VICMAP_PROPERTY_LINE&styles=Property_As_Line&bbox=".$bbox."&format=image/png&width=250&height=250&srs=EPSG:900913&viewparams=PFI:".$pfi;
+	$url = "http://basemap.pozi.com/geoserver/VICMAP/wms?service=WMS&version=1.1.0&request=GetMap&layers=VICMAP:VW_VICMAP_PROPERTY,VICMAP:VW_VICMAP_PROPERTY_LINE&styles=&bbox=".$bbox."&format=image/png&width=250&height=250&srs=EPSG:900913&viewparams=PFI:".$pfi;
 	$url2 = "http://basemap.pozi.com/geoserver/VICMAP/wms?service=WMS&version=1.1.0&request=GetMap&layers=VICMAP:VMPROP_PROPERTY_OPTI&styles=&bbox=".$bbox."&format=image/png&width=250&height=250&srs=EPSG:900913";
 	if (isset($_REQUEST['debug']))
 	{
