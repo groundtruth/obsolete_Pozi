@@ -73,12 +73,12 @@ var gtPrintTitle = "Moira Shire Council";
 
 // Datasources
 var gtMapDataSources = {
-//	local: {
-//		url: "/geoserver/MOIRA/ows",
-//		title: "Moira Shire Council Layers",
-//		ptype: "gxp_wmscsource",
-//		tiled: false
-//	},
+	local: {
+		url: "/geoserver/MOIRA/ows",
+		title: "Moira Shire Council Layers",
+		ptype: "gxp_wmscsource",
+		tiled: false
+	},
 	backend_cascaded: {
 		url: "http://basemap.pozi.com/geoserver/DSE/wms",
 		title: "DSE Vicmap Layers",
@@ -152,6 +152,16 @@ var gtLayers = [
 		opacity:0.75,
 		format:"image/png8",
 		styles:"parcel_label",
+		transparent:true,
+		tiled:false
+	},{
+		source:"local",
+		name:"MOIRA:MSC_ASSETS_ROAD",
+		title:"Roads (Assets)",
+		visibility:false,
+		opacity:0.85,
+		format:"image/png8",
+		styles:"",
 		transparent:true,
 		tiled:false
 	},{
