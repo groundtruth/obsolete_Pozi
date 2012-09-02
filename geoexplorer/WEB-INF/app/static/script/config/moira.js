@@ -157,7 +157,7 @@ var gtLayers = [
 	},{
 		source:"local",
 		name:"MOIRA:MSC_ASSETS_ROAD",
-		title:"Roads (Assets)",
+		title:"Bin Collection Day",
 		visibility:false,
 		opacity:0.85,
 		format:"image/png8",
@@ -432,6 +432,6 @@ var gtInitialDisclaimerFlag=false;
 var gtDisclaimer="disclaimer.html";
 var gtRedirectIfDeclined="http://www.yarriambiack.vic.gov.au/";
 var gtLinkToCouncilWebsite="http://www.moira.vic.gov.au/";
-var gtBannerLineColor="#0067F4";
+var gtBannerLineColor="#6C97D4";
 var gtBannerRightCornerLine1="Moira Shire Council";
 var gtBannerRightCornerLine2="Victoria, Australia";
