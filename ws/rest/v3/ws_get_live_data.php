@@ -70,6 +70,11 @@ try {
 	$username_conn ='';
 	$password_conn ='';
 
+	$filter_query_to_exec='';
+	$filter_connection_str ='';
+	$filter_username_conn ='';
+	$filter_password_conn ='';
+
     // Using the query returned to build an ODBC request
 	while ($row  = $recordSet->fetch(PDO::FETCH_ASSOC))
 	{
@@ -91,8 +96,57 @@ try {
 			{
 				$password_conn = $val;
 			}
+			if ($key == "filter_query")
+			{
+				$filter_query_to_exec = $val;
+			}
+			if ($key == "filter_odbc_conn_str")
+			{
+				$filter_connection_str = $val;
+			}
+			if ($key == "filter_username_conn")
+			{
+				$filter_username_conn = $val;
+			}
+			if ($key == "filter_password_conn")
+			{
+				$filter_password_conn = $val;
+			}
 		}
 	}
+
+	// Adding a filtering step to source the IDs/attributes/geometries possibly from another database
+	// This filtering step is optional but helps when the required spatial/attribute data are silo'd in different databases/servers
+	if ($idp && $filter_connection_str)
+	{
+		// Establishing the connection based on the configuration in gt_service_routing
+	    $conn3 = new PDO($filter_connection_str, $filter_username_conn, $filter_password_conn, array(PDO::ATTR_PERSISTENT => true));
+
+		// Replacing all instances of %1% in the query with a specific ID
+		$sql3 = str_replace("%1%",$idp,$filter_query_to_exec);
+
+		if (isset($_REQUEST['debug']))
+		{
+			echo $filter_connection_str."\n";
+			//echo $filter_username_conn."\n";
+			//echo $filter_password_conn."\n";
+			echo $sql3."\n";
+		}
+		$recordSet3 = $conn3->prepare($sql3);
+		$recordSet3->execute();	
+
+		while ($row3  = $recordSet3->fetch(PDO::FETCH_ASSOC))
+		{
+			foreach ($row3 as $key => $val)
+			{
+				if ($key == "id")
+				{
+					$idp = $val;
+				}
+			}
+		}
+	
+	}	
 
 	if ($idp && $connection_str)
 	{
@@ -106,8 +160,8 @@ try {
 		if (isset($_REQUEST['debug']))
 		{
 			echo $connection_str."\n";
-			echo $username_conn."\n";
-			echo $password_conn."\n";
+			//echo $username_conn."\n";
+			//echo $password_conn."\n";
 			echo $sql."\n";
 		}
 		$recordSet2 = $conn2->prepare($sql);
