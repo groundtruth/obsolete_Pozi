@@ -35,7 +35,7 @@ var gtMapZoom = 10;
 // When zooming after a search
 var gtZoomMax = 18;
 // Constraint on the general max zoom level of the map
-var gtMaxZoomLevel = 20;
+var gtMaxZoomLevel = 21;
 var gtQuickZoomDatastore = [
 	['144.936',	'-37.484',	'144.989',	'-37.467', 'Beveridge'	],
 	['145.025',	'-37.229',	'145.069',	'-37.195', 'Broadford'	],
