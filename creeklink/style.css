@@ -1,3 +1,15 @@
+	body 
+    {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+    }
+    p
+    {
+    	font-size: 16px;
+    }
+    ul
+    {
+    	font-size: 14px;
+    }
 	.navbar .container 
    	{
   		width: auto;
@@ -25,14 +37,10 @@
 		-webkit-border-radius: 0;
 		-moz-border-radius: 0;
 		border-radius: 0;
-	}	
-    body 
-    {
-        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
-    }
+	}
 	.container-bg
 	{
-		background: url(resources/img/creek-opti.jpg) no-repeat center center fixed; 
+		/*background: url(resources/img/creek-opti.jpg) no-repeat center center fixed;*/
 		-webkit-background-size: cover;
 		-moz-background-size: cover;
 		-o-background-size: cover;
@@ -73,7 +81,7 @@
 		box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
         margin-left: auto;
 		margin-right: auto;
-		width: 1050px;
+		width: 1002px;
 	}
     .centre
 	{
@@ -81,102 +89,71 @@
 	}
     .banner
     {
-    	font-family: lucida console;
-    	font-size: 40px;
-    	text-indent: 200px;
+    	font-family: New York;
+    	font-size: 32px;
+    }
+    .bubble1
+    {
+		margin-left: auto;
+		margin-right: auto;
+    	width: 950px;
+    }
+    .bubble2
+    {
+		margin-left: 320px;
+    	width: 550px;
+    }
+    .bubble3
+    {
+    	margin-left: auto;
+		margin-right: auto;
+    	width: 280px;
+    }
+    .bubble4
+    {
+    	margin-left: auto;
+		margin-right: auto;
+    	width: 500px;
     }
     .modal1
 	{
-  		position: fixed;
-  		top: 40%;
+		top: 38%;
   		left: 34%;
- 		z-index: 2000;
  		width: 1000px;
- 		margin: -250px 0 0 -280px;
-  		overflow: auto;
- 		background-color: #ffffff;
-  		border: 1px solid #999;
-  		border: 1px solid rgba(0, 0, 0, 0.3);
-  		*border: 1px solid #999;
-  		-webkit-border-radius: 6px;
-     	-moz-border-radius: 6px;
-        border-radius: 6px;
-  		-webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-     	-moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-        box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-  		-webkit-background-clip: padding-box;
-     	-moz-background-clip: padding-box;
-        background-clip: padding-box;
 	}
 	.modal2
 	{
-  		position: fixed;
-  		top: 40%;
   		left: 63%;
- 		z-index: 2000;
  		width: 175px;
- 		margin: -250px 0 0 -280px;
-  		overflow: auto;
- 		background-color: #ffffff;
-  		border: 1px solid #999;
-  		border: 1px solid rgba(0, 0, 0, 0.3);
-  		*border: 1px solid #999;
-  		-webkit-border-radius: 6px;
-     	-moz-border-radius: 6px;
-        border-radius: 6px;
-  		-webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-     	-moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-        box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-  		-webkit-background-clip: padding-box;
-     	-moz-background-clip: padding-box;
-        background-clip: padding-box;
 	}
 	.modal3
 	{
-  		position: fixed;
-  		top: 40%;
   		left: 58%;
- 		z-index: 2000;
  		width: 320px;
- 		margin: -250px 0 0 -280px;
-  		overflow: auto;
- 		background-color: #ffffff;
-  		border: 1px solid #999;
-  		border: 1px solid rgba(0, 0, 0, 0.3);
-  		*border: 1px solid #999;
-  		-webkit-border-radius: 6px;
-     	-moz-border-radius: 6px;
-        border-radius: 6px;
-  		-webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-     	-moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-        box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-  		-webkit-background-clip: padding-box;
-     	-moz-background-clip: padding-box;
-        background-clip: padding-box;
 	}
 	.modal4
 	{
-  		position: fixed;
-  		top: 40%;
   		left: 58%;
- 		z-index: 2000;
  		width: 310px;
- 		margin: -250px 0 0 -280px;
-  		overflow: auto;
- 		background-color: #ffffff;
-  		border: 1px solid #999;
-  		border: 1px solid rgba(0, 0, 0, 0.3);
-  		*border: 1px solid #999;
-  		-webkit-border-radius: 6px;
-     	-moz-border-radius: 6px;
-        border-radius: 6px;
-  		-webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-     	-moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-        box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-  		-webkit-background-clip: padding-box;
-     	-moz-background-clip: padding-box;
-        background-clip: padding-box;
 	}
+	.modal5
+	{
+		top: 39%;
+		left: 56%;
+ 		width: 370px;
+ 	}
+ 	.modal6
+ 	{
+ 		top: 39%;
+ 		left: 53%;
+ 		width: 500px;
+ 	}
+ 	.modal7
+ 	{
+		top: 55%;
+ 		left: 56%;
+ 		width: 360px;
+ 	} 	
     .modal-body
 	{
   		max-height: 800px;

@@ -154,7 +154,7 @@
 				type: "POST"
 			});  
 
-			var jsonUrl = "http://v3.pozi.com/ws/rest/v3/ws_get_creek_segment_by_id.php?callback=?";  
+			var jsonUrl = "http://new.pozi.com/ws/rest/v3/ws_get_creek_segment_by_id.php?callback=?";  
 
 			$.getJSON(   
 				jsonUrl,  
@@ -163,21 +163,21 @@
 					// Decoding the path to the different variables
 					var rec = json.rows[0].row;
 					$('#commentsTextField').val(decodeURI(rec.comments));
-					if (rec.interested =="1")
+					if (rec.interested =="t")
 					{
 						$('#interestedCheckbox').attr('checked',true);
 					}
-					if (rec.visited =="1")
+					if (rec.visited =="t")
 					{
 						$('#visitedCheckbox').attr('checked',true);
 					}
 					$('#dp1').val(rec.visited_date);
-					if (rec.stock_excluded =="1")
+					if (rec.stock_excluded =="t")
 					{
 						$('#stockExcludedCheckbox').attr('checked',true);
 					}
 					$('#dp2').val(rec.stock_excluded_date);
-					if (rec.native_vegetation =="1")
+					if (rec.native_vegetation =="t")
 					{
 						$('#nativeVegetationCheckbox').attr('checked',true);
 					}
@@ -187,7 +187,7 @@
 			);
 
 			// AJAX update call
-			var postUrl = "http://v3.pozi.com/ws/rest/v3/ws_set_creek_segment.php?callback=?";  
+			var postUrl = "http://new.pozi.com/ws/rest/v3/ws_set_creek_segment.php?callback=?";  
 			
 			$('#saveButton').click(function(){  
 				$.post(
