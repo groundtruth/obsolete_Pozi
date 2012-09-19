@@ -70,7 +70,7 @@
 						height: 635,
 						items: [
 							{
-							html: "<iframe style='border: none; height: 100%; width: 100%' src='/creeklink/edit-form.html?seg_id="+seg_id+"' frameborder='0' border='0'></iframe>"
+							html: "<iframe style='border: none; height: 100%; width: 100%' src='/pozi/cl-edit.html?seg_id="+seg_id+"' frameborder='0' border='0'></iframe>"
 							}
 						]
 					});
@@ -81,7 +81,7 @@
 
 					var doSplit = function(){
 						// AJAX update call
-						var postUrl = "http://new.pozi.com/ws/rest/v3/ws_set_creek_segment.php?callback=?";  
+						var postUrl = "http://103.29.64.29/ws/rest/v3/ws_set_creek_segment.php?callback=?";  
 
 						$.post(
 							postUrl,

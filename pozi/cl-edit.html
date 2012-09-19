@@ -42,9 +42,9 @@
 		<form class="form-horizontal">
 			<fieldset>
 			<div class="control-group">
-				<label class="control-label" for="textarea">Credits</label>
+				<label class="control-label" for="addressLandholder">Address</label>
 				<div class="controls">
-					<textarea class="input-large" id="creditsTextArea" rows="2"></textarea>
+					<input type="text" class="input-large" id="addressLandholder">
 				</div>
 			</div>
 			<div class="control-group">
@@ -98,9 +98,9 @@
 				</div>
 			</div>
 			<div class="control-group">
-				<label class="control-label" for="commentsTextField">Comments <br/>(limit 250 characters)</label>
+				<label class="control-label" for="textarea">Credits</label>
 				<div class="controls">
-					<textarea class="input-large" id="commentsTextField" rows="2"></textarea>
+					<textarea class="input-large" id="creditsTextArea" rows="4"></textarea>
 				</div>
 			</div>
 
@@ -154,7 +154,7 @@
 				type: "POST"
 			});  
 
-			var jsonUrl = "http://new.pozi.com/ws/rest/v3/ws_get_creek_segment_by_id.php?callback=?";  
+			var jsonUrl = "http://103.29.64.29/ws/rest/v3/ws_get_creek_segment_by_id.php?callback=?";  
 
 			$.getJSON(   
 				jsonUrl,  
@@ -162,7 +162,7 @@
 				function(json) {  
 					// Decoding the path to the different variables
 					var rec = json.rows[0].row;
-					$('#commentsTextField').val(decodeURI(rec.comments));
+					$('#addressLandholder').val(rec.address);
 					if (rec.interested =="t")
 					{
 						$('#interestedCheckbox').attr('checked',true);
@@ -187,7 +187,7 @@
 			);
 
 			// AJAX update call
-			var postUrl = "http://new.pozi.com/ws/rest/v3/ws_set_creek_segment.php?callback=?";  
+			var postUrl = "http://103.29.64.29/ws/rest/v3/ws_set_creek_segment.php?callback=?";  
 			
 			$('#saveButton').click(function(){  
 				$.post(
@@ -195,7 +195,7 @@
 					{
 						seg_id: seg_id,
 						config:'creeklinkgis',		
-						comments: 		encodeURI($('#commentsTextField').val()),
+						address: 		$('#addressLandholder').val(),
 						interested: 		$('#interestedCheckbox').attr('checked')!=undefined,
 						visited: 		$('#visitedCheckbox').attr('checked')!=undefined,
 						visited_date: 	$('#dp1').val(),
