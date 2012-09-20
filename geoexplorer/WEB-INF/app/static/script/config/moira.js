@@ -48,7 +48,6 @@ var gtQuickZoomDatastore = [
 ['145.451','-36.009','145.463','-35.996','Katunga'],
 ['145.195','-36.065','145.216','-36.051','Nathalia'],
 ['145.432','-36.101','145.459','-36.078','Numurkah'],
-['146.228','-36.196','146.236','-36.188','Peechelba'],
 ['145.108','-36.001','145.123','-35.997','Picola'],
 ['145.466','-35.928','145.484','-35.921','Strathmerton'],
 ['145.892','-36.275','145.899','-36.268','St James'],
@@ -84,14 +83,14 @@ var gtMapDataSources = {
 		title: "DSE Vicmap Layers",
 		ptype: "gxp_wmscsource"
 	},
-//	dse_iws_cascaded: {
-//		url: ["http://m1.pozi.com/geoserver/WESTWIMMERA/ows","http://m2.pozi.com/geoserver/WESTWIMMERA/ows","http://m3.pozi.com/geoserver/WESTWIMMERA/ows","http://m4.pozi.com/geoserver/WESTWIMMERA/ows"],
-//		title: "DSE Image Web Server",
-//		ptype: "gxp_wmscsource",
-//		format: "image/JPEG",
-//		group: "background",
-//		transition:'resize'
-//	},
+	dse_iws_cascaded: {
+		url: ["http://m1.pozi.com/geoserver/MOIRA/ows","http://m2.pozi.com/geoserver/MOIRA/ows","http://m3.pozi.com/geoserver/MOIRA/ows","http://m4.pozi.com/geoserver/MOIRA/ows"],
+		title: "DSE Image Web Server",
+		ptype: "gxp_wmscsource",
+		format: "image/JPEG",
+		group: "background",
+		transition:'resize'
+	},
 	mapquest: {
 		ptype: "gxp_mapquestsource"
 	},
@@ -218,6 +217,16 @@ var gtLayers = [
 ///		name: "Aerial",
 ///		title: "Bing Aerial Imagery",
 ///		visibility: false
+	},{
+		source:"dse_iws_cascaded",
+		name :gtWorkspaceName+":AERIAL_MOIRA-SHEPPARTON_2009DEC14_AIR_VIS_30CM_MGA55",
+		title:"Aerial Photo (Moira, 14/12/2009)",
+		visibility:false,
+		opacity:1,
+		group:"background",
+		selected:false,
+		format:"image/JPEG",
+		transparent:true
 	},{
 		source: "ol",
 		group: "background",
