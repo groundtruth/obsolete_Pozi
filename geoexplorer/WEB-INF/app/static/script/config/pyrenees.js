@@ -1,9 +1,9 @@
-// Javascript configuration file for Moira
+// Javascript configuration file for Pyrenees
 
 // Workspace containing the layers and corresponding namespace
-var gtWorkspaceName= "MOIRA";
+var gtWorkspaceName= "PYRENEES";
 // This is a multi-database setup so we need to specify the LGA
-var gtLGACode = "347";
+var gtLGACode = "359";
 var gtFeatureNS = "http://www.pozi.com/vicmap";
 
 // Database config for the master search table
@@ -20,43 +20,25 @@ var gtSearchPropertyEndPoint =  gtServicesHost + "/ws/rest/v3/ws_property_id_by_
 var gtSearchComboEndPoint = 	gtServicesHost + "/ws/rest/v3/ws_all_features_by_string_and_lga.php";
 
 var gtGetLiveDataEndPoints=[
-	{ urlLayout:'http://192.168.10.12/ws/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://192.168.10.12/ws/rest/v3/ws_get_live_data.php',	storeMode:'sqlite',	storeName:'moira'},
+	{ urlLayout:'http://www.pozi.com/ws/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://www.pozi.com/ws/rest/v3/ws_get_live_data.php',	storeMode:'pgsql',	storeName:'pyreneesgis'},
 	{ urlLayout:'http://49.156.17.41/ws/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://49.156.17.41/ws/rest/v3/ws_get_live_data.php',	storeMode:'pgsql',	storeName:'vicmap'}
 ];
 
 // External resources
 //var gtPoziLogoSrc = gtServicesHost+"/"+"theme/app/img/pozi-logo.png";
-//var gtPoziLogoWidth = 165; 
-var gtLogoClientSrc = "http://www.pozi.com/"+"theme/app/img/moira_logo.gif";
+//var gtPoziLogoWidth = 165;
+var gtLogoClientSrc = "http://www.pozi.com/"+"theme/app/img/pyrenees_logo.png";
 var gtLogoClientWidth=290;
 
 // Map resources
-// Center determined by: select ST_AsText(ST_Transform(ST_SetSRID(ST_Centroid(the_geom),4283),900913)) from dse_vmadmin_lga where lga_name='MOIRA'
-var gtMapCenter = [16202585, -4309147];
+// Center determined by: select ST_AsText(ST_Transform(ST_SetSRID(ST_Centroid(the_geom),4283),900913)) from dse_vmadmin_lga where lga_name='PYRENEES'
+var gtMapCenter = [15960434.5813523, -4483307.70879389];
 var gtMapZoom = 10;
 // When zooming after a search
 var gtZoomMax = 18;
 // Constraint on the general max zoom level of the map
 var gtMaxZoomLevel = 20;
-var gtQuickZoomDatastore = [
-['144.956','-36.025','144.966','-36.014','Barmah'],
-['146.005','-36.027','146.085','-36.001','Bathumi'],
-['146.155','-36.046','146.177','-36.025','Brimin'],
-['146.155','-36.046','146.177','-36.025','Bundalong'],
-['145.632','-35.937','145.675','-35.904','Cobram'],
-['145.682','-36.085','145.693','-36.070','Katamatite'],
-['145.451','-36.009','145.463','-35.996','Katunga'],
-['145.195','-36.065','145.216','-36.051','Nathalia'],
-['145.432','-36.101','145.459','-36.078','Numurkah'],
-['145.108','-36.001','145.123','-35.997','Picola'],
-['145.466','-35.928','145.484','-35.921','Strathmerton'],
-['145.892','-36.275','145.899','-36.268','St James'],
-['145.873','-36.173','145.887','-36.160','Tungamah'],
-['145.329','-36.053','145.338','-36.046','Waaia'],
-['146.009','-36.166','146.031','-36.154','Wilby'],
-['145.425','-36.160','145.435','-36.149','Wunghnu'],
-['145.978','-36.031','146.077','-36.001','Yarrawonga']
-];
+var gtQuickZoomDatastore = [ ];
 		
 // UI labels
 var gtDetailsTitle='Details';
@@ -68,7 +50,7 @@ var gtEmptyTextSelectFeature = 'Selected features ...';
 var gtClearButton='clear';
 var gtPropNum;
 var gtLegendHeight = 400;
-var gtPrintTitle = "Moira Shire Council";
+var gtPrintTitle = "Pyrenees Shire Council";
 
 // Datasources
 var gtMapDataSources = {
@@ -84,7 +66,7 @@ var gtMapDataSources = {
 		ptype: "gxp_wmscsource"
 	},
 	dse_iws_cascaded: {
-		url: ["http://m1.pozi.com/geoserver/MOIRA/ows","http://m2.pozi.com/geoserver/MOIRA/ows","http://m3.pozi.com/geoserver/MOIRA/ows","http://m4.pozi.com/geoserver/MOIRA/ows"],
+		url: ["http://m1.pozi.com/geoserver/PYRENEES/ows","http://m2.pozi.com/geoserver/PYRENEES/ows","http://m3.pozi.com/geoserver/PYRENEES/ows","http://m4.pozi.com/geoserver/PYRENEES/ows"],
 		title: "DSE Image Web Server",
 		ptype: "gxp_wmscsource",
 		format: "image/JPEG",
@@ -134,6 +116,16 @@ var gtLayers = [
 		transparent:true,
 		tiled: false
 	},{
+        source: "backend",
+        name: "VICMAP:DSE_VMADMIN_WARD_2008",
+        title: "Wards (2008)",
+        visibility: false,
+        opacity: 0.30,
+        format: "image/png8",
+        styles: "Pyrenees_Wards",
+        transparent: true,
+        tiled: false
+	},{
 		source:"backend",
 		name:"VICMAP:VICMAP_PROPERTY_ADDRESS",
 		title:"Property (Vicmap)",
@@ -154,16 +146,6 @@ var gtLayers = [
 		transparent:true,
 		tiled:false
 	},{
-		source:"local",
-		name:"MOIRA:MSC_ASSETS_ROAD",
-		title:"Bin Collection Day",
-		visibility:false,
-		opacity:0.85,
-		format:"image/png8",
-		styles:"",
-		transparent:true,
-		tiled:false
-	},{
 		source:"backend",
 		name:"VICMAP:VW_TRANSFER_STATION",
 		title:"Transfer Stations",
@@ -175,7 +157,7 @@ var gtLayers = [
 		tiled:false
 	},{
 		source:"backend",
-		name:"VICMAP:VW_MOIRA_MASK",
+		name:"VICMAP:VW_PYRENEES_MASK",
 		title:"Municipal Boundary",
 		visibility:true,
 		opacity:0.6,
@@ -217,16 +199,6 @@ var gtLayers = [
 ///		name: "Aerial",
 ///		title: "Bing Aerial Imagery",
 ///		visibility: false
-	},{
-		source:"dse_iws_cascaded",
-		name :gtWorkspaceName+":AERIAL_MOIRA-SHEPPARTON_2009DEC14_AIR_VIS_30CM_MGA55",
-		title:"Aerial Photo (Moira, 14/12/2009)",
-		visibility:false,
-		opacity:1,
-		group:"background",
-		selected:false,
-		format:"image/JPEG",
-		transparent:true
 	},{
 		source: "ol",
 		group: "background",
@@ -439,8 +411,8 @@ var poziLinkClickHandler = function () {
 	
 var gtInitialDisclaimerFlag=false;
 var gtDisclaimer="disclaimer.html";
-var gtRedirectIfDeclined="http://www.yarriambiack.vic.gov.au/";
-var gtLinkToCouncilWebsite="http://www.moira.vic.gov.au/";
-var gtBannerLineColor="#6C97D4";
-var gtBannerRightCornerLine1="Moira Shire Council";
+var gtRedirectIfDeclined="http://www.pyrenees.vic.gov.au/";
+var gtLinkToCouncilWebsite="http://www.pyrenees.vic.gov.au/";
+var gtBannerLineColor="#6C001F";
+var gtBannerRightCornerLine1="Pyrenees Shire Council";
 var gtBannerRightCornerLine2="Victoria, Australia";

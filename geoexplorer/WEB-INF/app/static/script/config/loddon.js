@@ -136,6 +136,16 @@ var gtLayers = [
 		tiled: false
 	},{
 		source:"local",
+		name:gtWorkspaceName+":LSC_ASSETS_CHANNEL",
+		title:"Channels",
+		visibility:false,
+		opacity:1,
+		format:"image/png8",
+		styles:"",
+		transparent:true,
+		tiled:false
+	},{
+		source:"local",
 		name:gtWorkspaceName+":LSC_ASSETS_PATROL_AREA",
 		title:"Patrol Areas",
 		visibility:false,
