@@ -20,7 +20,7 @@ var gtSearchPropertyEndPoint =  gtServicesHost + "/ws/rest/v3/ws_property_id_by_
 var gtSearchComboEndPoint = 	gtServicesHost + "/ws/rest/v3/ws_all_features_by_string_and_lga.php";
 
 var gtGetLiveDataEndPoints=[
-	{ urlLayout:'http://10.54.144.31/ws/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://10.54.144.31/ws/rest/v3/ws_get_live_data.php',	storeMode:'sqlite',	storeName:'buloke'},
+	{ urlLayout:'http://www.pozi.com/ws/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://www.pozi.com/ws/rest/v3/ws_get_live_data.php',	storeMode:'pgsql',	storeName:'bulokegis'},
 	{ urlLayout:'http://49.156.17.41/ws/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://49.156.17.41/ws/rest/v3/ws_get_live_data.php',	storeMode:'pgsql',	storeName:'vicmap'}
 ];
 
@@ -124,6 +124,16 @@ var gtLayers = [
 		styles:"",
 		transparent:true,
 		tiled: false
+	},{
+        source: "backend",
+        name: "VICMAP:DSE_VMADMIN_WARD_2008",
+        title: "Wards (2008)",
+        visibility: false,
+        opacity: 0.30,
+        format: "image/png8",
+        styles: "Buloke_Wards",
+        transparent: true,
+        tiled: false
 	},{
 		source:"backend",
 		name:"VICMAP:VICMAP_PROPERTY_ADDRESS",
@@ -322,19 +332,19 @@ var gtTools = [{
 //				index: 2
 //			}
 //		}, {
-//			ptype: "gxp_featuremanager",
-//			id: "featuremanager",
-//			maxFeatures: 20
-//		}, {
-//			ptype: "gxp_featureeditor",
-//			featureManager: "featuremanager",
-//			autoLoadFeatures: true,
-//			toggleGroup: this.toggleGroup,
-//			actionTarget: {
-//				target: "paneltbar",
-//				index: 6
-//			}
-//		}, {
+			ptype: "gxp_featuremanager",
+			id: "featuremanager",
+			maxFeatures: 20
+		}, {
+			ptype: "gxp_featureeditor",
+			featureManager: "featuremanager",
+			autoLoadFeatures: true,
+			toggleGroup: this.toggleGroup,
+			actionTarget: {
+				target: "paneltbar",
+				index: 6
+			}
+		}, {
 
 //			ptype: "gxp_zoom",
 //			actionTarget: {

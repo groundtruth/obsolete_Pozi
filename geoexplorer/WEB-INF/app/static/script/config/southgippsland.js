@@ -20,7 +20,7 @@ var gtSearchPropertyEndPoint =  gtServicesHost + "/ws/rest/v3/ws_property_id_by_
 var gtSearchComboEndPoint = 	gtServicesHost + "/ws/rest/v3/ws_all_features_by_string_and_lga.php";
 
 var gtGetLiveDataEndPoints=[
-	{ urlLayout:'http://192.168.10.12/ws/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://192.168.10.12/ws/rest/v3/ws_get_live_data.php',	storeMode:'sqlite',	storeName:'southgippsland'},
+	{ urlLayout:'http://www.pozi.com/ws/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://www.pozi.com/ws/rest/v3/ws_get_live_data.php',	storeMode:'pgsql',	storeName:'southgippslandgis'},
 	{ urlLayout:'http://49.156.17.41/ws/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://49.156.17.41/ws/rest/v3/ws_get_live_data.php',	storeMode:'pgsql',	storeName:'vicmap'}
 ];
 
@@ -79,17 +79,17 @@ var gtMapDataSources = {
 		title: "DSE Vicmap Layers",
 		ptype: "gxp_wmscsource"
 	},
-//	dse_iws_cascaded: {
-//		url: ["http://m1.pozi.com/geoserver/WESTWIMMERA/ows","http://m2.pozi.com/geoserver/WESTWIMMERA/ows","http://m3.pozi.com/geoserver/WESTWIMMERA/ows","http://m4.pozi.com/geoserver/WESTWIMMERA/ows"],
-//		title: "DSE Image Web Server",
-//		ptype: "gxp_wmscsource",
-//		format: "image/JPEG",
-//		group: "background",
-//		transition:'resize'
-//	},
-//	mapquest: {
-//		ptype: "gxp_mapquestsource"
-//	},
+	dse_iws_cascaded: {
+		url: ["http://m1.pozi.com/geoserver/WESTWIMMERA/ows","http://m2.pozi.com/geoserver/WESTWIMMERA/ows","http://m3.pozi.com/geoserver/WESTWIMMERA/ows","http://m4.pozi.com/geoserver/WESTWIMMERA/ows"],
+		title: "DSE Image Web Server",
+		ptype: "gxp_wmscsource",
+		format: "image/JPEG",
+		group: "background",
+		transition:'resize'
+	},
+	mapquest: {
+		ptype: "gxp_mapquestsource"
+	},
 //	bing: {
 //		ptype: "gxp_bingsource"
 //	},
@@ -129,6 +129,16 @@ var gtLayers = [
 		styles:"",
 		transparent:true,
 		tiled: false
+	},{
+        source: "backend",
+        name: "VICMAP:DSE_VMADMIN_WARD_2008",
+        title: "Wards (2008)",
+        visibility: false,
+        opacity: 0.30,
+        format: "image/png8",
+        styles: "Southgippsland_Wards",
+        transparent: true,
+        tiled: false
 	},{
 		source:"local",
 		name:"SOUTHGIPPSLAND:SGSC_WASTE_PROPERTY",
@@ -224,10 +234,10 @@ var gtLayers = [
 		transparent:true,
 		tiled: true,
 		cached:true
-//	},{
-//		source:"mapquest",
-//		name: "osm",
-//		visibility: false
+	},{
+		source:"mapquest",
+		name: "osm",
+		visibility: false
 ///	},{ // Bing bug - getFeatureInfo triggered at each pan
 ///		source:"bing",
 ///		name: "Aerial",

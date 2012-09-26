@@ -20,7 +20,7 @@ var gtSearchPropertyEndPoint =  gtServicesHost + "/ws/rest/v3/ws_property_id_by_
 var gtSearchComboEndPoint = 	gtServicesHost + "/ws/rest/v3/ws_all_features_by_string_and_lga.php";
 
 var gtGetLiveDataEndPoints=[
-	{ urlLayout:'http://192.168.10.12/ws/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://192.168.10.12/ws/rest/v3/ws_get_live_data.php',	storeMode:'sqlite',	storeName:'murrindindi'},
+	{ urlLayout:'http://www.pozi.com/ws/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://www.pozi.com/ws/rest/v3/ws_get_live_data.php',	storeMode:'pgsql',	storeName:'murrindindigis'},
 	{ urlLayout:'http://49.156.17.41/ws/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://49.156.17.41/ws/rest/v3/ws_get_live_data.php',	storeMode:'pgsql',	storeName:'vicmap'}
 ];
 
@@ -134,6 +134,16 @@ var gtLayers = [
 		styles:"",
 		transparent:true,
 		tiled: false
+	},{
+        source: "backend",
+        name: "VICMAP:DSE_VMADMIN_WARD_2008",
+        title: "Wards (2008)",
+        visibility: false,
+        opacity: 0.30,
+        format: "image/png8",
+        styles: "Murrindindi_Wards",
+        transparent: true,
+        tiled: false
 	},{
 		source:"backend",
 		name:"VICMAP:VICMAP_PROPERTY_ADDRESS",
