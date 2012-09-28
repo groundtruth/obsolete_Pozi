@@ -20,8 +20,9 @@ var gtSearchPropertyEndPoint =  gtServicesHost + "/ws/rest/v3/ws_property_id_by_
 var gtSearchComboEndPoint = 	gtServicesHost + "/ws/rest/v3/ws_all_features_by_string_and_lga.php";
 
 var gtGetLiveDataEndPoints=[
-	{ urlLayout:'http://www.pozi.com/ws/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://www.pozi.com/ws/rest/v3/ws_get_live_data.php',	storeMode:'pgsql',	storeName:'westwimmeragis'},
-	{ urlLayout:'http://49.156.17.41/ws/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://49.156.17.41/ws/rest/v3/ws_get_live_data.php',	storeMode:'pgsql',	storeName:'vicmap'}
+	{ urlLayout:'http://192.168.10.12/ws/rest/v3/ws_get_layouts.php',	urlLiveData:'http://192.168.10.12/ws/rest/v3/ws_get_live_data.php',  storeMode:'sqlite',  storeName:'westwimmera'},
+	{ urlLayout:'http://49.156.17.41/ws/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://49.156.17.41/ws/rest/v3/ws_get_live_data.php',	storeMode:'pgsql',	storeName:'vicmap'},
+	{ urlLayout:'http://www.pozi.com/ws/rest/v3/ws_get_layouts.php',   urlLiveData:'http://www.pozi.com/ws/rest/v3/ws_get_live_data.php',  storeMode:'pgsql',  storeName:'westwimmeragis'}	
 ];
 
 // External resources
