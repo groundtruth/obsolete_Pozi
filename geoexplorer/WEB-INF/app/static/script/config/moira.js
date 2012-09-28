@@ -220,7 +220,7 @@ var gtLayers = [
 	},{
 		source:"dse_iws_cascaded",
 		name :gtWorkspaceName+":AERIAL_MOIRA-SHEPPARTON_2009DEC14_AIR_VIS_30CM_MGA55",
-		title:"Aerial Photo (Moira, 14/12/2009)",
+		title:"Aerial Photo (CIP, Dec 2009)",
 		visibility:false,
 		opacity:1,
 		group:"background",

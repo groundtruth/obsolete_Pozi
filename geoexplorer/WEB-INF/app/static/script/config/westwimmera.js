@@ -20,7 +20,7 @@ var gtSearchPropertyEndPoint =  gtServicesHost + "/ws/rest/v3/ws_property_id_by_
 var gtSearchComboEndPoint = 	gtServicesHost + "/ws/rest/v3/ws_all_features_by_string_and_lga.php";
 
 var gtGetLiveDataEndPoints=[
-	{ urlLayout:'http://192.168.10.12/ws/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://192.168.10.12/ws/rest/v3/ws_get_live_data.php',	storeMode:'sqlite',	storeName:'westwimmera'},
+	{ urlLayout:'http://www.pozi.com/ws/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://www.pozi.com/ws/rest/v3/ws_get_live_data.php',	storeMode:'pgsql',	storeName:'westwimmeragis'},
 	{ urlLayout:'http://49.156.17.41/ws/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://49.156.17.41/ws/rest/v3/ws_get_live_data.php',	storeMode:'pgsql',	storeName:'vicmap'}
 ];
 
@@ -69,6 +69,12 @@ var gtMapDataSources = {
 	local: {
 		url: "/geoserver/WESTWIMMERA/ows",
 		title: "West Wimmera Shire Council Layers",
+		ptype: "gxp_wmscsource",
+		tiled: false
+	},
+	local2: {
+		url: "/geoserver/WIMMERACMA/ows",
+		title: "Wimmera CMA Layers",
 		ptype: "gxp_wmscsource",
 		tiled: false
 	},
@@ -146,16 +152,6 @@ var gtLayers = [
 		tiled:false
 	},{
 		source:"backend",
-		name:"VICMAP:VICMAP_PROPERTY_ADDRESS",
-		title:"Property (Vicmap)",
-		visibility:true,
-		opacity:0.25,
-		format:"image/GIF",
-		styles:"",
-		transparent:true,
-		tiled: false
-	},{
-		source:"backend",
 		name:"VICMAP:VMPROP_PARCEL",
 		title:"Parcel (Vicmap)",
 		visibility:false,
@@ -164,6 +160,16 @@ var gtLayers = [
 		styles:"parcel_label",
 		transparent:true,
 		tiled:false
+	},{
+		source:"backend",
+		name:"VICMAP:VICMAP_PROPERTY_ADDRESS",
+		title:"Property (Vicmap)",
+		visibility:true,
+		opacity:0.25,
+		format:"image/GIF",
+		styles:"",
+		transparent:true,
+		tiled: false
 	},{
 		source:"local",
 		name:gtWorkspaceName+":WWSC_ROAD_DETAIL",

@@ -28,7 +28,7 @@ var gtGetLiveDataEndPoints=[
 //var gtPoziLogoSrc = gtServicesHost+"/"+"theme/app/img/pozi-logo.png";
 //var gtPoziLogoWidth = 165;
 var gtLogoClientSrc = "http://www.pozi.com/"+"theme/app/img/pyrenees_logo.png";
-var gtLogoClientWidth=290;
+var gtLogoClientWidth=240;
 
 // Map resources
 // Center determined by: select ST_AsText(ST_Transform(ST_SetSRID(ST_Centroid(the_geom),4283),900913)) from dse_vmadmin_lga where lga_name='PYRENEES'

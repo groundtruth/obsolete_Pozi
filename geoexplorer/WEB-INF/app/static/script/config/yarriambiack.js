@@ -20,7 +20,7 @@ var gtSearchPropertyEndPoint =  gtServicesHost + "/ws/rest/v3/ws_property_id_by_
 var gtSearchComboEndPoint = 	gtServicesHost + "/ws/rest/v3/ws_all_features_by_string_and_lga.php";
 
 var gtGetLiveDataEndPoints=[
-	{ urlLayout:'http://192.168.10.12/ws/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://192.168.10.12/ws/rest/v3/ws_get_live_data.php',	storeMode:'sqlite',	storeName:'yarriambiack'},
+	{ urlLayout:'http://www.pozi.com/ws/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://www.pozi.com/ws/rest/v3/ws_get_live_data.php',	storeMode:'pgsql',	storeName:'yarriambiackgis'},
 	{ urlLayout:'http://49.156.17.41/ws/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://49.156.17.41/ws/rest/v3/ws_get_live_data.php',	storeMode:'pgsql',	storeName:'vicmap'}
 ];
 
@@ -130,6 +130,16 @@ var gtLayers = [
 		transparent:true,
 		tiled: false
 	},{
+        source: "backend",
+        name: "VICMAP:DSE_VMADMIN_WARD_2008",
+        title: "Wards (2008)",
+        visibility: false,
+        opacity: 0.30,
+        format: "image/png8",
+        styles: "Yarriambiack_Wards",
+        transparent: true,
+        tiled: false
+	},{
 		source:"backend",
 		name:"VICMAP:VICMAP_PROPERTY_ADDRESS",
 		title:"Property (Vicmap)",
@@ -165,7 +175,7 @@ var gtLayers = [
 		name:"YARRIAMBIACK:YSC_UG_DRAINAGE_PIPE",
 		title:"Underground Drainage Pipes",
 		visibility:false,
-		opacity:1,
+		opacity:0.6,
 		format:"image/png8",
 		styles:"",
 		transparent:true,
@@ -175,7 +185,7 @@ var gtLayers = [
 		name:"YARRIAMBIACK:YSC_PIT",
 		title:"Pits",
 		visibility:false,
-		opacity:1,
+		opacity:0.6,
 		format:"image/png8",
 		styles:"",
 		transparent:true,
@@ -185,7 +195,7 @@ var gtLayers = [
 		name:"YARRIAMBIACK:YSC_PUBLIC_LIGHTING",
 		title:"Public Lighting",
 		visibility:false,
-		opacity:1,
+		opacity:0.6,
 		format:"image/png8",
 		styles:"",
 		transparent:true,
@@ -195,7 +205,7 @@ var gtLayers = [
 		name:"YARRIAMBIACK:YSC_URBAN_HYDRANT",
 		title:"Urban Hydrants",
 		visibility:false,
-		opacity:1,
+		opacity:0.6,
 		format:"image/png8",
 		styles:"",
 		transparent:true,

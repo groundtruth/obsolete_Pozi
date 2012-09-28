@@ -20,7 +20,7 @@ var gtSearchPropertyEndPoint =  gtServicesHost + "/ws/rest/v3/ws_property_id_by_
 var gtSearchComboEndPoint = 	gtServicesHost + "/ws/rest/v3/ws_all_features_by_string_and_lga.php";
 
 var gtGetLiveDataEndPoints=[
-	{ urlLayout:'http://10.58.200.28/ws/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://10.58.200.28/ws/rest/v3/ws_get_live_data.php',	storeMode:'sqlite',	storeName:'loddon'},
+	{ urlLayout:'http://www.pozi.com/ws/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://www.pozi.com/ws/rest/v3/ws_get_live_data.php',	storeMode:'pgsql',	storeName:'loddongis'},
 	{ urlLayout:'http://49.156.17.41/ws/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://49.156.17.41/ws/rest/v3/ws_get_live_data.php',	storeMode:'pgsql',	storeName:'vicmap'},
 	{ urlLayout:'http://www.pozi.com/ws/rest/v3/ws_get_layouts.php', 	urlLiveData:'http://www.pozi.com/ws/rest/v3/ws_get_live_data.php',	storeMode:'pgsql',	storeName:'loddongis'}
 ];
@@ -133,6 +133,26 @@ var gtLayers = [
 		format:"image/png8",
 		styles:"",
 		transparent:true,
+		tiled: false
+	},{
+		source: "backend",		
+		name: "DSE:VMADMIN_WARD_2012",
+		title: "Wards (2012)",
+		visibility: false,
+		opacity: 0.30,
+		format: "image/png8",
+		styles: "Loddon_Wards_2012",
+		transparent: true,
+		tiled: false
+	},{
+		source: "backend",
+		name: "VICMAP:DSE_VMADMIN_WARD_2008",
+		title: "Wards (2008)",
+		visibility: false,
+		opacity: 0.30,
+		format: "image/png8",
+		styles: "Loddon_Wards",
+		transparent: true,
 		tiled: false
 	},{
 		source:"local",
