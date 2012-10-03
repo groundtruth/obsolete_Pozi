@@ -148,7 +148,7 @@ try {
 	
 	}	
 
-	if ($idp && $connection_str)
+	if ($connection_str)
 	{
 		// Establishing the connection based on the configuration in gt_service_routing
 	    $conn2 = new PDO($connection_str, $username_conn, $password_conn, array(PDO::ATTR_PERSISTENT => true));
