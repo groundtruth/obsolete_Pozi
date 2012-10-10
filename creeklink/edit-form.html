@@ -10,7 +10,6 @@
     <!-- Le styles -->
     <link href="../bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="../bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
-    <link href="../bootstrap/css/datepicker.css" rel="stylesheet">
 	<style>
 		body {
 			padding-top: 5px;
@@ -125,7 +124,6 @@
  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>	
 	<script src="../bootstrap/js/bootstrap-dropdown.js"></script>
 	<script src="../bootstrap/js/bootstrap-modal.js"></script>
-	<script src="../bootstrap/js/bootstrap-datepicker.js"></script>
 	<script src="../bootstrap/js/bootstrap-alert.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function(){
@@ -163,22 +161,16 @@
 						$('#visitedCheckbox').attr('checked',true);
 					}
 					$('#dp1').val(rec.visited_date);
-					$('#dp1').datepicker({format: 'dd/mm/yyyy',weekStart:1})
-				  		.on('changeDate', function(ev){$('#dp1').datepicker('hide').blur();});
 					if (rec.stock_excluded =="1")
 					{
 						$('#stockExcludedCheckbox').attr('checked',true);
 					}
 					$('#dp2').val(rec.stock_excluded_date);
-					$('#dp2').datepicker({format: 'dd/mm/yyyy',weekStart:1})
-						.on('changeDate', function(ev){$('#dp2').datepicker('hide').blur();});
 					if (rec.native_vegetation =="1")
 					{
 						$('#nativeVegetationCheckbox').attr('checked',true);
 					}
 					$('#dp3').val(rec.revegetated_date);
-					$('#dp3').datepicker({format: 'dd/mm/yyyy',weekStart:1})
-						.on('changeDate', function(ev){$('#dp3').datepicker('hide').blur();});
 					$('#creditsTextArea').val(decodeURI(rec.credit));					
 				}  
 			);
@@ -186,8 +178,16 @@
 			// AJAX update call
 			var postUrl = "http://v3.pozi.com/ws/rest/v3/ws_set_creek_segment.php?callback=?";  
 			
-			$('#saveButton').click(function(){  
-				$.post(
+			$('#saveButton').click(function(){
+				// Perform tests for date formatting
+				var re = new RegExp('^\\d{2}/\\d{2}/\\d{4}$|^$');
+				if ((!($('#dp1').val().match(re))) || (!($('#dp2').val().match(re))) || (!($('#dp3').val().match(re))))
+				{
+					$('#alertPlaceHolder').addClass('alert').addClass('alert-error').html('The date format shoud be: DD/MM/YYYY (e.g 15/06/2001) or left blank.');
+				}
+				else
+				{
+					$.post(
 					postUrl,
 					{
 						seg_id: seg_id,
@@ -207,6 +207,7 @@
 						// Showing a success message
 						if (responseText.success)
 						{
+							$('#alertPlaceHolder').removeClass('alert-error');
 							$('#alertPlaceHolder').addClass('alert').addClass('alert-success').html('The creek segment has been updated successfully!');
 
 							// Hence we need to refresh the WMS layer to reflect potential changes in creek tiles appeareance
@@ -220,9 +221,9 @@
 								}
 							}
 
-							window.setInterval(function() {
+							window.setTimeout(function() {
 								$('#alertPlaceHolder').removeClass('alert').removeClass('alert-success').html('');
-							}, 2000);
+							}, 1500);
 						}
 						else
 						{
@@ -230,7 +231,8 @@
 						}
 					},  
 					"json"  
-				);				
+					);
+				}
 			});
 
 			// Populating the form with the values
