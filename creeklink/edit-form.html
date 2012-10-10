@@ -130,15 +130,6 @@
 	<script type="text/javascript">
 		$(document).ready(function(){
 
-			$('#dp1').datepicker({format: 'dd-mm-yyyy',weekStart:1})
-				  .on('changeDate', function(ev){$('#dp1').datepicker('hide').blur();});
-
-			$('#dp2').datepicker({format: 'dd-mm-yyyy',weekStart:1})
-				  .on('changeDate', function(ev){$('#dp2').datepicker('hide').blur();});
-
-			$('#dp3').datepicker({format: 'dd-mm-yyyy',weekStart:1})
-				  .on('changeDate', function(ev){$('#dp3').datepicker('hide').blur();});
-
 			function getURLParameter(name) {	
 				return decodeURI(	
 					(RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1]	
@@ -172,16 +163,22 @@
 						$('#visitedCheckbox').attr('checked',true);
 					}
 					$('#dp1').val(rec.visited_date);
+					$('#dp1').datepicker({format: 'dd/mm/yyyy',weekStart:1})
+				  		.on('changeDate', function(ev){$('#dp1').datepicker('hide').blur();});
 					if (rec.stock_excluded =="1")
 					{
 						$('#stockExcludedCheckbox').attr('checked',true);
 					}
 					$('#dp2').val(rec.stock_excluded_date);
+					$('#dp2').datepicker({format: 'dd/mm/yyyy',weekStart:1})
+						.on('changeDate', function(ev){$('#dp2').datepicker('hide').blur();});
 					if (rec.native_vegetation =="1")
 					{
 						$('#nativeVegetationCheckbox').attr('checked',true);
 					}
 					$('#dp3').val(rec.revegetated_date);
+					$('#dp3').datepicker({format: 'dd/mm/yyyy',weekStart:1})
+						.on('changeDate', function(ev){$('#dp3').datepicker('hide').blur();});
 					$('#creditsTextArea').val(decodeURI(rec.credit));					
 				}  
 			);
