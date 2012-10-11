@@ -333,20 +333,19 @@ var gtTools = [{
 //				index: 2
 //			}
 //		}, {
-			ptype: "gxp_featuremanager",
-			id: "featuremanager",
-			maxFeatures: 20
-		}, {
-			ptype: "gxp_featureeditor",
-			featureManager: "featuremanager",
-			autoLoadFeatures: true,
-			toggleGroup: this.toggleGroup,
-			actionTarget: {
-				target: "paneltbar",
-				index: 6
-			}
-		}, {
-
+///			ptype: "gxp_featuremanager",
+///			id: "featuremanager",
+///			maxFeatures: 20
+///		}, {
+///			ptype: "gxp_featureeditor",
+///			featureManager: "featuremanager",
+///			autoLoadFeatures: true,
+///			toggleGroup: this.toggleGroup,
+///			actionTarget: {
+///				target: "paneltbar",
+///				index: 6
+///			}
+///		}, {
 //			ptype: "gxp_zoom",
 //			actionTarget: {
 //				target: "paneltbar",
@@ -389,18 +388,20 @@ var gtTools = [{
 
 	var gtCreateTools = function () {
 		var tools = GeoExplorer.Composer.superclass.createTools.apply(this, arguments);
-		if (this.authorizedRoles.length === 0) {
-			this.loginButton = new Ext.Button({
-				iconCls: 'login',
-				text: this.loginText,
-				handler: this.showLoginDialog,
-				scope: this
-			});
-			tools.push(['->', this.loginButton]);
-		} else {
-
-		}
 		tools.unshift("");
+		tools.unshift("");
+///		if (this.authorizedRoles.length === 0) {
+///			this.loginButton = new Ext.Button({
+///				iconCls: 'login',
+///				text: this.loginText,
+///				handler: this.showLoginDialog,
+///				scope: this
+///			});
+///			tools.push(['->', this.loginButton]);
+///		} else {
+///
+///		}
+///		tools.unshift("");
 //		tools.unshift(new Ext.Button({
 //			tooltip: this.exportMapText,
 //			needsAuthorization: true,
