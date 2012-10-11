@@ -156,7 +156,7 @@ var gtLayers = [
 		tiled: false
 	},{
 		source:"local",
-		name:gtWorkspaceName+":LSC_ASSETS_CHANNEL",
+		name:gtWorkspaceName+":GMW_CHANNEL",
 		title:"Channels",
 		visibility:false,
 		opacity:1,
