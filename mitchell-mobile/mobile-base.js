@@ -10,7 +10,7 @@ var limit_feature = 20;
 
 var init = function () {
 
-	var vector = new OpenLayers.Layer.Vector("Vector Layer", {});
+	var vector = new OpenLayers.Layer.Vector("GPS position", {});
 
 	// The style hardcodes the correspondance between a status code and the external graphic name
 	// We tried with adduniquerules but OpenLayers.Rule does not seem defined in Openlayers mobile
@@ -104,9 +104,17 @@ var init = function () {
             selectControl
         ],
         layers: [
-            new OpenLayers.Layer.WMS("Vicmap Classic",
-	                        "http://www.pozi.com/geoserver/wms",
-                    {layers: 'VicmapClassicMitchell'}
+ 	     new OpenLayers.Layer.WMS("Labels",
+ 	                        ["http://m1.pozi.com/geoserver/wms","http://m2.pozi.com/geoserver/wms","http://m3.pozi.com/geoserver/wms","http://m4.pozi.com/geoserver/wms"],
+                     		{layers: 'LabelClassic',format: 'image/png8',transparent:'true'},
+ 				{isBaseLayer:false,singleTile: true, ratio: 1.5}
+                     ),
+             new OpenLayers.Layer.WMS("Vicmap Classic",
+ 	                        ["http://m1.pozi.com/geoserver/gwc/service/wms","http://m2.pozi.com/geoserver/gwc/service/wms","http://m3.pozi.com/geoserver/gwc/service/wms","http://m4.pozi.com/geoserver/gwc/service/wms"],
+                     {layers: 'VicmapClassic',format: 'image/png8'}
+//            new OpenLayers.Layer.WMS("Vicmap Classic",
+//	                        "http://www.pozi.com/geoserver/wms",
+//                    {layers: 'VicmapClassicMitchell'}
 // singletile could reduce traffic but bigger files, except if ratio is really large
 //                    ,{ singleTile: true, ratio: 1.2 } 
 //,{attribution:"+"}
@@ -231,7 +239,8 @@ var init = function () {
 	  		lat:ll_wgs84.lat,
 	  		lon:ll_wgs84.lon,
 	  		limit:limit_feature,
-			config:'mitchellgis'
+			config:'vicmap',
+			lga:'346'
 	  	},
 	  success: function(resp) {
 		// resp is the XmlHttpRequest object
