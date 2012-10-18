@@ -1,7 +1,7 @@
 {
     "servicesHost":"http://49.156.17.41",
     "searchEndPoint":"/ws/rest/v3/ws_all_features_by_string_and_lga.php",
-    "LGACode":"311",
+    "LGACode":"368",
     "databaseConfig":"vicmap",
     "tools": [
         {
@@ -61,12 +61,20 @@
             },
             "printService": "/geoserver/pdf",
             "showButtonText": false
+        },
+        {
+            "ptype": "gxp_measure",
+            "toggleGroup": "interaction",
+            "controlOptions": {
+                "immediate": true
+            },
+            "showButtonText": false
         }
     ],
     "sources": {
         "local": {
-            "url": "/geoserver/CARDINIA/ows",
-            "title": "Cardinia Shire Council Layers",
+            "url": "/geoserver/WANGARATTA/ows",
+            "title": "Wangaratta Shire Council Layers",
             "ptype": "gxp_wmscsource",
             "tiled": false
         },
@@ -77,14 +85,14 @@
         },
         "dse_iws_cascaded": {
             "url": [
-                "http://m1.pozi.com/geoserver/CARDINIA/ows",
-                "http://m2.pozi.com/geoserver/CARDINIA/ows",
-                "http://m3.pozi.com/geoserver/CARDINIA/ows",
-                "http://m4.pozi.com/geoserver/CARDINIA/ows"
+                "http://m1.pozi.com/geoserver/WANGARATTA/ows",
+                "http://m2.pozi.com/geoserver/WANGARATTA/ows",
+                "http://m3.pozi.com/geoserver/WANGARATTA/ows",
+                "http://m4.pozi.com/geoserver/WANGARATTA/ows"
             ],
             "title": "DSE Image Web Server",
             "ptype": "gxp_wmscsource",
-            "defaultType": "image/JPEG",
+            "format": "image/JPEG",
             "group": "background",
             "transition": "resize"
         },
@@ -109,34 +117,7 @@
             "transition": null
         }
     },
-    "layerPresentation": 
-    {
-		"CSC_RESERVES_FOR_HIRE":
-		[
-			{"attr_name":"reserve_name"},
-			{"attr_name":"photo_url","alt_name":"Photo"},
-			{"attr_name":"address"},			
-			{"attr_name":"facilities"}
-		],
-		"CSC_AREA_DOG_OF_LEASH":
-		[
-			{"attr_name":"reserve_na"}
-		]
-	},
     "layers": [
-        {
-            "source": "dse_iws_cascaded",
-            "name": "CARDINIA:AERIAL_CARDINIA_2006NOV18_AIR_VIS_35CM_MGA55",
-            "title": "Aerial Photo (18/11/2006)",
-            "visibility": true,
-            "opacity": 0,
-            "format": "image/JPEG",
-            "tiled": true,
-            "group":"default",
-            "transparent": true,
-            "styles":"",
-            "displayInOpacitySlider":true
-        },
         {
             "source": "backend",
             "name": "VICMAP:VW_DSE_VMPLAN_ZONE",
@@ -161,76 +142,10 @@
         },
         {
             "source": "backend",
-            "name": "VICMAP:DSE_VMADMIN_WARD_2012",
-            "title": "Wards (2012)",
-            "visibility": false,
-            "opacity": 0.30,
-            "format": "image/png8",
-            "styles": "Cardinia_Wards_2012",
-            "transparent": true,
-            "tiled": false
-        },
-        {
-            "source": "backend",
             "name": "VICMAP:DSE_VMADMIN_WARD_2008",
             "title": "Wards (2008)",
             "visibility": false,
-            "opacity": 0.30,
-            "format": "image/png8",
-            "styles": "Cardinia_Wards_2008",
-            "transparent": true,
-            "tiled": false
-        },
-        {
-            "source": "local",
-            "name": "CSC_COLLECTION_WASTE_HARD",
-            "title": "Hard Waste Collection",
-            "visibility": false,
-            "opacity": 0.85,
-            "format": "image/png8",
-            "styles": "",
-            "transparent": true,
-            "tiled": false
-        },
-        {
-            "source": "local",
-            "name": "CSC_COLLECTION_RECYCLE",
-            "title": "Recycle Collection",
-            "visibility": false,
-            "opacity": 0.85,
-            "format": "image/png8",
-            "styles": "",
-            "transparent": true,
-            "tiled": false
-        },
-        {
-            "source": "local",
-            "name": "CSC_COLLECTION_RUBBISH",
-            "title": "Rubbish Collection",
-            "visibility": false,
-            "opacity": 0.85,
-            "format": "image/png8",
-            "styles": "",
-            "transparent": true,
-            "tiled": false
-        },
-        {
-            "source": "local",
-            "name": "CSC_AREA_FIRE_BAN",
-            "title": "Fire Ban Area",
-            "visibility": false,
-            "opacity": 0.85,
-            "format": "image/png8",
-            "styles": "",
-            "transparent": true,
-            "tiled": false
-        },
-        {
-            "source": "local",
-            "name": "CSC_COLLECTION_WASTE_GREEN",
-            "title": "Green Waste Collection",
-            "visibility": false,
-            "opacity": 0.85,
+            "opacity": 0.5,
             "format": "image/png8",
             "styles": "",
             "transparent": true,
@@ -248,68 +163,13 @@
             "tiled": false
         },
         {
-            "source": "local",
-            "name": "CSC_RESERVES_FOR_HIRE",
-            "title": "Reserves For Hire",
-            "visibility": false,
-            "opacity": 0.85,
-            "format": "image/png8",
-            "styles": "",
-            "transparent": true,
-            "tiled": false
-        },
-        {
-            "source": "local",
-            "name": "CSC_TRACK_BMX",
-            "title": "BMX Tracks",
-            "visibility": false,
-            "opacity": 0.85,
-            "format": "image/png8",
-            "styles": "",
-            "transparent": true,
-            "tiled": false
-        },
-        {
-            "source": "local",
-            "name": "CSC_PLAYGROUND_SKATE",
-            "title": "Skate Parks",
-            "visibility": false,
-            "opacity": 0.85,
-            "format": "image/png8",
-            "styles": "",
-            "transparent": true,
-            "tiled": false
-        },
-        {
-            "source": "local",
-            "name": "CSC_AREA_DOG_OF_LEASH",
-            "title": "Dog Off Leash Area",
-            "visibility": false,
-            "opacity": 0.85,
-            "format": "image/png8",
-            "styles": "",
-            "transparent": true,
-            "tiled": false
-        },
-        {
-            "source": "local",
-            "name": "CSC_TEST",
-            "title": "Test",
-            "visibility": false,
-            "opacity": 0.85,
-            "format": "image/png8",
-            "styles": "",
-            "transparent": true,
-            "tiled": false
-        },        
-        {
             "source": "backend",
-            "name": "VICMAP:VW_CARDINIA_MASK",
+            "name": "VICMAP:VW_WANGARATTA_MASK",
             "title": "Municipal Boundary",
             "visibility": true,
             "opacity": 0.6,
             "format": "image/png8",
-            "styles": "white_polygon_311",
+            "styles": "",
             "transparent": true,
             "tiled": false,
             "transition": "resize",
@@ -349,17 +209,6 @@
             "group": "background"
         },
         {
-			"source": "dse_iws_cascaded",
-			"name": "CARDINIA:AERIAL_CARDINIA_2009NOV09_AIR_VIS_15CM_MGA55",
-			"title": "Aerial Photo (CIP, 2009)",
-			"visibility": false,
-			"opacity": 1,
-			"group": "background",
-			"selected": false,
-			"format": "image/JPEG",
-			"transparent": true
-		},
-        {
             "source": "ol",
             "group": "background",
             "fixed": true,
@@ -373,10 +222,10 @@
         }
     ],
     "center": [
-        16205074, -4591164
+        16300325, -4381884
     ],
-    "zoom": 11,
-    "workspace": "CARDINIA",
+    "zoom": 10,
+    "workspace": "WANGARATTA",
     "highlightSymboliser": {
         "name": "test",
         "strokeColor": "yellow",
@@ -390,7 +239,7 @@
             "urlLayout": "http://192.168.0.1/ws/rest/v3/ws_get_layouts.php",
             "urlLiveData": "http://192.168.0.1/ws/rest/v3/ws_get_live_data.php",
             "storeMode": "sqlite",
-            "storeName": "cardinia"
+            "storeName": "wangaratta"
         },
         {
             "urlLayout": "http://basemap.pozi.com/ws/rest/v3/ws_get_layouts.php",
@@ -402,18 +251,16 @@
             "urlLayout": "http://v3.pozi.com/ws/rest/v3/ws_get_layouts.php",
             "urlLiveData": "http://v3.pozi.com/ws/rest/v3/ws_get_live_data.php",
             "storeMode": "pgsql",
-            "storeName": "cardiniagis"
+            "storeName": "wangarattagis"
         }
     ],
-    "logoClientSrc":"theme/app/img/custom/cardinia_logo.png",
-    "logoClientWidth":214,
+    "logoClientSrc":"theme/app/img/custom/wangaratta_logo.png",
+    "logoClientWidth":150,
     "zoomMax":18,
-    "bannerLineColor":"#6C9ED4",
-    "bannerRightCornerLine1":"Cardinia Shire Council",
+    "bannerLineColor":"#d1d8b4",
+    "bannerRightCornerLine1":"Wangaratta Shire Council",
     "bannerRightCornerLine2":"Victoria, Australia",
-    "printMapTitle":"Cardinia Shire Council",
-    "linkToCouncilWebsite":"http://www.cardinia.vic.gov.au/",
-    "collapseWestPanel":true,
-    "customJS":"cardinia.js",
-    "openFirstDefaultTab":true
+    "printMapTitle":"Wangaratta Shire Council",
+    "linkToCouncilWebsite":"http://www.wangaratta.vic.gov.au/",
+    "collapseWestPanel":true
 }
