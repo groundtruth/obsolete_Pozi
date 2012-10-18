@@ -74,6 +74,22 @@ try {
 	else
 		{$officer_name = $_REQUEST['officer_name'];}
 
+	if (!isset($_REQUEST['officer']))
+		{$officer=null;}
+	else
+		{$officer = $_REQUEST['officer'];}
+
+	if (!isset($_REQUEST['number_staff']))
+		{$number_staff=1;}
+	else
+		{$number_staff = $_REQUEST['number_staff'];}
+
+	if (!isset($_REQUEST['comments']))
+		{$comments='';}
+	else
+		{$comments = $_REQUEST['comments'];}
+
+
 }
 catch (Exception $e) {
     trigger_error("Caught Exception: " . $e->getMessage(), E_USER_ERROR);
@@ -82,7 +98,7 @@ catch (Exception $e) {
 # Performs the query and returns XML or JSON
 try {
 //	$sql = "INSERT INTO msc_capture (prop_num,comments,haz_type,the_geom,longitude,latitude,haz_status) VALUES ('".$prop_num."','".$comments."',".$haz_type.",(select ST_Transform(ST_Centroid(p.the_geom),4326) from dse_vmprop_property p where p.pr_propnum='".$prop_num."' and p.pr_lgac='".$lga."'),".$longitude.",".$latitude.",".$haz_status.") RETURNING id";
-	$sql = "INSERT INTO wsc_drainage_pit_cleaning_event (pit_id,eqpmt_used,depth_debris,check_again_date,eqpmt_to_use,time_taken,officer_name,creation_datetime) VALUES (".$drainage_pit.",".$eqpmt_used.",".$depth_debris.",'".$check_again_date."',".$eqpmt_to_use.",".$time_taken.",'".$officer_name."',current_timestamp) RETURNING id";
+	$sql = "INSERT INTO wsc_drainage_pit_cleaning_event (pit_id,eqpmt_used,depth_debris,check_again_date,eqpmt_to_use,time_taken,officer,creation_datetime,number_staff,comments) VALUES (".$drainage_pit.",".$eqpmt_used.",".$depth_debris.",'".$check_again_date."',".$eqpmt_to_use.",".$time_taken.",".$officer.",current_timestamp,".$number_staff.",'".$comments."') RETURNING id";
 
 	$sql = sanitizeSQL($sql);
 	$pgconn = pgConnection();

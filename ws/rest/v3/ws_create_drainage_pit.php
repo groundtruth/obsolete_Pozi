@@ -20,7 +20,7 @@ $err_email = "hs.enot@gmail.com";
 try {
 	$latitude = $_REQUEST['lat'];
 	$longitude = $_REQUEST['lon'];
-	$asset_id = $_REQUEST['asset_id'];
+	$pit_type = $_REQUEST['pit_type'];
 }
 catch (Exception $e) {
     trigger_error("Caught Exception: " . $e->getMessage(), E_USER_ERROR);
@@ -30,7 +30,7 @@ catch (Exception $e) {
 try {
 //	$sql = "INSERT INTO msc_capture (prop_num,comments,haz_type,the_geom,longitude,latitude,haz_status) VALUES ('".$prop_num."','".$comments."',".$haz_type.",(select ST_Transform(ST_Centroid(p.the_geom),4326) from dse_vmprop_property p where p.prop_propnum='".$prop_num."'),".$longitude.",".$latitude.",".$haz_status.") RETURNING id";
 //	$sql = "INSERT INTO msc_capture (prop_num,comments,haz_type,the_geom,longitude,latitude,haz_status,lga) VALUES ('".$prop_num."','".$comments."',".$haz_type.",(select ST_Transform(ST_Centroid(p.the_geom),4326) from dse_vmprop_property p where p.pr_propnum='".$prop_num."' and p.pr_lgac='".$lga."'),".$longitude.",".$latitude.",".$haz_status.",'".$lga."') RETURNING id";
-	$sql = "INSERT INTO wsc_drainage_pit(assetid, the_geom) VALUES (".$asset_id.", ST_SetSRID(ST_Point(".$longitude.",".$latitude."),4326)) RETURNING ogc_fid";
+	$sql = "INSERT INTO wsc_drainage_pit(assetid, typeid, the_geom) VALUES (nextval('wsc_drainage_pit_assetid_seq'), ".$pit_type.", ST_SetSRID(ST_Point(".$longitude.",".$latitude."),4326)) RETURNING ogc_fid";
 
 	$sql = sanitizeSQL($sql);
 	$pgconn = pgConnection();
