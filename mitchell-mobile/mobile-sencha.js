@@ -17,11 +17,11 @@ App.SearchFormPopupPanel = Ext.extend(Ext.Panel, {
     centered: true,
     hideOnMaskTap: true,
     width: Ext.is.Phone ? undefined : 400,
-    height: Ext.is.Phone ? undefined : 400,
+    height: Ext.is.Phone ? undefined : 500,
     scroll: false,
     layout: 'fit',
     fullscreen: Ext.is.Phone ? true : undefined,
-    url: '/ws/rest/v3/ws_all_features_by_string.php',
+    url: '/ws/rest/v3/ws_all_features_by_string_and_lga.php',
     errorText: 'Sorry, we had problems communicating with Pozi search. Please try again.',
     errorTitle: 'Communication error',
     maxResults: 6,
@@ -31,8 +31,6 @@ App.SearchFormPopupPanel = Ext.extend(Ext.Panel, {
         this.store = new Ext.data.JsonStore({
 			autoLoad: false, //autoload the data
 			root: 'rows',
-			// Pb passing the config parameter to the Web service - for now database.inc (from ws) hardcodes the database to connect to
-			baseParams: { config: 'mitchellgis'},
 			fields: [{name: "label"	, mapping:"row.label"},
 				{name: "xmini"	, mapping:"row.xmini"},
 				{name: "ymini"	, mapping:"row.ymini"},
@@ -68,7 +66,8 @@ App.SearchFormPopupPanel = Ext.extend(Ext.Panel, {
         this.store.load({
             params: {
                 query: q,
-                config: 'mitchellgis'
+                config: 'vicmap',
+                lga:'346'
             }
         });
     },
@@ -350,8 +349,13 @@ App.CaptureFormPopupPanel = Ext.extend(Ext.Panel, {
 				{  
 					xtype:'hiddenfield',
 					name:'config',
-					value: 'mitchellgis'
-				}  
+					value: 'vicmap'
+				},
+				{  
+					xtype:'hiddenfield',
+					name:'lga',
+					value: '346'
+				}  				
 		                ]
 			}],
 //			listeners : {
@@ -445,7 +449,7 @@ App.CaptureFormPopupPanel = Ext.extend(Ext.Panel, {
 					// Populate the combo on show
 					var latlon = map.getCenter();
 					latlon.transform(sm, gg);
-					propertyAddressStore.load({params:{longitude:latlon.lon,latitude:latlon.lat,config:'mitchellgis'}});
+					propertyAddressStore.load({params:{longitude:latlon.lon,latitude:latlon.lat,config:'vicmap'}});
 
 				}				
 			}
@@ -570,8 +574,13 @@ App.CaptureUpdateFormPopupPanel = Ext.extend(Ext.Panel, {
 				{  
 					xtype:'hiddenfield',
 					name:'config',
-					value: 'mitchellgis'				}
-
+					value: 'vicmap'
+				},
+				{  
+					xtype:'hiddenfield',
+					name:'lga',
+					value: '346'
+				}
 		                ]
 			}],
             
@@ -603,7 +612,8 @@ App.CaptureUpdateFormPopupPanel = Ext.extend(Ext.Panel, {
 								  url: '/ws/rest/v3/ws_delete_property_fire_hazard.php',
 								  params: {
 										haz_id: clickedFeature.data.id,
-										config: 'mitchellgis'
+										config: 'vicmap',
+										lga: '346'
 									},
 								  success: on_capture_success,
 								  failure: on_capture_failure
