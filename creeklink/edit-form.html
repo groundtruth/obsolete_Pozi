@@ -91,12 +91,6 @@
 				</div>
 			</div>
 			<div class="control-group">
-				<label class="control-label" for="dp3">Date revegetation</label>
-				<div class="controls">
-					<input type="text" class="width-date" value="" id="dp3" >
-				</div>
-			</div>
-			<div class="control-group">
 				<label class="control-label" for="commentsTextField">Comments <br/>(limit 250 characters)</label>
 				<div class="controls">
 					<textarea class="input-large" id="commentsTextField" rows="2"></textarea>
@@ -170,7 +164,6 @@
 					{
 						$('#nativeVegetationCheckbox').attr('checked',true);
 					}
-					$('#dp3').val(rec.revegetated_date);
 					$('#creditsTextArea').val(decodeURI(rec.credit));					
 				}  
 			);
@@ -199,7 +192,6 @@
 						stock_excluded: 	$('#stockExcludedCheckbox').attr('checked')!=undefined,
 						stock_excluded_date: $('#dp2').val(),
 						native_vegetation: 	$('#nativeVegetationCheckbox').attr('checked')!=undefined,
-						revegetated_date: 	$('#dp3').val(),
 						credit: 		encodeURI($('#creditsTextArea').val())
 					},  
 					function(responseText){  
