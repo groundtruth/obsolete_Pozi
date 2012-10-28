@@ -164,3 +164,14 @@
   		padding: 15px;
   		overflow-y: auto;
 	}
+	#ext-comp-1074
+	{
+		position: absolute;
+		z-index: 9003;
+		visibility: visible;
+		left: 100px;
+		top: -61px;
+		width: 200px;
+		display: block;
+	}
+		
