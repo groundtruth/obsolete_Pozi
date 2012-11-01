@@ -40,6 +40,8 @@ try {
 	$sql = sanitizeSQL("SELECT p.ezi_add as label,p.pr_propnum as prop_num FROM dse_property_address As p WHERE ST_DWithin(p.the_geom, ST_Transform(ST_SetSRID(ST_Point(".$longitude.",".$latitude."),4326),4283), 0.001) AND p.pr_propnum<>'NCPR' ORDER BY ST_Distance(p.the_geom,ST_Transform(ST_SetSRID(ST_Point(".$longitude.", ".$latitude."),4326),4283)) limit ".$limit);
 	$pgconn = pgConnection();
 
+	//echo $sql;
+
     /*** fetch into an PDOStatement object ***/
     $recordSet = $pgconn->prepare($sql);
     $recordSet->execute();
