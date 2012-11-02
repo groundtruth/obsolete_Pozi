@@ -1,4 +1,7 @@
+# Pozi
+
 The end points added / updated to transform a GeoExplorer into a Pozi installation are:
+
 - creeklink: container website for Creek-link projects
 - geoexplorer: Javascript and HTML customisations
 - mitchell-mobile: mobile web app for fire inspections in Mitchell
