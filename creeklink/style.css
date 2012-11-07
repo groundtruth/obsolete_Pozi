@@ -28,7 +28,7 @@
 	.navbar .nav > li > a 
 	{
 		float: none;
-		padding: 20px 10px 5px;
+		padding: 35px 10px 5px;
 		line-height: 12px;
 		color: #999;
 		text-decoration: none;
@@ -59,8 +59,8 @@
 	}
 	.hero-unit 
 	{
-  		padding: 8px;
-  		margin-top: 13px;
+  		padding: 12px;
+  		margin-top: 20px;
   		margin-bottom: 20px;
   		background: rgba(250, 250, 250, 0.7);
   		-webkit-border-radius: 6px;
@@ -100,7 +100,8 @@
     {
 		margin-left: auto;
 		margin-right: auto;
-    	width: 950px;
+    	width: 1120px;
+		margin-top: 42px;
     }
     .bubble2
     {
@@ -173,5 +174,9 @@
 		top: -61px;
 		width: 200px;
 		display: block;
+	}
+	.margin
+	{
+		margin-top: 42px;
 	}
 		
