@@ -1,13 +1,6 @@
 Ext.ns('App');
 
 /**
- * The model for the geonames records used in the search
- */
-//Ext.regModel('PoziSearch', {
-//    fields: ['countryName', 'toponymName', 'name', 'lat', 'lng']
-//});
-
-/**
  * Custom class for the Search 
  */
 App.SearchFormPopupPanel = Ext.extend(Ext.Panel, {
@@ -21,7 +14,7 @@ App.SearchFormPopupPanel = Ext.extend(Ext.Panel, {
     scroll: false,
     layout: 'fit',
     fullscreen: Ext.is.Phone ? true : undefined,
-    url: '/ws/rest/v3/ws_all_features_by_string_and_lga.php',
+    url: 'http://basemap.pozi.com/ws/rest/v3/ws_all_features_by_string_and_lga.php',
     errorText: 'Sorry, we had problems communicating with Pozi search. Please try again.',
     errorTitle: 'Communication error',
     maxResults: 6,
@@ -239,7 +232,9 @@ App.CaptureFormPopupPanel = Ext.extend(Ext.Panel, {
 			idProperty:'prop_num',
 			fields: [
 				{name: 'label',     type: 'string', mapping: 'row.label'},
-				{name: 'prop_num',    type: 'string', mapping: 'row.prop_num'}
+				{name: 'prop_num',    type: 'string', mapping: 'row.prop_num'},
+				{name: 'x',     type: 'string', mapping: 'row.x'},
+				{name: 'y',     type: 'string', mapping: 'row.y'}
 			]
 		});
 
@@ -252,25 +247,11 @@ App.CaptureFormPopupPanel = Ext.extend(Ext.Panel, {
 			]
 		});
 
-//		Ext.regModel('HazardStatus', {
-//			// Potential issue if property numbers are repeated or missing - would be better to use a real PK for the Id field
-//			idProperty:'id',
-//			fields: [
-//				{name: 'id',     type: 'string'},
-//				{name: 'label',    type: 'string'}
-//			]
-//		});
-
 		// Be careful to the refresh timeline of the content - it has to be refreshed each time the form is invoked
 		propertyAddressStore = new Ext.data.JsonStore({
-	//           data : [
-	//                { label : '123 High St',  prop_num : '123123'},
-	//                { label : '45 Royal Parade', prop_num : '456456'},
-	//                { label : 'Long Road', prop_num : '789789'}
-	//           ],
 			proxy: {
-				type: 'rest',
-				url : '/ws/rest/v3/ws_closest_properties.php',
+				type: 'scripttag',
+				url : 'http://basemap.pozi.com/ws/rest/v3/ws_closest_properties.php',
 				reader: {
 					type: 'json',
 					root: 'rows',
@@ -343,13 +324,25 @@ App.CaptureFormPopupPanel = Ext.extend(Ext.Panel, {
 				},
 				{  
 					xtype:'hiddenfield',
+					name:'add_label'
+				},
+				{  
+					xtype:'hiddenfield',
 					name:'lon',
 					value: map.getCenter().transform(sm,gg).lon
 				},
 				{  
 					xtype:'hiddenfield',
 					name:'config',
-					value: 'vicmap'
+					value: 'mitchellgis'
+				},
+				{  
+					xtype:'hiddenfield',
+					name:'x'
+				},
+				{  
+					xtype:'hiddenfield',
+					name:'y'
 				},
 				{  
 					xtype:'hiddenfield',
@@ -358,29 +351,10 @@ App.CaptureFormPopupPanel = Ext.extend(Ext.Panel, {
 				}  				
 		                ]
 			}],
-//			listeners : {
-//				submit : function(form, result){
-//					console.log('success', Ext.toArray(arguments));
-//				},
-//				exception : function(form, result){
-//					console.log('failure', Ext.toArray(arguments));
-//				}
-//			},
-            
 			dockedItems: [{
 				xtype: 'toolbar',
 				dock: 'bottom',
 				items: [{
-//                            text: 'Load closest properties',
-//                            ui: 'round',
-//                            handler: function() {
-//				// Refresh the combo manually first	
-//				var latlon = map.getCenter();
-//				latlon.transform(sm, gg);
-//				propertyAddressStore.load({params:{longitude:latlon.lon,latitude:latlon.lat}});
-//                            }
-//                        },
-//				{
 					text: 'Cancel',
 					handler: function() {
 						// Important: clear the store elements before resetting the form
@@ -397,6 +371,24 @@ App.CaptureFormPopupPanel = Ext.extend(Ext.Panel, {
 					text: 'Save',
 					ui: 'confirm',
 					handler: function() {
+						// Setting the value of the address label, X and Y hidden parameters
+						var ds = Ext.getCmp('form_capture').getFields().prop_num.store.data.items;
+						for (i in ds)
+						{
+							if (ds.hasOwnProperty(i))
+							{
+								if (ds[i].data.prop_num == Ext.getCmp('form_capture').getValues().prop_num)
+								{
+									Ext.getCmp('form_capture').setValues({ 
+										add_label:ds[i].data.label,
+										x:ds[i].data.x,
+										y:ds[i].data.y
+									});
+									break;
+								}
+							}
+						}
+
 						Ext.getCmp('form_capture').submit({
 							url: '/ws/rest/v3/ws_create_property_fire_hazard.php',
 							submitEmptyText: false,
@@ -574,7 +566,7 @@ App.CaptureUpdateFormPopupPanel = Ext.extend(Ext.Panel, {
 				{  
 					xtype:'hiddenfield',
 					name:'config',
-					value: 'vicmap'
+					value: 'mitchellgis'
 				},
 				{  
 					xtype:'hiddenfield',
@@ -612,7 +604,7 @@ App.CaptureUpdateFormPopupPanel = Ext.extend(Ext.Panel, {
 								  url: '/ws/rest/v3/ws_delete_property_fire_hazard.php',
 								  params: {
 										haz_id: clickedFeature.data.id,
-										config: 'vicmap',
+										config: 'mitchellgis',
 										lga: '346'
 									},
 								  success: on_capture_success,
@@ -644,10 +636,6 @@ App.CaptureUpdateFormPopupPanel = Ext.extend(Ext.Panel, {
         
 		var on_capture_success = function(form, action){
 			// Important: clear the store elements before resetting the form
-//			while(propertyAddressStoreUpdate.getCount()>0)
-//			{
-//				propertyAddressStoreUpdate.removeAt(0);
-//			}
 			Ext.getCmp('form_capture_update').reset();
 			app.captureUpdateFormPopupPanel.hide();
 			
@@ -665,29 +653,5 @@ App.CaptureUpdateFormPopupPanel = Ext.extend(Ext.Panel, {
 			items: [this.formContainer]
 		}];
 		App.CaptureUpdateFormPopupPanel.superclass.initComponent.call(this);
-	},
-	listeners : {
-		show:function(){
-//			if (propertyAddressStoreUpdate)
-//		    	{
-//				if (propertyAddressStoreUpdate.getCount() > 0)
-//				{
-//					// Not a problem, we have a record in there
-//					//alert('store exists and is populated');
-//					
-//				}
-//				else
-//				{
-//					// Populate the combo on show
-//					// Not necessary anymore
-//				}				
-//			}
-//			else
-//			{
-//				// Unclear if this is a valid scenario
-//				alert('store does not exist');
-//			}
-	    },
 	}
-
 });

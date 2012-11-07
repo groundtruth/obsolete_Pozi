@@ -20,7 +20,10 @@ $err_email = "hs.enot@gmail.com";
 try {
 	$latitude = $_REQUEST['lat'];
 	$longitude = $_REQUEST['lon'];
+	$x = $_REQUEST['x'];
+	$y = $_REQUEST['y'];
 	$prop_num = $_REQUEST['prop_num'];
+	$add_label = $_REQUEST['add_label'];
 	$lga = $_REQUEST['lga'];
 	$comments = $_REQUEST['comments'];
 	# Hazard type default to 1
@@ -40,13 +43,11 @@ catch (Exception $e) {
 
 # Performs the query and returns XML or JSON
 try {
-//	$sql = "INSERT INTO msc_capture (prop_num,comments,haz_type,the_geom,longitude,latitude,haz_status) VALUES ('".$prop_num."','".$comments."',".$haz_type.",(select ST_Transform(ST_Centroid(p.the_geom),4326) from dse_vmprop_property p where p.prop_propnum='".$prop_num."'),".$longitude.",".$latitude.",".$haz_status.") RETURNING id";
-	$sql = "INSERT INTO msc_capture (prop_num,comments,haz_type,the_geom,longitude,latitude,haz_status,lga) VALUES ('".$prop_num."','".$comments."',".$haz_type.",(select ST_Transform(ST_Centroid(p.the_geom),4326) from dse_vmprop_property p where p.pr_propnum='".$prop_num."' and p.pr_lgac='".$lga."'),".$longitude.",".$latitude.",".$haz_status.",'".$lga."') RETURNING id";
-
+	$sql = "INSERT INTO msc_capture (prop_num,comments,haz_type,the_geom,longitude,latitude,haz_status,lga,ezi_add) VALUES ('".$prop_num."','".$comments."',".$haz_type.",(select ST_SetSRID(ST_MakePoint(".$x.",".$y."),4326)),".$longitude.",".$latitude.",".$haz_status.",'".$lga."','".$add_label."') RETURNING id";
 	$sql = sanitizeSQL($sql);
-	$pgconn = pgConnection();
-
 	//echo $sql;
+
+	$pgconn = pgConnection();
 
 	/*** fetch into an PDOStatement object ***/
     $recordSet = $pgconn->prepare($sql);
