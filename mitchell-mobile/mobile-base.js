@@ -231,20 +231,20 @@ var init = function () {
 	var ll_wgs84 = ll.transform(sm,gg);
 
         var reader = new OpenLayers.Format.GeoJSON();
-        
-	Ext.Ajax.request({
-	  loadMask: true,
+ 
+	Ext.util.JSONP.request({       
 	  url: '/ws/rest/v3/ws_fire_hazard_geojson.php',
 	  params: {
 	  		lat:ll_wgs84.lat,
 	  		lon:ll_wgs84.lon,
 	  		limit:limit_feature,
-			config:'vicmap',
+			config:'mitchellgis',
 			lga:'346'
 	  	},
-	  success: function(resp) {
+	  callbackKey: 'callback',
+	  callback: function(resp) {
 		// resp is the XmlHttpRequest object
-		var fh_from_geojson = reader.read(resp.responseText);
+		var fh_from_geojson = reader.read(resp);
 		// Before blindly adding, we should compare to the features already in there and decide to not include duplicates - duplicates can be found using the id of the features
 		// Or more simply, we could just remove all the features form the layer
 		fhLayer.removeAllFeatures();
