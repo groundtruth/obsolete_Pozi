@@ -149,9 +149,9 @@ var init = function () {
  //           sprintersLayer,
  		fhLayer
         ],
-// "POINT(16220529.9827241 -4466182.49354524)" 
-       center: new OpenLayers.LonLat(16220529, -4466182),
-        zoom: 16
+// "POINT(16220413.3198977 -4465718.6918747)" 
+       center: new OpenLayers.LonLat(16220413, -4465718),
+        zoom: 18
     });
     
 	map.events.register('moveend', this, function() {
