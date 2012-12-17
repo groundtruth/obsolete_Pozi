@@ -339,9 +339,7 @@
 		</div>
 	</div>
 	
-	<script src="http://www.pozi.com/bootstrap/js/bootstrap-dropdown.js" type="text/javascript"></script>
-	<script src="bootstrap-modal.js" type="text/javascript"></script>
-	<script src="http://v3.pozi.com/bootstrap/js/bootstrap-tooltip.js" type="text/javascript"></script>
+	<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js"></script>
 	
 	</body>
 	
