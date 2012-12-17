@@ -7,9 +7,7 @@
         <title>Pozi Mobile</title>
         <link rel="stylesheet" href="style.mobile.css" type="text/css">
         <link rel="stylesheet" href="/touch/resources/css/sencha-touch.css">
-        <link href="http://www.pozi.com/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css" />
-    	<link href="http://www.pozi.com/bootstrap/css/bootstrap-responsive.css" rel="stylesheet" type="text/css" />
-    	
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" rel="stylesheet">
     	<script>
     	
     		<?php session_start(); ?>
@@ -24,7 +22,7 @@
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js" type="text/javascript"></script>
    	
    	<script type="text/javascript">
-
+ 
   	var _gaq = _gaq || [];
   	_gaq.push(['_setAccount', 'UA-34155236-1']);
   	_gaq.push(['_trackPageview']);
@@ -340,6 +338,14 @@
 	</div>
 	
 	<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js"></script>
+	
+	<script type="text/javascript">
+
+        $(document).ready(function() {
+            $(".modal-backdrop").off("click");
+        });
+    	
+    </script>
 	
 	</body>
 	
