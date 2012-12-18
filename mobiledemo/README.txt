@@ -1,3 +1,0 @@
-The mobile web app needs to be hosted on the same server than the search, nearby properties, insert/update/delete endpoints.
-
-Something to do with the proxy ...
