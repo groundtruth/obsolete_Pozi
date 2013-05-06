@@ -1,13 +1,2 @@
 .DS_Store
-/*
-!ws
-!pozi
-!geoexplorer
-!.gitignore
-!README.markdown
-!mitchell-mobile
-!monash-mobile
-!demo369
-!creeklink
-!warrnambool-mobile
-!murrindindi-mobile
+*.sw*
